@@ -1,4 +1,7 @@
 const React = require("react");
+const { Localized } = require("fluent-react/compat");
+// l10n TODO: do we need to have strings here? Or just in the view
+// that eventually renders the <Localized> components?
 
 exports.TimeDiff = class TimeDiff extends React.Component {
   constructor(props) {
@@ -29,32 +32,36 @@ exports.TimeDiff = class TimeDiff extends React.Component {
     let seconds = (Date.now() - d) / 1000;
     if (seconds > 0) {
       if (seconds < 20) {
-        timeDiff = "just now";
+        timeDiff = <Localized id="timeDiffJustNow"><span>just now</span></Localized>;
       } else if (seconds > 0 && seconds < 60) {
-        timeDiff = "1 minute ago";
+        timeDiff = <Localized id="timeDiffOneMinuteAgo"><span>1 minute ago</span></Localized>;
       } else if (seconds < 60 * 60) {
-        timeDiff = `${Math.floor(seconds / 60)} minutes ago`;
+        timeDiff = <Localized id="timeDiffMinutesAgo" $number={Math.floor(seconds / 60)}><span>{$number} minutes ago</span></Localized>;
+      } else if (seconds > 60 * 60 && seconds < 60 * 60 * 2) {
+        timeDiff = <Localized id="timeDiffOneHourAgo"><span>1 hour ago</span></Localized>;
       } else if (seconds < 60 * 60 * 24) {
-        timeDiff = `${Math.floor(seconds / (60 * 60))} hours ago`;
+        timeDiff = <Localized id="timeDiffHoursAgo" $number={Math.floor(seconds / (60 * 60))}><span>{$number} hours ago</span></Localized>;
       } else if (seconds < 60 * 60 * 48) {
-        timeDiff = "yesterday";
+        timeDiff = <Localized id="timeDiffYesterday"><span>yesterday</span></Localized>;
       } else if (seconds > 0) {
         seconds += 60 * 60 * 2; // 2 hours fudge time
-        timeDiff = `${Math.floor(seconds / (60 * 60 * 24))} days ago`;
+        timeDiff = <Localized id="timeDiffDaysAgo" $number={Math.floor(seconds / (60 * 60 * 24))}><span>{$number} days ago</span></Localized>;
       }
     } else if (seconds > -20) {
-      timeDiff = "a few seconds";
+      timeDiff = <Localized id="timeDiffFutureSeconds"><span>in a few seconds</span></Localized>;
     } else if (seconds > -60) {
-      timeDiff = "1 minute";
+      timeDiff = <Localized id="timeDiffFutureOneMinute"><span>in 1 minute</span></Localized>;
     } else if (seconds > -60 * 60) {
-      timeDiff = `${Math.floor(seconds / -60)} minutes`;
+      timeDiff = <Localized id="timeDiffFutureMinutes" $number={Math.floor(seconds / -60)}><span>in {$number} minutes</span></Localized>;
+    } else if (seconds < -60 * 60 && seconds > -60 * 60 * 2) {
+      timeDiff = <Localized id="timeDiffFutureOneHour"><span>in 1 hour</span></Localized>;
     } else if (seconds > -60 * 60 * 24) {
-      timeDiff = `${Math.floor(seconds / (-60 * 60))} hours`;
+      timeDiff = <Localized id="timeDiffFutureHours" $number={Math.floor(seconds / (-60 * 60))}><span>in {$number} hours</span></Localized>;
     } else if (seconds > -60 * 60 * 48) {
-      timeDiff = "tomorrow";
+      timeDiff = <Localized id="timeDiffFutureTomorrow"><span>tomorrow</span></Localized>;
     } else {
       seconds -= 60 * 60 * 2; // 2 hours fudge time
-      timeDiff = `${Math.floor(seconds / (-60 * 60 * 24))} days`;
+      timeDiff = <Localized id="timeDiffFutureDays" $number={Math.floor(seconds / (-60 * 60 * 24))}><span>in {$number} days</span></Localized>;
     }
     return timeDiff;
   }

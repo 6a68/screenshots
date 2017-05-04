@@ -3,6 +3,7 @@ require("core-js");
 const React = require("react");
 const ReactDOM = require("react-dom");
 const linker = require("./linker");
+const { LocalizationProvider } = require("fluent-react/compat");
 
 exports.HeadTemplate = class HeadTemplate extends React.Component {
 
@@ -19,6 +20,7 @@ exports.HeadTemplate = class HeadTemplate extends React.Component {
       }
     }
     return (
+    <LocalizationProvider messages={this.props.messages()}>
       <head>
         <meta charSet="UTF-8" />
         <title>{this.props.title}</title>
@@ -31,6 +33,7 @@ exports.HeadTemplate = class HeadTemplate extends React.Component {
         { this.props.sentryPublicDSN ? <script src={this.props.staticLink("/install-raven.js")} async /> : null }
         {this.props.children}
       </head>
+    </LocalizationProvider>
     );
   }
 
@@ -40,9 +43,11 @@ exports.BodyTemplate = class Body extends React.Component {
 
   render() {
     return (
+    <LocalizationProvider messages={this.props.messages()}>
       <div>
         {this.props.children}
       </div>
+    </LocalizationProvider>
     );
   }
 
