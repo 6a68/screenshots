@@ -1,16 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-
-const glob = require('glob');
-
+const fs = require("fs");
+const path = require("path");
+const glob = require("glob");
 require("fluent-intl-polyfill/compat");
 const { MessageContext } = require("fluent/compat");
 const negotiateLanguages = require("fluent-langneg/compat");
 
 function getStrings() {
-  const LOCALES_CFG = '../../locales'; // TODO get this from config somehow
+  const LOCALES_CFG = "../../locales"; // TODO get this from config somehow before landing
   const LOCALES_DIR = path.join(process.cwd(), LOCALES_CFG);
-  const localesGlob = LOCALES_DIR + '/*/server.ftl';
+  // Note: we assume there is just one ftl file, named "server.ftl".
+  const localesGlob = LOCALES_DIR + "/*/server.ftl";
   const MESSAGES = {};
   glob(localesGlob, (err, paths) => {
     err && throw err;
