@@ -1,50 +1,50 @@
-# global phrases shared across pages, prefixed with 'g'
+// global phrases shared across pages, prefixed with 'g'
 
-# TODO: replace each page's reference to this with the global
+// TODO: replace each page's reference to this with the global
 gMyShots = My Shots
 
-# creating page
+// creating page
 
-# Localization note: {title} is a placeholder for the title of the web page
-# captured in the screenshot. The default, for pages without titles, is
-# creatingPageTitleDefault.
+// Localization note: {title} is a placeholder for the title of the web page
+// captured in the screenshot. The default, for pages without titles, is
+// creatingPageTitleDefault.
 creatingPageTitle = Creating {title}
 creatingPageTitleDefault = page
 
-# home page
+// home page
 
-# Note: do not translate the phrase 'Firefox Screenshots'.
+// Note: do not translate the phrase 'Firefox Screenshots'.
 homePageDescription = Share anything on the web with anyone using Firefox Screenshots.
-# TODO: do we need this separate description meta tag?
+// TODO: do we need this separate description meta tag?
 homePageDescription2 = Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox.
 homePageButtonMyShots = Go To My Shots
 homePageTitleBeta = Beta
 homePageTeaser = Coming Soon...
 
-# leave screenshots page
+// leave screenshots page
 
 leavePageConfirmDelete = Confirm account deletion
 leavePageErrorAddonRequired = You must have the addon installed to delete your account
-# TODO: do we need this separate error message?
+// TODO: do we need this separate error message?
 leavePageErrorAddonRequired2 = You must have the addon installed to leave
 leavePageErrorGeneric = An error occurred
 leavePageWarning = This will permanently erase all of your Firefox Screenshots data.
 leavePageButtonProceed = Proceed
 leavePageButtonCancel = cancel
-# Note: do not translate the phrase 'Firefox Screenshots' :-)
+// Note: do not translate the phrase 'Firefox Screenshots' :-)
 leavePageDeleted = All of your Firefox Screenshots data has been erased.
 
-# not found page
+// not found page
 
 notFoundPageTitle = Page Not Found
 notFoundPageDescription = The page was not found.
 notFoundPageMyShotsLink = My Shots
 
-# shot page
+// shot page
 
-# In the following error messages, {status} is a placeholder for an HTTP status
-# code, like '500'. {statusText} is a text description of the status code, like
-# 'Internal server error'.
+// In the following error messages, {status} is a placeholder for an HTTP status
+// code, like '500'. {statusText} is a text description of the status code, like
+// 'Internal server error'.
 shotPageAlertErrorUpdatingExpirationTime = Error saving expiration: {status} {statusText}
 shotPageAlertErrorDeletingShot = Error deleting shot: {status} {statusText}
 shotPageAlertErrorUpdatingTitle = Error saving title: {status} {statusText}
@@ -53,7 +53,7 @@ shotPageShareButton = Share
 shotPageCopy = Copy
 shotPageCopied = Copied
 shotPageShareFacebook = Share to Facebook wall or message
-# TODO: awkward phrase, maybe 'Share on Twitter'?
+// TODO: awkward phrase, maybe 'Share on Twitter'?
 shotPageShareTwitter = Share to a tweet
 shotPageSharePinterest = Share to Pinterest
 shotPageShareEmail = Create email with link
@@ -61,9 +61,9 @@ shotPageShareLink = Get a shareable link to this shot:
 shotPagePrivacyMessage = This shot is only visible to you until you share the link.
 shotPageCopyImageText = Copy Image Text
 shotPageConfirmDeletion = Are you sure you want to delete this shot permanently?
-# Note: {timediff} is a placeholder for a future time like 'tomorrow' or 'next week'
+// Note: {timediff} is a placeholder for a future time like 'tomorrow' or 'next week'
 shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted {timediff}.
-# Note: {timediff} is a placeholder for a time duration phrase like '30 days'
+// Note: {timediff} is a placeholder for a time duration phrase like '30 days'
 shotPageRestoreButton = restore for {timediff}
 shotPageExpiredMessage = This shot has expired.
 shotPageExpiredMessageDetails = Here is the page it was originally created from: {page}
@@ -72,38 +72,38 @@ shotPageAbuseButton = Report this shot for abuse, spam, or other problems
 shotPageMyShots = My Shots
 shotPageDownloadShot = Download the shot image
 shotPageDownload = Download
-# Note: do not translate 'Firefox Screenshots' when translating this string
+// Note: do not translate 'Firefox Screenshots' when translating this string
 shotPageScreenshotsDescription  = Firefox Screenshots made simple. Take, save and share screenshots without leaving Firefox.
 shotPageUpsellFirefox = Get Firefox now
 shotPageDoesNotExpire = does not expire
 
-# shotindex page
+// shotindex page
 
-# {status} is a placeholder for an HTTP status code, like '500'.
-# {statusText} is a text description of the status code, like 'Internal server error'.
+// {status} is a placeholder for an HTTP status code, like '500'.
+// {statusText} is a text description of the status code, like 'Internal server error'.
 shotIndexPageErrorDeletingShot = Error deleting shot: {status} {statusText}
-# {searchTerm} is a placeholder for text the user typed into the search box
+// {searchTerm} is a placeholder for text the user typed into the search box
 shotIndexPageSearchResultsTitle = My Shots: search for {searchTerm}
-# {error} is a placeholder for a non-translated error message that could be shared
-# with developers when debugging an error.
+// {error} is a placeholder for a non-translated error message that could be shared
+// with developers when debugging an error.
 shotIndexPageErrorRendering = Error rendering page: {error}
 shotIndexPageSearchPlaceholder = search my shots
 shotIndexPageSearchButton = search
 shotIndexPageNoShotsMessage = Go forth and take shots!
-# TODO should we include the ellipsis as three periods, or leave a placeholder for an html entity?
+// TODO should we include the ellipsis as three periods, or leave a placeholder for an html entity?
 shotIndexPageLookingForShots = Looking for your shots...
-# {searchTerm} is a placeholder for text the user typed into the search box
+// {searchTerm} is a placeholder for text the user typed into the search box
 shotIndexPageNoSearchResults = No shots matching {searchTerm} found.
-# {shotTitle} is a placeholder for the title of the screenshot
+// {shotTitle} is a placeholder for the title of the screenshot
 shotIndexPageConfirmShotDelete = Delete {shotTitle}?
 
-# https://screenshots.firefox.com/metrics page
-# Note: all metrics strings are optional for translation
+// https://screenshots.firefox.com/metrics page
+// Note: all metrics strings are optional for translation
 
-# Note: 'Firefox Screenshots' should not be translated
+// Note: 'Firefox Screenshots' should not be translated
 metricsPageTitle = Firefox Screenshots Metrics
 
-# Note: {status} is a placeholder for an HTTP status number, like 403 or 500.
+// Note: {status} is a placeholder for an HTTP status number, like 403 or 500.
 metricsPageAlertFailure = Failed: {status}
 metricsPageTotalsQueryTitle = Totals
 metricsPageTotalsQueryDescription = An overview of Screenshots
@@ -139,7 +139,8 @@ metricsPageVersionQueryVersion = Add-on version
 metricsPageVersionQueryLastSeen = Day
 
 metricsPageHeader = Metrics
-# Note: {created} is a placeholder for a localized date and time, like '4/21/2017, 3:40:04 AM'
+// Note: {created} is a placeholder for a localized date and time, like '4/21/2017, 3:40:04 AM'
 metricsPageGeneratedDateTime = Generated at: {created}
-# Note {time} is a placeholder for a number of milliseconds, like '100'
+// Note {time} is a placeholder for a number of milliseconds, like '100'
 metricsPageDatabaseQueryTime = (database time: {time}ms)
+
