@@ -71,17 +71,20 @@ function getStrings(locales) {
 let messageContext;
 
 // TODO: figure out why we have to use generators here. seems unnecessary
-function* generateMessages(userLocales) {
+function generateMessages(userLocales) {
   const currentLocales = negotiateLanguages(
     userLocales,
     ['en-US'],
     { defaultLocale: 'en-US' }
   );
 
-  getStrings(currentLocales).then(strings => {
-    messageContext = new MessageContext(locale);
-    messageContext.addMessages(strings[locale]);
-    yield messageContext;
+  // TODO: trying to just return a promise instead of a generator, to skirt around babel errors
+  return getStrings(currentLocales).then(strings => {
+    messageContext = new MessageContext();
+    currentLocales.forEach(locale => {
+      messageContext.addMessages(strings[locale]);
+    });
+    return messageContext;
   }, err => { throw err });
 }
 
