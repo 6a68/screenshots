@@ -24,6 +24,6 @@ app.get("/:id/:domain", csrf({cookie: true}), function(req, res) {
     const page = require("./page").page;
     reactrender.render(req, res, page);
   }).catch(function(err) {
-    require("../../responses").errorResponse(res, "Error rendering page:", err); // todo l10n?
+    require("../../responses").errorResponse(res, req.getText("shotIndexPageErrorRendering", {error: err}));
   });
 });

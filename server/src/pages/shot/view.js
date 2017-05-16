@@ -46,7 +46,9 @@ class Clip extends React.Component {
     let node = <img style={{height: "auto", width: clip.image.dimensions.x + "px", maxWidth: "100%", display: this.state.imageDisplay}} ref="clipImage" src={ clip.image.url } alt={ clip.image.text } onLoad = { this.onImageLoaded.bind(this) } />;
     return <div ref="clipContainer" className="clip-container">
       <menu type="context" id="clip-image-context">
-        <menuitem label="Copy Image Text" onClick={this.copyImageText.bind(this)} ></menuitem> <!-- todo l10n: shotPageCopyImageText -->
+        <Localized id="shotPageCopyImageText">
+          <menuitem label="Copy Image Text" onClick={this.copyImageText.bind(this)} ></menuitem>
+        </Localized>
       </menu>
       { this.renderLoader() }
       <a href={ clip.image.url } onClick={ this.onClickClip.bind(this) } contextMenu="clip-image-context">
@@ -244,13 +246,13 @@ class Body extends React.Component {
       restoreWidget = (
         <div>
           <div className="spacer"/>
-          <Localized id="shotPageExpirationMessage"><!-- todo - will this look ok with the <br/> element removed? how do we handle the timediffs? -->
+          <Localized id="shotPageExpirationMessage">/* todo - will this look ok with the <br/> element removed? how do we handle the timediffs? */
             If you do nothing,
             this shot will be permanently deleted in <TimeDiff date={deleteTime} />.
           </Localized>
           <div className="spacer"/>
           <div className="responsive-wrapper row-center">
-            <Localized id="shotPageRestoreButton"> <!-- todo l10n: how do we handle the time interval? "restore for N days" -->
+            <Localized id="shotPageRestoreButton"> /* todo l10n: how do we handle the time interval? "restore for N days" */
               <button className="button primary set-width--medium" onClick={this.onRestore.bind(this)}>restore for {intervalDescription(this.props.defaultExpiration)}</button> 
             </Localized>
           </div>
@@ -313,11 +315,13 @@ class Body extends React.Component {
 
     let trashOrFlagButton;
     if (this.props.isOwner) {
-      trashOrFlagButton = <button className="button secondary trash" title="Delete this shot permanently" onClick={ this.onClickDelete.bind(this) }> // todo l10n: shotPageDeleteButton
-      </button>;
+      trashOrFlagButton = <Localized id="shotPageDeleteButton">
+        <button className="button secondary trash" title="Delete this shot permanently" onClick={ this.onClickDelete.bind(this) }></button>
+      </Localized>;
     } else {
-      trashOrFlagButton = <button className="button secondary flag" title="Report this shot for abuse, spam, or other problems" onClick={ this.onClickFlag.bind(this) }> // todo l10n: shotPageAbuseButton
-      </button>;
+      trashOrFlagButton = <Localized id="shotPageAbuseButton">
+        <button className="button secondary flag" title="Report this shot for abuse, spam, or other problems" onClick={ this.onClickFlag.bind(this) }></button>
+      </Localized>;
     }
 
     let myShotsHref = "/shots";
@@ -365,20 +369,22 @@ class Body extends React.Component {
               <EditableTitle title={shot.title} isOwner={this.props.isOwner} />
               <div className="shot-subtitle"> { favicon }
                 { linkTextShort ? <a className="subtitle-link" href={ shotRedirectUrl } onClick={ this.onClickOrigUrl.bind(this, "navbar") }>{ linkTextShort }</a> : null }
-                <span className="time-diff">{ timeDiff }</span> { expiresDiff } <!-- todo l10n - figure out how to localize timeDiffs -->
+                <span className="time-diff">{ timeDiff }</span> { expiresDiff } /* todo l10n - figure out how to localize timeDiffs */
               </div>
             </div>
           </div>
           <div className="shot-alt-actions">
             { trashOrFlagButton }
             <ShareButton abTests={this.props.abTests} clipUrl={clipUrl} shot={shot} isOwner={this.props.isOwner} staticLink={this.props.staticLink} renderExtensionNotification={renderExtensionNotification} isExtInstalled={this.props.isExtInstalled} />
-            <a className="button primary" href={ this.props.downloadUrl } onClick={ this.onClickDownload.bind(this) }
-              title="Download the shot image"> <!-- todo l10n: shotPageDownloadShot -->
-              <img src={ this.props.staticLink("/static/img/download-white.svg") } width="20" height="20"/>&nbsp;
-              <Localized id="shotPageDownload">
-                <span>Download</span>
-              </Localized>
-            </a>
+            <Localized id="shotPageDownloadShot">
+              <a className="button primary" href={ this.props.downloadUrl } onClick={ this.onClickDownload.bind(this) }
+                title="Download the shot image">
+                <img src={ this.props.staticLink("/static/img/download-white.svg") } width="20" height="20"/>&nbsp;
+                <Localized id="shotPageDownload">
+                  <span>Download</span>
+                </Localized>
+              </a>
+            </Localized>
           </div>
         </div>
         { clips }

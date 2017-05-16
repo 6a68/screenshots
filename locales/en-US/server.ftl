@@ -14,9 +14,10 @@ creatingPageTitleDefault = page
 // home page
 
 // Note: do not translate the phrase 'Firefox Screenshots'.
-homePageDescription = Share anything on the web with anyone using Firefox Screenshots.
-// TODO: do we need this separate description meta tag?
-homePageDescription2 = Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox.
+homePageDescription
+  .content = Share anything on the web with anyone using Firefox Screenshots.
+homePageDescription2
+  .content = Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox.
 homePageButtonMyShots = Go To My Shots
 homePageTitleBeta = Beta
 homePageTeaser = Coming Soon...
@@ -49,17 +50,23 @@ shotPageAlertErrorUpdatingExpirationTime = Error saving expiration: {status} {st
 shotPageAlertErrorDeletingShot = Error deleting shot: {status} {statusText}
 shotPageAlertErrorUpdatingTitle = Error saving title: {status} {statusText}
 
-shotPageShareButton = Share
+shotPageShareButton
+  .title = Share
 shotPageCopy = Copy
 shotPageCopied = Copied
-shotPageShareFacebook = Share to Facebook wall or message
+shotPageShareFacebook
+  .title = Share to Facebook wall or message
 // TODO: awkward phrase, maybe 'Share on Twitter'?
-shotPageShareTwitter = Share to a tweet
-shotPageSharePinterest = Share to Pinterest
-shotPageShareEmail = Create email with link
+shotPageShareTwitter
+  .title = Share to a tweet
+shotPageSharePinterest
+  .title = Share to Pinterest
+shotPageShareEmail
+  .title = Create email with link
 shotPageShareLink = Get a shareable link to this shot:
 shotPagePrivacyMessage = This shot is only visible to you until you share the link.
-shotPageCopyImageText = Copy Image Text
+shotPageCopyImageText
+  .label = Copy Image Text
 shotPageConfirmDeletion = Are you sure you want to delete this shot permanently?
 // Note: {timediff} is a placeholder for a future time like 'tomorrow' or 'next week'
 shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted {timediff}.
@@ -67,10 +74,13 @@ shotPageExpirationMessage = If you do nothing, this shot will be permanently del
 shotPageRestoreButton = restore for {timediff}
 shotPageExpiredMessage = This shot has expired.
 shotPageExpiredMessageDetails = Here is the page it was originally created from: {page}
-shotPageDeleteButton = Delete this shot permanently
-shotPageAbuseButton = Report this shot for abuse, spam, or other problems
+shotPageDeleteButton
+  .title = Delete this shot permanently
+shotPageAbuseButton
+  .title = Report this shot for abuse, spam, or other problems
 shotPageMyShots = My Shots
-shotPageDownloadShot = Download the shot image
+shotPageDownloadShot
+  .title = Download the shot image
 shotPageDownload = Download
 // Note: do not translate 'Firefox Screenshots' when translating this string
 shotPageScreenshotsDescription  = Firefox Screenshots made simple. Take, save and share screenshots without leaving Firefox.
@@ -87,8 +97,10 @@ shotIndexPageSearchResultsTitle = My Shots: search for {searchTerm}
 // {error} is a placeholder for a non-translated error message that could be shared
 // with developers when debugging an error.
 shotIndexPageErrorRendering = Error rendering page: {error}
-shotIndexPageSearchPlaceholder = search my shots
-shotIndexPageSearchButton = search
+shotIndexPageSearchPlaceholder
+  .placeholder = search my shots
+shotIndexPageSearchButton
+  .title = search
 shotIndexPageNoShotsMessage = Go forth and take shots!
 // TODO should we include the ellipsis as three periods, or leave a placeholder for an html entity?
 shotIndexPageLookingForShots = Looking for your shots...

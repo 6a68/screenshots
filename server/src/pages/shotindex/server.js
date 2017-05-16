@@ -19,7 +19,7 @@ app.get("/", csrf({cookie: true}), function(req, res) {
   }
   getShots.then(_render)
     .catch((err) => {
-      res.type("txt").status(500).send("Error rendering page: " + err); // todo l10n: shotIndexPageErrorRendering
+      res.type("txt").status(500).send(req.getText("shotIndexPageErrorRendering", {error: err}));
       console.error("Error rendering page:", err);
     });
 

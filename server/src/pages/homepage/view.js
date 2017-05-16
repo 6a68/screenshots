@@ -10,14 +10,22 @@ class Head extends React.Component {
       <reactruntime.HeadTemplate {...this.props}>
         <script src={this.props.staticLink("/static/js/homepage-bundle.js")} async></script>
         <meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <meta name="description" content="Share anything on the web with anyone using Firefox Screenshots." /> <!-- todo l10n: homePageDescription -->
+        <Localized id="homePageDescription">
+          <meta name="description" content="Share anything on the web with anyone using Firefox Screenshots." />
+        </Localized>
         <link href={this.props.staticLink("/homepage/css/style.css")} rel="stylesheet" />
-        <meta name="description" content="Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox." /><!-- todo l10n: homePageDescription2 -->
+        <Localized id="homePageDescription2">
+          <meta name="description" content="Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox." />
+        </Localized>
         <meta property="og:title" content={ this.props.title } />
         <meta property="og:url" content={ this.props.backend } />
-        <meta property="og:description" content="Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox." /><!-- todo l10n: homePageDescription2 -->
+        <Localized id="homePageDescription2">
+          <meta property="og:description" content="Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox." />
+        </Localized>
         <meta name="twitter:title" content={ this.props.title } />
-        <meta name="twitter:description" content="Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox." /><!-- todo l10n: homePageDescription2 -->
+        <Localized id="homePageDescription2">
+          <meta name="twitter:description" content="Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox." />
+        </Localized>
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:image" content="/static/img/onboarding-1.png" />
         <meta name="twitter:image" content="/static/img/onboarding-1.png" />

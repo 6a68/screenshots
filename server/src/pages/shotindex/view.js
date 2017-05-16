@@ -6,6 +6,7 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const Masonry = require("react-masonry-component");
 const { Localized } = require("fluent-react/compat");
+// TODO: how do we pass l10n from the req into the Head and Body component props?
 
 class Head extends React.Component {
 
@@ -49,8 +50,12 @@ class Body extends React.Component {
             <h1><a href="/shots">Firefox <strong>Screenshots</strong> <Localized id="homePageTitleBeta"><sup>Beta</sup></Localized></a></h1>
             <form onSubmit={ this.onSubmitForm.bind(this) }>
               <span className="search-label" />
-              <input type="search" id="search" ref="search" maxLength="100" placeholder="search my shots" defaultValue={this.state.defaultSearch} onChange={this.onChangeSearch.bind(this)} /> <!-- todo l10n: shotIndexPageSearchPlaceholder (for placeholder attribute) -->
-              <button title="search"></button> <!-- todo l10n: shotIndexPageSearchButton (for title attribute) -->
+              <Localized id="shotIndexPageSearchPlaceholder">
+                <input type="search" id="search" ref="search" maxLength="100" placeholder="search my shots" defaultValue={this.state.defaultSearch} onChange={this.onChangeSearch.bind(this)} />
+              </Localized>
+              <Localized id="shotIndexPageSearchButton">
+                <button title="search"></button>
+              </Localized>
             </form>
           </div>
           <div id="shot-index" className="flex-1">
@@ -82,7 +87,9 @@ class Body extends React.Component {
     return (
       <div className="large-icon-message-container" key="no-shots-found">
         <div className="large-icon logo-no-shots pulse forever" />
-        <div className="large-icon-message-string">Looking for your shots...</div> <!-- todo l10n: shotIndexPageLookingForShots -->
+        <Localized id="shotIndexPageLookingForShots">
+          <div className="large-icon-message-string">Looking for your shots...</div>
+        </Localized>
       </div>
     );
   }
@@ -91,9 +98,11 @@ class Body extends React.Component {
     return (
       <div className="large-icon-message-container" key="no-shots-found">
         <div className="large-icon logo-no-search-results" />
-        <div className="large-icon-message-string">
-          No shots matching "{this.props.defaultSearch}" found. <!-- todo l10n: shotIndexPageNoSearchResults -->
-        </div>
+        <Localized id="shotIndexPageNoSearchResults" $searchTerm={this.props.defaultSearch}>
+          <div className="large-icon-message-string">
+            {"No shots matching { $searchTerm } found."}
+          </div>
+        </Localized>
       </div>
     );
   }
