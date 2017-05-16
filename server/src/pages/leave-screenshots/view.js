@@ -57,9 +57,8 @@ class Body extends React.Component {
           <div className="large-icon-message-container">
             <div className="large-icon check" />
             <Localized id="leavePageDeleted">
-              <div className="large-icon-message-string">All of your Firefox Screenshots data has been erased.
+              <div className="large-icon-message-string">All of your Firefox Screenshots data has been erased.</div>
             </Localized>
-            </div>
           </div>
         </div>
       </reactruntime.BodyTemplate>

@@ -475,15 +475,15 @@ class ExpireWidget extends React.Component {
     let day = hour * 24;
     return (
       <span className="keep-for-form">
-        &bull; keep for: <select ref="expireTime"> <!-- todo l10n -->
-          <option value="cancel">Select time</option> <!-- todo l10n -->
-          <option value="0">Indefinitely</option> <!-- todo l10n -->
-          <option value={ 10 * minute }>10 Minutes</option> <!-- todo l10n -->
-          <option value={ hour }>1 Hour</option> <!-- todo l10n -->
-          <option value={ day }>1 Day</option> <!-- todo l10n -->
-          <option value={ 7 * day }>1 Week</option> <!-- todo l10n -->
-          <option value={ 14 * day }>2 Weeks</option> <!-- todo l10n -->
-          <option value={ 31 * day }>1 Month</option> <!-- todo l10n -->
+        &bull; keep for: <select ref="expireTime"> /* todo l10n */
+          <option value="cancel">Select time</option> /* todo l10n */
+          <option value="0">Indefinitely</option> /* todo l10n */
+          <option value={ 10 * minute }>10 Minutes</option> /* todo l10n */
+          <option value={ hour }>1 Hour</option> /* todo l10n */
+          <option value={ day }>1 Day</option> /* todo l10n */
+          <option value={ 7 * day }>1 Week</option> /* todo l10n */
+          <option value={ 14 * day }>2 Weeks</option> /* todo l10n */
+          <option value={ 31 * day }>1 Month</option> /* todo l10n */
         </select>
         <span className="button tiny secondary" onClick={this.clickSaveExpire.bind(this)}>save</span>
         <span className="button tiny secondary" onClick={this.clickCancelExpire.bind(this)}>cancel</span>
@@ -500,8 +500,10 @@ class ExpireWidget extends React.Component {
       if (this.props.expireTime < Date.now()) {
         desc = "expired"; // todo l10n - ditto
       }
+
+       // todo l10n: we need to csontruct this differently
       button = <span>
-        {desc} <TimeDiff date={this.props.expireTime} simple={this.props.simple} /> // todo l10n: we need to construct the "expires <timediff>" differently
+        {desc} <TimeDiff date={this.props.expireTime} simple={this.props.simple} />
       </span>;
     }
     return (
