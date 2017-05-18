@@ -52,11 +52,8 @@ const prefObserver = {
 };
 
 function startup(data, reason) { // eslint-disable-line no-unused-vars
-  console.log("bootstrap startup called");
   appStartupDone();
-  // TODO: We have to disable the prefObserver so that we can disable the built-in
-  // screenshots addon. Ughhh
-  // prefObserver.register();
+  prefObserver.register();
   addonResourceURI = data.resourceURI;
   // eslint-disable-next-line promise/catch-or-return
   appStartupPromise.then(initUI);
@@ -69,7 +66,6 @@ function initUI() {
 }
 
 function shutdown(data, reason) { // eslint-disable-line no-unused-vars
-  console.log("bootstrap shutdown called");
   prefObserver.unregister();
   contextMenu.shutdown();
   const webExtension = LegacyExtensionsUtils.getEmbeddedExtensionFor({
@@ -100,7 +96,6 @@ function onConnect(port) {
 }
 
 function onClick() {
-  console.log("onClick called");
   if (!webExtensionPort) { return; } // just do nothing till the port is ready
   // TODO: figure out how to send the tab ID over
   webExtensionPort.postMessage({ content: "click" });
@@ -108,7 +103,6 @@ function onClick() {
 
 
 function handleStartup() {
-  console.log("inside handleStartup");
   // TODO: check the pref _before_ calling into ExtensionsUtils.
   const webExtension = LegacyExtensionsUtils.getEmbeddedExtensionFor({
     id: ADDON_ID,
@@ -123,7 +117,6 @@ function handleStartup() {
 }
 
 function start(webExtension) {
-  console.log("inside start");
   webExtension.startup().then((api) => {
      webExtensionStarted = true;
     api.browser.runtime.onMessage.addListener(handleMessage);
@@ -178,7 +171,6 @@ function initButton() {
       if (aWidgetId !== "screenshots-button") {
         return;
       }
-      console.log("Screenshots widgetListener onWidgetAdded called");
       const instances = CustomizableUI.getWidget("screenshots-button").instances;
       instances.forEach(instance => {
         instance.node.setAttribute("image", "chrome://screenshots-skin/content/icon-16.png");
@@ -188,7 +180,6 @@ function initButton() {
       if (aWidgetId !== "screenshots-button") {
         return;
       }
-      console.log("Screenshots widgetListener onWidgetDestroyed called");
       CustomizableUI.removeListener(widgetListener);
     }
   };
@@ -203,7 +194,6 @@ function initButton() {
     label: "Screenshots", // TODO: l10n
     tooltiptext: "Take a screenshot", // TODO: l10n
     onCommand: (aEvent) => {
-      console.log("inside CustomizableUI widget onCommand");
       if (!webExtensionStarted) {
         handleStartup();
       }
