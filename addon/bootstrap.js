@@ -9,7 +9,7 @@ const PREF_BRANCH = "extensions.screenshots.";
 const USER_DISABLE_PREF = "extensions.screenshots.disabled";
 const SYSTEM_DISABLE_PREF = "extensions.screenshots.system-disabled";
 
-const { interfaces: Ci, utils: Cu } = Components;
+const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "AddonManager",
                                   "resource://gre/modules/AddonManager.jsm");
@@ -118,7 +118,7 @@ function handleStartup() {
 
 function start(webExtension) {
   webExtension.startup().then((api) => {
-     webExtensionStarted = true;
+    webExtensionStarted = true;
     api.browser.runtime.onMessage.addListener(handleMessage);
     api.browser.runtime.onConnect.addListener(onConnect);
   }).catch((err) => {
@@ -162,30 +162,10 @@ function handleMessage(msg, sender, sendReply) {
   }
 }
 
+let buttonStyleURI;
+
 // TODO: deal with toggling the prefs on/off
 function initButton() {
-  // From MDN - stylesheet-free icon insertion method
-  // https://mdn.io/CustomizableUI.jsm#Giving_the_button_an_icon_non-style_sheet_method
-  const widgetListener = {
-    onWidgetAdded: function(aWidgetId, aArea, aPosition) {
-      if (aWidgetId !== "screenshots-button") {
-        return;
-      }
-      const instances = CustomizableUI.getWidget("screenshots-button").instances;
-      instances.forEach(instance => {
-        instance.node.setAttribute("image", "chrome://screenshots/content/skin/icon-16.png");
-      });
-    },
-    onWidgetDestroyed: function(aWidgetId) {
-      if (aWidgetId !== "screenshots-button") {
-        return;
-      }
-      CustomizableUI.removeListener(widgetListener);
-    }
-  };
-  CustomizableUI.addListener(widgetListener);
-
-
   // From MDN - really simple button snippet
   // https://mdn.io/CustomizableUI.jsm#CreateWidget_-_Button_Type
   CustomizableUI.createWidget({
@@ -200,9 +180,25 @@ function initButton() {
       onClick(aEvent);
     }
   });
+  // From MDN - stylesheet-based icon insertion method
+  // https://mdn.io/CustomizableUI.jsm
+  const sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
 
-
-
+	// TODO: handle 32x32 icon for when in toolbar, also restore svg
+	const css = `@-moz-document url("chrome://browser/content/browser.xul") {
+    #screenshots-button {
+      list-style-image: url("chrome://screenshots-skin/content/icon-16.png");
+    }
+  }`;
+  const cssEnc = encodeURIComponent(css);
+  const newURIParam = {
+    aURL: 'data:text/css,' + cssEnc,
+    aOriginCharset: null,
+    aBaseURI: null
+  };
+  // implicit global assignment. TODO remove when removing button
+  buttonStyleURI = Services.io.newURI(newURIParam.aURL, newURIParam.aOriginCharset, newURIParam.aBaseURI);
+  sss.loadAndRegisterSheet(buttonStyleURI, sss.AUTHOR_SHEET);
 }
 
 // borrowed from PocketContextMenu in m-c
