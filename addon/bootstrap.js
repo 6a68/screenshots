@@ -187,7 +187,7 @@ function initButton() {
 	// TODO: handle 32x32 icon for when in toolbar, also restore svg
 	const css = `@-moz-document url("chrome://browser/content/browser.xul") {
     #screenshots-button {
-      list-style-image: url("chrome://screenshots-skin/content/icon-16.png");
+      list-style-image: url("chrome://screenshots-skin/skin/icon-16.png");
     }
   }`;
   const cssEnc = encodeURIComponent(css);
