@@ -173,7 +173,7 @@ function initButton() {
       }
       const instances = CustomizableUI.getWidget("screenshots-button").instances;
       instances.forEach(instance => {
-        instance.node.setAttribute("image", "chrome://screenshots-skin/content/icon-16.png");
+        instance.node.setAttribute("image", "chrome://screenshots/content/skin/icon-16.png");
       });
     },
     onWidgetDestroyed: function(aWidgetId) {
