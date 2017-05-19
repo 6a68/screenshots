@@ -44,6 +44,8 @@ def rewriteMozBuild(outputLoc, fileList):
                 "  '" + \
                 "',\n  '".join(fileList[dir]) + "'\n]\n\n"
 
+        insertion_text += "JAR_MANIFESTS += ['jar.mn']\n\n"
+
         new_contents = re.sub(
             '# AUTOMATIC INSERTION START(.*)# AUTOMATIC INSERTION END',
             "# AUTOMATIC INSERTION START\n" +
