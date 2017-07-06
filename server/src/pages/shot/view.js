@@ -268,7 +268,6 @@ class Body extends React.Component {
     let deleteTime = new Date(expireTime + this.props.retentionTime);
     let restoreWidget;
     if (this.props.isOwner) {
-      // todo l10n - timediffs
       restoreWidget = (
         <p>
           <Localized id="shotPageExpirationMessage" $timediff={<TimeDiff date={deleteTime}}>
@@ -386,7 +385,6 @@ class Body extends React.Component {
       favicon = <div style={{backgroundImage: `url("${shot.favicon}")`}} className="favicon" />;
     }
 
-    // l10n todo: see the span className=time-diff
     return (
       <reactruntime.BodyTemplate {...this.props}>
         <div id="frame" className="inverse-color-scheme full-height column-space">
@@ -505,18 +503,19 @@ class ExpireWidget extends React.Component {
     return (
       <span className="keep-for-form">
         /* todo l10n - this entire section */
-        &bull; keep for: <select ref="expireTime">
-          <option value="cancel">Select time</option>
-          <option value="0">Indefinitely</option>
-          <option value={ 10 * minute }>10 Minutes</option>
-          <option value={ hour }>1 Hour</option>
-          <option value={ day }>1 Day</option>
-          <option value={ 7 * day }>1 Week</option>
-          <option value={ 14 * day }>2 Weeks</option>
-          <option value={ 31 * day }>1 Month</option>
+        <Localized id="shotPageKeepFor" $bullet="\u2219"><span>{$bullet} keep for:</span></Localized>
+        <select ref="expireTime">
+          <Localized id="shotPageSelectTime"><option value="cancel">Select time</option></Localized>
+          <Localized id="shotPageKeepIndefinitely"><option value="0">Indefinitely</option></Localized>
+          <Localized id="shotPageKeepTenMinutes"><option value={ 10 * minute }>10 Minutes</option></Localized>
+          <Localized id="shotPageKeepOneHour"><option value={ hour }>1 Hour</option></Localized>
+          <Localized id="shotPageKeepOneDay"><option value={ day }>1 Day</option></Localized>
+          <Localized id="shotPageKeepOneWeek"><option value={ 7 * day }>1 Week</option></Localized>
+          <Localized id="shotPageKeepTwoWeeks"><option value={ 14 * day }>2 Weeks</option></Localized>
+          <Localized id="shotPageKeepOneMonth"><option value={ 31 * day }>1 Month</option></Localized>
         </select>
-        <span className="button tiny secondary" onClick={this.clickSaveExpire.bind(this)}>save</span>
-        <span className="button tiny secondary" onClick={this.clickCancelExpire.bind(this)}>cancel</span>
+        <Localized id="shotPageSaveExpiration"><span className="button tiny secondary" onClick={this.clickSaveExpire.bind(this)}>save</span></Localized>
+        <Localized id="shotPageCancelExpiration"><span className="button tiny secondary" onClick={this.clickCancelExpire.bind(this)}>cancel</span></Localized>
       </span>
     );
   }
@@ -524,17 +523,15 @@ class ExpireWidget extends React.Component {
   renderNormal() {
     let button;
     if (this.props.expireTime === null) {
-      button = <span>does not expire</span>;
+      button = <Localized id="shotPageDoesNotExpire"><span>does not expire</span></Localized>;
     } else {
-      let desc = "expires in";
-      if (this.props.expireTime < Date.now()) {
-        desc = "expired";
+      const expired = this.props.expireTime < Date.now();
+      const timediff = <TimeDiff date={this.props.expireTime} simple={this.props.simple} />;
+      if (expired) {
+        button = <Localized id="shotPageExpired" $timediff={timediff}><span>expired {$timediff}</span></Localized>
+      } else {
+        button = <Localized id="shotPageExpiresIn" $timediff={timediff}><span>expires in {$timediff}</span></Localized>
       }
-
-       // todo l10n: we need to csontruct this differently
-      button = <span>
-        {desc} <TimeDiff date={this.props.expireTime} simple={this.props.simple} />
-      </span>;
     }
     return (
       <button className="button tiny secondary inline" onClick={this.clickChangeExpire.bind(this)}>

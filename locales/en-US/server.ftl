@@ -114,6 +114,26 @@ shotPageDMCAContact = Please email {$dmca} to request further information.
 shotPageDMCAWarning = If your Shots are subject to multiple claims, we may revoke your access to Firefox Screenshots.
 // Note: {$url} is a placeholder for a shot page URL
 shotPageDMCAIncludeLink = Please include the URL of this shot in your email: {$url}
+// Note: shotPageKeepFor is a label above a select dropdown list of time intervals,
+// so that it will read "keep for: 10 minutes", or "keep for: 1 week". The {bullet}
+// placeholder will be replaced with a bullet point entity.
+shotPageKeepFor = {$bullet} keep for:
+// Note: shotPageSelectTime is a placeholder label for the time selection dropdown.
+shotPageSelectTime = Select time
+shotPageKeepIndefinitely = Indefinitely
+shotPageKeepTenMinutes = 10 Minutes
+shotPageKeepOneHour = 1 Hour
+shotPageKeepOneDay = 1 Day
+shotPageKeepOneWeek = 1 Week
+shotPageKeepTwoWeeks = 2 Weeks
+shotPageKeepOneMonth = 1 Month
+shotPageSaveExpiration = save
+shotPageCancelExpiration = cancel
+shotPageDoesNotExpire = does not expire
+// Note: {$timediff} is a relative time, like "1 week"
+shotPageExpiresIn = expires in {$timediff}
+// Note: {$timediff} is a relative past time, like "1 week ago"
+shotPageExpired = expired {$timediff}
 
 // Shotindex page
 
