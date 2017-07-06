@@ -7,10 +7,10 @@ gScreenshotsDescription  = Screenshots made simple. Take, save, and share screen
 
 // Creating page
 
-// Note: {title} is a placeholder for the title of the web page
+// Note: {$title} is a placeholder for the title of the web page
 // captured in the screenshot. The default, for pages without titles, is
 // creatingPageTitleDefault.
-creatingPageTitle = Creating {title}
+creatingPageTitle = Creating {$title}
 creatingPageTitleDefault = page
 
 // Home page
@@ -25,7 +25,7 @@ homePageGetStarted = Get Started
 // Note: do not translate 'Firefox Screenshots' when translating this string
 homePageHowScreenshotsWorks = How Firefox Screenshots Works
 // Note: {started} is a placeholder for the string homePageStarted, which will be emphasized
-homePageGetStarted = Get {started}
+homePageGetStartedEmphasized = Get {started}
 homePageStarted = Started
 homePageGetStartedDescription = Find the new Screenshots icon on your toolbar. Select it, and the Screenshots menu will appear on top of your browser window.
 // Note: {capture} is a placeholder for the string homePageCapture, which will be emphasized
@@ -65,12 +65,12 @@ notFoundPageDescription = Page not found.
 
 // Shot page
 
-// In the following error messages, {status} is a placeholder for an HTTP status
-// code, like '500'. {statusText} is a text description of the status code, like
+// In the following error messages, {$status} is a placeholder for an HTTP status
+// code, like '500'. {$statusText} is a text description of the status code, like
 // 'Internal server error'.
-shotPageAlertErrorUpdatingExpirationTime = Error saving expiration: {status} {statusText}
-shotPageAlertErrorDeletingShot = Error deleting shot: {status} {statusText}
-shotPageAlertErrorUpdatingTitle = Error saving title: {status} {statusText}
+shotPageAlertErrorUpdatingExpirationTime = Error saving expiration: {$status} {$statusText}
+shotPageAlertErrorDeletingShot = Error deleting shot: {$status} {$statusText}
+shotPageAlertErrorUpdatingTitle = Error saving title: {$status} {$statusText}
 shotPageConfirmDelete = Are you sure you want to delete this shot permanently?
 shotPageShareButton
   .title = Share
@@ -89,12 +89,12 @@ shotPagePrivacyMessage = Anyone with the link can view this shot.
 shotPageCopyImageText
   .label = Copy image text
 shotPageConfirmDeletion = Are you sure you want to delete this shot permanently?
-// Note: {timediff} is a placeholder for a future time like 'tomorrow' or 'next week'
-shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted in {timediff}.
-// Note: {timediff} is a placeholder for a time duration phrase like '30 days'
-shotPageRestoreButton = restore for {timediff}
+// Note: {$timediff} is a placeholder for a future time like 'tomorrow' or 'next week'
+shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted in {$timediff}.
+// Note: {$timediff} is a placeholder for a time duration phrase like '30 days'
+shotPageRestoreButton = restore for {$timediff}
 shotPageExpiredMessage = This shot has expired.
-shotPageExpiredMessageDetails = Here is the page it was originally created from: {page}
+shotPageExpiredMessageDetails = Here is the page it was originally created from: {$page}
 shotPageDeleteButton
   .title = Delete this shot
 shotPageAbuseButton
@@ -116,14 +116,14 @@ shotPageDMCAIncludeLink = Please include the URL of this shot in your email: {$u
 
 // Shotindex page
 
-// {status} is a placeholder for an HTTP status code, like '500'.
-// {statusText} is a text description of the status code, like 'Internal server error'.
-shotIndexPageErrorDeletingShot = Error deleting shot: {status} {statusText}
-// {searchTerm} is a placeholder for text the user typed into the search box
-shotIndexPageSearchResultsTitle = My Shots: search for {searchTerm}
-// {error} is a placeholder for a non-translated error message that could be shared
+// {$status} is a placeholder for an HTTP status code, like '500'.
+// {$statusText} is a text description of the status code, like 'Internal server error'.
+shotIndexPageErrorDeletingShot = Error deleting shot: {$status} {$statusText}
+// {$searchTerm} is a placeholder for text the user typed into the search box
+shotIndexPageSearchResultsTitle = My Shots: search for {$searchTerm}
+// {$error} is a placeholder for a non-translated error message that could be shared
 // with developers when debugging an error.
-shotIndexPageErrorRendering = Error rendering page: {error}
+shotIndexPageErrorRendering = Error rendering page: {$error}
 shotIndexPageSearchPlaceholder
   .placeholder = Search my shots
 shotIndexPageSearchButton
@@ -135,16 +135,16 @@ shotIndexPageNoSearchResultsIntro = Hmm
 shotIndexPageNoSearchResults = We canʼt find any shots that match your search.
 shotIndexPageClearSearchButton
   .title = Clear search
-// {shotTitle} is a placeholder for the title of the screenshot
-shotIndexPageConfirmShotDelete = Delete {shotTitle}?
+// {$shotTitle} is a placeholder for the title of the screenshot
+shotIndexPageConfirmShotDelete = Delete {$shotTitle}?
 
 // Metrics page
 // Note: all metrics strings are optional for translation
 
 // Note: 'Firefox Screenshots' should not be translated
 metricsPageTitle = Firefox Screenshots Metrics
-// Note: {status} is a placeholder for an HTTP status number, like 403 or 500.
-metricsPageAlertFailure = Failed: {status}
+// Note: {$status} is a placeholder for an HTTP status number, like 403 or 500.
+metricsPageAlertFailure = Failed: {$status}
 metricsPageTotalsQueryTitle = Totals
 metricsPageTotalsQueryDescription = An overview of Screenshots
 metricsPageTotalsQueryDevices = Total devices registered
