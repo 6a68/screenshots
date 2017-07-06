@@ -24,8 +24,8 @@ homePageDownloadFirefoxSubTitle = Free Download
 homePageGetStarted = Get Started
 // Note: do not translate 'Firefox Screenshots' when translating this string
 homePageHowScreenshotsWorks = How Firefox Screenshots Works
-// Note: {started} is a placeholder for the string homePageStarted, which will be emphasized
-homePageGetStartedEmphasized = Get {started}
+// Note: {$started} is a placeholder for the string homePageStarted, which will be emphasized
+homePageGetStartedEmphasized = Get {$started}
 homePageStarted = Started
 homePageGetStartedDescription = Find the new Screenshots icon on your toolbar. Select it, and the Screenshots menu will appear on top of your browser window.
 // Note: {capture} is a placeholder for the string homePageCapture, which will be emphasized
@@ -94,7 +94,8 @@ shotPageExpirationMessage = If you do nothing, this shot will be permanently del
 // Note: {$timediff} is a placeholder for a time duration phrase like '30 days'
 shotPageRestoreButton = restore for {$timediff}
 shotPageExpiredMessage = This shot has expired.
-shotPageExpiredMessageDetails = Here is the page it was originally created from: {$page}
+// Note: This phrase is followed by an empty line, then the URL of the source page
+shotPageExpiredMessageDetails = Here is the page it was originally created from:
 shotPageDeleteButton
   .title = Delete this shot
 shotPageAbuseButton

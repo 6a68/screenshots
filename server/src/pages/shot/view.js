@@ -239,7 +239,7 @@ class Body extends React.Component {
               <span>If your Shots are subject to multiple claims, we may revoke your access to Firefox Screenshots.</span>
             </Localized>
             <br/>
-            <Localized id="shotPageDMCAIncludeLink" $url={this.props.backend/this.props.id}>
+            <Localized id="shotPageDMCAIncludeLink" $url={`${this.props.backend}/${this.props.id}`}>
               <span>Please include the URL of this shot in your email: {$url}</span>
             </Localized>
           </p>
@@ -271,12 +271,12 @@ class Body extends React.Component {
       // todo l10n - timediffs
       restoreWidget = (
         <p>
-          <Localized id="shotPageExpirationMessage">
+          <Localized id="shotPageExpirationMessage" $timediff={<TimeDiff date={deleteTime}}>
             If you do nothing,
-            this shot will be permanently deleted in <TimeDiff date={deleteTime} />.
+            this shot will be permanently deleted in {$timediff}.
           </Localized>
-          <Localized id="shotPageRestoreButton">
-            <button className="button primary" onClick={this.onRestore.bind(this)}>restore for {intervalDescription(this.props.defaultExpiration)}</button>
+          <Localized id="shotPageRestoreButton" $timediff={intervalDescription(this.props.defaultExpiration)}>
+            <button className="button primary" onClick={this.onRestore.bind(this)}>restore for {$timediff}</button>
           </Localized>
         </p>
       );
@@ -427,7 +427,7 @@ class Body extends React.Component {
     return <div className="highlight-color-scheme alt-notification">
       <div>
         <Localized id="gScreenshotsDescription">
-          <span><strong>Firefox Screenshots</strong> made simple. Take, save and share screenshots without leaving Firefox.</span>
+          <span>Screenshots made simple. Take, save and share screenshots without leaving Firefox.</span>
         </Localized>
         <Localized id="shotPageUpsellFirefox">
           <a href="https://www.mozilla.org/firefox/new/?utm_source=screenshots.firefox.com&utm_medium=referral&utm_campaign=screenshots-acquisition" onClick={ this.clickedInstallFirefox.bind(this) }>Get Firefox now</a>
