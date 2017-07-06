@@ -1,22 +1,19 @@
-// global phrases shared across pages, prefixed with 'g'
-
-// TODO: replace each page's reference to this with the global
+// Global phrases shared across pages, prefixed with 'g'
 gMyShots = My Shots
 gHomeLink = Home
 gNoShots
   .alt = No shots found
+gScreenshotsDescription  = Screenshots made simple. Take, save, and share screenshots without leaving Firefox.
 
-gScreenshotsDescription  = Screenshots made simple. Take, save, and share  screenshots without leaving Firefox.
+// Creating page
 
-// creating page
-
-// Localization note: {title} is a placeholder for the title of the web page
+// Note: {title} is a placeholder for the title of the web page
 // captured in the screenshot. The default, for pages without titles, is
 // creatingPageTitleDefault.
 creatingPageTitle = Creating {title}
 creatingPageTitleDefault = page
 
-// home page
+// Home page
 
 homePageDescription
   .content = Intuitive screenshots baked right into the browser. Capture, save and share screenshots as you browse the Web using Firefox.
@@ -49,11 +46,10 @@ homePagePrivacyLink = Privacy
 homePageTermsLink = Terms
 homePagePrivacyLink = Cookies
 
-// leave screenshots page
+// Leave Screenshots page
 
 leavePageConfirmDelete = Confirm account deletion
 leavePageErrorAddonRequired = You must have Firefox Screenshots installed to delete your account
-// TODO: do we need this separate error message?
 leavePageErrorAddonRequired2 = You must have Firefox Screenshots installed to leave
 leavePageErrorGeneric = An error occurred
 leavePageWarning = This will permanently erase all of your Firefox Screenshots data.
@@ -61,13 +57,13 @@ leavePageButtonProceed = Proceed
 leavePageButtonCancel = Cancel
 leavePageDeleted = All of your screenshots have been erased!
 
-// not found page
+// Not Found page
 
 notFoundPageTitle = Page Not Found
 notFoundPageIntro = Oops.
 notFoundPageDescription = Page not found.
 
-// shot page
+// Shot page
 
 // In the following error messages, {status} is a placeholder for an HTTP status
 // code, like '500'. {statusText} is a text description of the status code, like
@@ -76,7 +72,6 @@ shotPageAlertErrorUpdatingExpirationTime = Error saving expiration: {status} {st
 shotPageAlertErrorDeletingShot = Error deleting shot: {status} {statusText}
 shotPageAlertErrorUpdatingTitle = Error saving title: {status} {statusText}
 shotPageConfirmDelete = Are you sure you want to delete this shot permanently?
-
 shotPageShareButton
   .title = Share
 shotPageCopy = Copy
@@ -95,10 +90,8 @@ shotPageCopyImageText
   .label = Copy image text
 shotPageConfirmDeletion = Are you sure you want to delete this shot permanently?
 // Note: {timediff} is a placeholder for a future time like 'tomorrow' or 'next week'
-// TODO: "in {timediff}" probably won't work across languages. maybe an absolute date is best.
 shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted in {timediff}.
 // Note: {timediff} is a placeholder for a time duration phrase like '30 days'
-// TODO: again, "for {timediff}" may not work well.
 shotPageRestoreButton = restore for {timediff}
 shotPageExpiredMessage = This shot has expired.
 shotPageExpiredMessageDetails = Here is the page it was originally created from: {page}
@@ -114,14 +107,14 @@ shotPageScreenshotsDescription  = Screenshots made simple. Take, save, and share
 shotPageUpsellFirefox = Get Firefox now
 shotPageDoesNotExpire = Does not expire
 shotPageDMCAMessage = This shot is no longer available due to a third party intellectual property claim.
-// Note: {$dmca} is a placeholder for a link to send email (a mailto link).
+// Note: {$dmca} is a placeholder for a link to send email (a 'mailto' link)
 shotPageDMCAContact = Please email {$dmca} to request further information.
 // Note: do not translate 'Firefox Screenshots' when translating this string
 shotPageDMCAWarning = If your Shots are subject to multiple claims, we may revoke your access to Firefox Screenshots.
 // Note: {$url} is a placeholder for a shot page URL
 shotPageDMCAIncludeLink = Please include the URL of this shot in your email: {$url}
 
-// shotindex page
+// Shotindex page
 
 // {status} is a placeholder for an HTTP status code, like '500'.
 // {statusText} is a text description of the status code, like 'Internal server error'.
@@ -145,12 +138,11 @@ shotIndexPageClearSearchButton
 // {shotTitle} is a placeholder for the title of the screenshot
 shotIndexPageConfirmShotDelete = Delete {shotTitle}?
 
-// https://screenshots.firefox.com/metrics page
+// Metrics page
 // Note: all metrics strings are optional for translation
 
 // Note: 'Firefox Screenshots' should not be translated
 metricsPageTitle = Firefox Screenshots Metrics
-
 // Note: {status} is a placeholder for an HTTP status number, like 403 or 500.
 metricsPageAlertFailure = Failed: {status}
 metricsPageTotalsQueryTitle = Totals
@@ -185,7 +177,6 @@ metricsPageVersionQueryDescription = The version of the add-on used during login
 metricsPageVersionQueryUsers = Number of users logging in
 metricsPageVersionQueryVersion = Add-on version
 metricsPageVersionQueryLastSeen = Day
-
 metricsPageHeader = Metrics
 // Note: {$created} is a placeholder for a localized date and time, like '4/21/2017, 3:40:04 AM'
 metricsPageGeneratedDateTime = Generated at: {$created}
