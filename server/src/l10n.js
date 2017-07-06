@@ -6,22 +6,22 @@ const { MessageContext } = require("fluent");
 const negotiateLanguages = require("fluent-langneg/compat");
 const mozlog = require("./logging").mozlog("l10n");
 
-let userLangs;
+let exports.userLangs;
 const contexts = [];
 let inited = false;
 
-function init(userLocales = []) {
+exports.init = function(userLocales = []) {
   if (inited) {
     return Promise.resolve();
   }
   inited = true;
-  userLangs = userLocales;
+  exports.userLangs = userLocales;
   return _getLocales(userLocales).then(locales => {
     // module-global assignment
-    userLangs = locales;
+    exports.userLangs = locales;
 
     const mcPromises = [];
-    userLangs.forEach(lang => {
+    exports.userLangs.forEach(lang => {
       const mc = new MessageContext(lang);
       mcPromises.push(new Promise((resolve, reject) => {
         // TODO: is this path correct?
@@ -38,31 +38,29 @@ function init(userLocales = []) {
   }).catch(err => {
     mozlog.error('l10n-init-failed', {err: err});
   });
-}
+};
 
-function getText(l10nID, args) {
-  if (!inited) { init(); }
+exports.getText = function(l10nID, args) {
+  if (!inited) { exports.init(); }
   // Find the first MessageContext with the l10n ID, in order of user preference.
-  for (let lang of userLangs) {
+  for (let lang of exports.userLangs) {
     if (contexts[lang].hasMessage(l10nID)) {
       return contexts[lang].getMessage(l10nID, args);
     }
   }
   return null;
-}
+};
 
 function _getLocales(requestedLocales) {
   return _getAvailableLocales().then(availableLocales => {
     const locales = negotiateLanguages(
-      userLangs,
+      exports.userLangs,
       availableLocales,
       { defaultLocale: 'en-US' }
     );
     return locales;
   });
 }
-
-module.exports = { init, getText, userLangs, generateMessages };
 
 // Returns a Promise that resolves to a list of languages for which
 // there exists a 'server.ftl' file inside the top-level 'locales' dir.
@@ -80,6 +78,6 @@ function _getAvailableLocales() {
 }
 
 // hacky, but will it work?
-function generateMessages(userLocales) {
+exports.generateMessages = function(userLocales) {
   return contexts;
-}
+};
