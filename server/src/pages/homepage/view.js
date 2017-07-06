@@ -631,8 +631,9 @@ class Body extends React.Component {
         <section id="section-1">
           <div className="container">
             <div className="section-content">
-              <Localized id="homePageGet">
-                <h3>Get <Localized id="homePageStarted"><span className="bold">Started</span></Localized></h3>
+              <Localized id="homePageGetStartedEmphasized"
+                         $started={<Localized id="homePageStarted"><span className="bold">Started</span></Localized>}>
+                <h3>Get {$started}</h3>
               </Localized>
               <Localized id="homePageGetStartedDescription">
                 <p>Find the new Screenshots icon on your toolbar. Select it, and the Screenshots menu will appear on top of your browser window.</p>
@@ -644,8 +645,9 @@ class Body extends React.Component {
         <section id="section-2">
           <div className="container">
             <div className="section-content">
-              <Localized id="homePageCaptureRegion">
-                <h3><Localized id="homePageCapture"><span className="bold">Capture</span></Localized> a Region</h3>
+              <Localized id="homePageCaptureRegion"
+                         $capture={<Localized id="homePageCapture"><span className="bold">Capture</span></Localized>}>
+                <h3>{$capture} a Region</h3>
               </Localized>
               <Localized id="homePageCaptureRegionDescription">
                 <p>Click and drag to select the area you want to capture. Or just hover and click — Screenshots will select the area for you. Like what you see? Select Save to access your screenshot online or the down arrow button to download it to your computer.</p>
@@ -657,8 +659,9 @@ class Body extends React.Component {
         <section id="section-3">
           <div className="container">
             <div className="section-content">
-              <Localized id="homePageCapturePage">
-                <h3><Localized id="homePageCapture"><span className="bold">Capture</span></Localized> a Page</h3>
+              <Localized id="homePageCapturePage"
+                         $capture={<Localized id="homePageCapture"><span className="bold">Capture</span></Localized>}>
+                <h3>{$capture} a Page</h3>
               </Localized>
               <Localized id="homePageCapturePageDescription">
                 <p>Use the buttons in the upper right to capture full pages. The Save Visible button will capture the area you can view without scrolling, and the Save Full Page will capture everything on the page.</p>
