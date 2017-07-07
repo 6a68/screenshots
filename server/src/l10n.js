@@ -29,6 +29,7 @@ exports.init = function(userLocales = []) {
         const filename = path.join(__dirname, '..', '..', 'locales', lang, 'server.ftl');
         fs.readFile(filename, 'utf-8', (err, data) => {
           if (err) { return reject(err); }
+          mozlog.info('l10n-initing', {msg: `about to add lots of messages to a message context: ${data}`});
           mc.addMessages(data);
           contexts[lang] = mc;
           resolve(mc);
@@ -46,8 +47,10 @@ exports.getText = function(l10nID, args) {
   // Find the first MessageContext with the l10n ID, in order of user preference.
   for (let lang of exports.userLangs) {
     if (contexts[lang].hasMessage(l10nID)) {
-      msg = contexts[lang].getMessage(l10nID);
+      let msg = contexts[lang].getMessage(l10nID);
       return contexts[lang].format(msg, args)
+    } else {
+      throw new Error(`l10n.js did not find ${l10nID} for language ${lang}`);
     }
   }
   return null;
@@ -81,5 +84,6 @@ function _getAvailableLocales() {
 
 // hacky, but will it work?
 exports.generateMessages = function(userLocales) {
+  // TODO: shouldn't this be a subset of all contexts?
   return contexts;
 };

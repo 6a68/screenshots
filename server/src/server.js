@@ -272,7 +272,19 @@ app.use(function(req, res, next) {
 app.use(function(req, res, next) {
   const languages = accepts(req.header("Accept-Language")).languages;
   l10n.init(languages).then(() => {
+    mozlog.info('l10n-languages', {msg: 'l10n.userLangs is ' + l10n.userLangs});
     req.getText = l10n.getText;
+    req.messages = l10n.generateMessages(l10n.userLangs);
+
+    // This logline tells us that the 'en-US' key is present on req.messages. So far, so good.
+    mozlog.info('wut', {msg: `Object.keys(req.messages) is ${Object.keys(req.messages)}`});
+
+    // This logline tells us that req.messages['en-US'] actually is a MessageContext,
+    // as it's supposed to be. So I think we are good here, actually.
+    mozlog.info('wut', {msg: `Object.keys(req.messages['en-US']) is ${Object.keys(req.messages['en-US'])}`});
+
+    // This logline does log "My Shots", as it should. So the strings are fully loaded.
+    mozlog.info('wut', {msg: `req.messages['en-US'].getMessage('gMyShots') is ${req.messages['en-US'].getMessage('gMyShots')}`});
     next();
   });
 });
