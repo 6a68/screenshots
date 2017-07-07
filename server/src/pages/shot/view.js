@@ -272,7 +272,7 @@ class Body extends React.Component {
         <p>
           <Localized id="shotPageExpirationMessage" $timediff={<TimeDiff date={deleteTime}}>
             If you do nothing,
-            this shot will be permanently deleted in {$timediff}.
+            this shot will be permanently deleted {$timediff}.
           </Localized>
           <Localized id="shotPageRestoreButton" $timediff={intervalDescription(this.props.defaultExpiration)}>
             <button className="button primary" onClick={this.onRestore.bind(this)}>restore for {$timediff}</button>
@@ -502,8 +502,7 @@ class ExpireWidget extends React.Component {
     let day = hour * 24;
     return (
       <span className="keep-for-form">
-        /* todo l10n - this entire section */
-        <Localized id="shotPageKeepFor" $bullet="\u2219"><span>{$bullet} keep for:</span></Localized>
+        <Localized id="shotPageKeepFor" $bullet="\u2219"><span>{$bullet} How long should this shot be retained?</span></Localized>
         <select ref="expireTime">
           <Localized id="shotPageSelectTime"><option value="cancel">Select time</option></Localized>
           <Localized id="shotPageKeepIndefinitely"><option value="0">Indefinitely</option></Localized>
@@ -530,7 +529,7 @@ class ExpireWidget extends React.Component {
       if (expired) {
         button = <Localized id="shotPageExpired" $timediff={timediff}><span>expired {$timediff}</span></Localized>
       } else {
-        button = <Localized id="shotPageExpiresIn" $timediff={timediff}><span>expires in {$timediff}</span></Localized>
+        button = <Localized id="shotPageExpiresIn" $timediff={timediff}><span>expires {$timediff}</span></Localized>
       }
     }
     return (

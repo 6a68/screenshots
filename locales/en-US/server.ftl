@@ -114,10 +114,8 @@ shotPageDMCAContact = Please email {$dmca} to request further information.
 shotPageDMCAWarning = If your Shots are subject to multiple claims, we may revoke your access to Firefox Screenshots.
 // Note: {$url} is a placeholder for a shot page URL
 shotPageDMCAIncludeLink = Please include the URL of this shot in your email: {$url}
-// Note: shotPageKeepFor is a label above a select dropdown list of time intervals,
-// so that it will read "keep for: 10 minutes", or "keep for: 1 week". The {bullet}
-// placeholder will be replaced with a bullet point entity.
-shotPageKeepFor = {$bullet} keep for:
+// Note: The {bullet} placeholder will be replaced with a bullet point entity.
+shotPageKeepFor = {$bullet} How long should this shot be retained?
 // Note: shotPageSelectTime is a placeholder label for the time selection dropdown.
 shotPageSelectTime = Select time
 shotPageKeepIndefinitely = Indefinitely
@@ -134,6 +132,22 @@ shotPageDoesNotExpire = does not expire
 shotPageExpiresIn = expires in {$timediff}
 // Note: {$timediff} is a relative past time, like "1 week ago"
 shotPageExpired = expired {$timediff}
+timeDiffJustNow = just now
+// TODO: should we just have one string with plural rules?
+timeDiffOneMinuteAgo = 1 minute ago
+timeDiffMinutesAgo = {$number} minutes ago
+timeDiffOneHourAgo = 1 hour ago
+timeDiffHoursAgo = {$number} hours ago
+timeDiffYesterday = yesterday
+timeDiffDaysAgo = {$number} days ago
+timeDiffFutureSeconds = in a few seconds
+timeDiffFutureOneMinute = in 1 minute
+timeDiffFutureMinutes = in {$number} minutes
+timeDiffFutureOneHour = in 1 hour
+timeDiffFutureHours = in {$number} hours
+timeDiffTomorrow = tomorrow
+timeDiffFutureDays = in {$number} days
+
 
 // Shotindex page
 
