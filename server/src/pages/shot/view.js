@@ -270,7 +270,7 @@ class Body extends React.Component {
     if (this.props.isOwner) {
       restoreWidget = (
         <p>
-          <Localized id="shotPageExpirationMessage" $timediff={<TimeDiff date={deleteTime}}>
+          <Localized id="shotPageExpirationMessage" $timediff={<TimeDiff date={deleteTime}/>}>
             If you do nothing,
             this shot will be permanently deleted {$timediff}.
           </Localized>

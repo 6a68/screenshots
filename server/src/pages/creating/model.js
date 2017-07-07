@@ -1,6 +1,6 @@
 exports.createModel = function(req) {
   let finishedUrl = `/${encodeURIComponent(req.params.id)}/${encodeURIComponent(req.params.domain)}`;
-  let title = req.query.title ? req.getText("creatingPageTitle", {req.query.title}) : req.getText("creatingPageTitleDefault");
+  let title = req.query.title ? req.getText("creatingPageTitle", {title: req.query.title}) : req.getText("creatingPageTitleDefault");
   let model = {
     noAnalytics: true,
     title,

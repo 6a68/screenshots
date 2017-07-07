@@ -4,7 +4,6 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const linker = require("./linker");
 const { LocalizationProvider } = require("fluent-react/compat");
-const l10n = require("./l10n");
 
 exports.HeadTemplate = class HeadTemplate extends React.Component {
 
@@ -21,18 +20,16 @@ exports.HeadTemplate = class HeadTemplate extends React.Component {
       }
     }
     return (
-      <LocalizationProvider messages={typeof navigator === "undefined" ? l10n.generateMessages(l10n.userLangs) : l10n.generateMessages(navigator.languages)}>
-        <head>
-          <meta charSet="UTF-8" />
-          <title>{this.props.title}</title>
-          <link rel="icon" type="image/png" href={this.props.staticLink("/static/img/icon-32.png")} />
-          <link rel="shortcut icon" href={this.props.staticLink("/static/img/icon-32.png")} />
-          { analyticsScript }
-          { activationScript }
-          { this.props.sentryPublicDSN ? <script src={this.props.staticLink("/install-raven.js")} async /> : null }
-          {this.props.children}
-        </head>
-      </LocalizationProvider>
+      <head>
+        <meta charSet="UTF-8" />
+        <title>{this.props.title}</title>
+        <link rel="icon" type="image/png" href={this.props.staticLink("/static/img/icon-32.png")} />
+        <link rel="shortcut icon" href={this.props.staticLink("/static/img/icon-32.png")} />
+        { analyticsScript }
+        { activationScript }
+        { this.props.sentryPublicDSN ? <script src={this.props.staticLink("/install-raven.js")} async /> : null }
+        {this.props.children}
+      </head>
     );
   }
 
@@ -42,11 +39,9 @@ exports.BodyTemplate = class Body extends React.Component {
 
   render() {
     return (
-      <LocalizationProvider messages={typeof navigator === "undefined" ? l10n.generateMessages(l10n.userLangs) : l10n.generateMessages(navigator.languages)}>
-        <div>
-          {this.props.children}
-        </div>
-      </LocalizationProvider>
+      <div>
+        {this.props.children}
+      </div>
     );
   }
 

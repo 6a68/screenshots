@@ -6,7 +6,8 @@ const { MessageContext } = require("fluent");
 const negotiateLanguages = require("fluent-langneg/compat");
 const mozlog = require("./logging").mozlog("l10n");
 
-let exports.userLangs;
+let userLangs;
+exports.userLangs = userLangs;
 const contexts = [];
 let inited = false;
 
@@ -45,7 +46,8 @@ exports.getText = function(l10nID, args) {
   // Find the first MessageContext with the l10n ID, in order of user preference.
   for (let lang of exports.userLangs) {
     if (contexts[lang].hasMessage(l10nID)) {
-      return contexts[lang].getMessage(l10nID, args);
+      msg = contexts[lang].getMessage(l10nID);
+      return contexts[lang].format(msg, args)
     }
   }
   return null;

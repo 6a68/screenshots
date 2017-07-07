@@ -1,6 +1,10 @@
 const { addReactScripts } = require("./reactutils");
 const ReactDOMServer = require("react-dom/server");
 const { getGitRevision } = require("./linker");
+const l10n = require("./l10n");
+// TODO: isn't it a bit weird to do all this in here?
+const React = require("react");
+const { LocalizationProvider } = require("fluent-react/compat");
 
 exports.render = function(req, res, page) {
   let modelModule = require("./" + page.modelModuleName);
@@ -34,12 +38,17 @@ exports.render = function(req, res, page) {
       }
       return;
     }
-    let head = ReactDOMServer.renderToStaticMarkup(viewModule.HeadFactory(serverModel));
-    let body;
+    let head = ReactDOMServer.renderToStaticMarkup(
+      <LocalizationProvider messages={l10n.generateMessages(l10n.userLangs)}>
+        {viewModule.HeadFactory(serverModel)}
+      </LocalizationProvider>);
+    let body = <LocalizationProvider messages={l10n.generateMessages(l10n.userLangs)}>
+                 {viewModule.BodyFactory(serverModel)}
+               </LocalizationProvider>;
     if (page.noBrowserJavascript) {
-      body = ReactDOMServer.renderToStaticMarkup(viewModule.BodyFactory(serverModel));
+      body = ReactDOMServer.renderToStaticMarkup(body);
     } else {
-      body = ReactDOMServer.renderToString(viewModule.BodyFactory(serverModel));
+      body = ReactDOMServer.renderToString(body);
     }
     let doc = `
     <html>
