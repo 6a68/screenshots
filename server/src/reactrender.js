@@ -39,10 +39,14 @@ exports.render = function(req, res, page) {
       return;
     }
     let head = ReactDOMServer.renderToStaticMarkup(
-      <LocalizationProvider messages={l10n.generateMessages(l10n.userLangs)}>
+      <LocalizationProvider messages={req.messages()}>
         {viewModule.HeadFactory(serverModel)}
       </LocalizationProvider>);
-    let body = <LocalizationProvider messages={l10n.generateMessages(l10n.userLangs)}>
+    let foo = req.messages();
+    let nxt = foo.next();
+    console.log(`req.messages() yields: ${foo}`);
+    console.log(`next is ${nxt}`);
+    let body = <LocalizationProvider messages={req.messages()}>
                  {viewModule.BodyFactory(serverModel)}
                </LocalizationProvider>;
     if (page.noBrowserJavascript) {

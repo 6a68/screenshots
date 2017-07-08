@@ -48,9 +48,8 @@ exports.getText = function(l10nID, args) {
   for (let lang of exports.userLangs) {
     if (contexts[lang].hasMessage(l10nID)) {
       let msg = contexts[lang].getMessage(l10nID);
-      return contexts[lang].format(msg, args)
-    } else {
-      throw new Error(`l10n.js did not find ${l10nID} for language ${lang}`);
+      mozlog.info('l10n-found-id', {msg: `l10n.js located ${l10nID}. returning the formatted output, ${contexts[lang].format(msg, args)}.`});
+      return contexts[lang].format(msg, args);
     }
   }
   return null;
@@ -84,6 +83,6 @@ function _getAvailableLocales() {
 
 // hacky, but will it work?
 exports.generateMessages = function(userLocales) {
-  // TODO: shouldn't this be a subset of all contexts?
+  // TODO: shouldn't this just be the contexts that match userLocales?
   return contexts;
 };
