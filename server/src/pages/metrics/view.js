@@ -24,7 +24,7 @@ class Body extends React.Component {
           <h1>Metrics</h1>
         </Localized>
         <Localized id="metricsPageGeneratedDateTime" $created={created}>
-          <p>Generated at: {$created}</p>
+          <p>Generated at: {created}</p>
         </Localized>
         <GenericTable data={this.props.data.totals} />
 
@@ -51,7 +51,7 @@ class GenericTable extends React.Component {
       <h2>{this.props.data.title}</h2>
       <p>{this.props.data.description} 
         <Localized id="metricsPageDatabaseQueryTime" $time={this.props.data.timeToExecute}>
-          <span className="execution-time">(database time: {$time}ms)</span>
+          <span className="execution-time">(database time: {time}ms)</span>
         </Localized>
       </p>
       <table className="generic-table">

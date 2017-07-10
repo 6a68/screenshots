@@ -223,6 +223,8 @@ class Body extends React.Component {
   renderBlock() {
     let message = null;
     let moreInfo = null;
+    const dmca = <a href="mailto:dmcanotice@mozilla.com">dmcanotice@mozilla.com</a>;
+    const url = `${this.props.backend}/${this.props.id}`;
     if (this.props.blockType === 'dmca') {
       if (this.props.isOwner) {
         message = (
@@ -232,15 +234,15 @@ class Body extends React.Component {
         );
         moreInfo = (
           <p>
-            <Localized id="shotPageDMCAContact" $dmca={<a href="mailto:dmcanotice@mozilla.com">dmcanotice@mozilla.com</a>}>
-              <span>Please email {$dmca} to request further information.</span>
+            <Localized id="shotPageDMCAContact" $dmca={dmca}>
+              <span>Please email {dmca} to request further information.</span>
             </Localized>
             <Localized id="shotPageDMCAWarning">
               <span>If your Shots are subject to multiple claims, we may revoke your access to Firefox Screenshots.</span>
             </Localized>
             <br/>
-            <Localized id="shotPageDMCAIncludeLink" $url={`${this.props.backend}/${this.props.id}`}>
-              <span>Please include the URL of this shot in your email: {$url}</span>
+            <Localized id="shotPageDMCAIncludeLink" $url={url}>
+              <span>Please include the URL of this shot in your email: {url}</span>
             </Localized>
           </p>
         );
@@ -267,15 +269,17 @@ class Body extends React.Component {
     }
     let deleteTime = new Date(expireTime + this.props.retentionTime);
     let restoreWidget;
+    const expirationTimeDiff = <TimeDiff date={deleteTime} />;
+    const restoreTimeDiff = intervalDescription(this.props.defaultExpiration);
     if (this.props.isOwner) {
       restoreWidget = (
         <p>
-          <Localized id="shotPageExpirationMessage" $timediff={<TimeDiff date={deleteTime}/>}>
+          <Localized id="shotPageExpirationMessage" $timediff={expirationTimeDiff}>
             If you do nothing,
-            this shot will be permanently deleted {$timediff}.
+            this shot will be permanently deleted {timediff}.
           </Localized>
-          <Localized id="shotPageRestoreButton" $timediff={intervalDescription(this.props.defaultExpiration)}>
-            <button className="button primary" onClick={this.onRestore.bind(this)}>restore for {$timediff}</button>
+          <Localized id="shotPageRestoreButton" $timediff={restoreTimeDiff}>
+            <button className="button primary" onClick={this.onRestore.bind(this)}>restore for {timediff}</button>
           </Localized>
         </p>
       );
@@ -385,6 +389,8 @@ class Body extends React.Component {
       favicon = <div style={{backgroundImage: `url("${shot.favicon}")`}} className="favicon" />;
     }
 
+    const shotPageDownload = <Localized id="shotPageDownload"><span className="download-text">Download</span></Localized>;
+
     return (
       <reactruntime.BodyTemplate {...this.props}>
         <div id="frame" className="inverse-color-scheme full-height column-space">
@@ -407,9 +413,7 @@ class Body extends React.Component {
               <a className="button primary" href={ this.props.downloadUrl } onClick={ this.onClickDownload.bind(this) }
                 title="Download the shot image">
                 <img src={ this.props.staticLink("/static/img/download-white.svg") } width="20" height="20"/>&nbsp;
-                <Localized id="shotPageDownload">
-                  <span className="download-text">Download</span>
-                </Localized>
+                {shotPageDownload}
               </a>
             </Localized>
           </div>
@@ -502,7 +506,7 @@ class ExpireWidget extends React.Component {
     let day = hour * 24;
     return (
       <span className="keep-for-form">
-        <Localized id="shotPageKeepFor" $bullet="\u2219"><span>{$bullet} How long should this shot be retained?</span></Localized>
+        <Localized id="shotPageKeepFor" $bullet="\u2219"><span>{bullet} How long should this shot be retained?</span></Localized>
         <select ref="expireTime">
           <Localized id="shotPageSelectTime"><option value="cancel">Select time</option></Localized>
           <Localized id="shotPageKeepIndefinitely"><option value="0">Indefinitely</option></Localized>
@@ -527,9 +531,9 @@ class ExpireWidget extends React.Component {
       const expired = this.props.expireTime < Date.now();
       const timediff = <TimeDiff date={this.props.expireTime} simple={this.props.simple} />;
       if (expired) {
-        button = <Localized id="shotPageExpired" $timediff={timediff}><span>expired {$timediff}</span></Localized>
+        button = <Localized id="shotPageExpired" $timediff={timediff}><span>expired {timediff}</span></Localized>
       } else {
-        button = <Localized id="shotPageExpiresIn" $timediff={timediff}><span>expires {$timediff}</span></Localized>
+        button = <Localized id="shotPageExpiresIn" $timediff={timediff}><span>expires {timediff}</span></Localized>
       }
     }
     return (

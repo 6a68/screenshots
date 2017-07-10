@@ -3,7 +3,7 @@ gMyShots = My Shots
 gHomeLink = Home
 gNoShots
   .alt = No shots found
-gScreenshotsDescription  = Screenshots made simple. Take, save, and share screenshots without leaving Firefox.
+gScreenshotsDescription = Screenshots made simple. Take, save, and share screenshots without leaving Firefox.
 
 // Creating page
 
