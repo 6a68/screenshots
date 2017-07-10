@@ -1,10 +1,9 @@
 const { addReactScripts } = require("./reactutils");
 const ReactDOMServer = require("react-dom/server");
 const { getGitRevision } = require("./linker");
-const l10n = require("./l10n");
-// TODO: isn't it a bit weird to do all this in here?
 const React = require("react");
-const { LocalizationProvider } = require("fluent-react/compat");
+// TODO: would it be better to append l10n stuff to the model here,
+// rather than tagging it on the req in server.js? Seems maybe better?
 
 exports.render = function(req, res, page) {
   let modelModule = require("./" + page.modelModuleName);
@@ -20,7 +19,8 @@ exports.render = function(req, res, page) {
       backend: req.backend,
       gitRevision: getGitRevision(),
       csrfToken,
-      abTests: req.abTests
+      abTests: req.abTests,
+      messages: req.messages
     }, jsonModel);
     serverModel = Object.assign({
       authenticated: !!req.deviceId,
@@ -28,7 +28,8 @@ exports.render = function(req, res, page) {
       staticLink: req.staticLink,
       staticLinkWithHost: req.staticLinkWithHost,
       csrfToken,
-      abTests: req.abTests
+      abTests: req.abTests,
+      messages: req.messages
     }, serverModel);
     if (req.query.data == "json") {
       if (req.query.pretty !== undefined) {
@@ -38,21 +39,12 @@ exports.render = function(req, res, page) {
       }
       return;
     }
-    let head = ReactDOMServer.renderToStaticMarkup(
-      <LocalizationProvider messages={req.messages()}>
-        {viewModule.HeadFactory(serverModel)}
-      </LocalizationProvider>);
-    let foo = req.messages();
-    let nxt = foo.next();
-    console.log(`req.messages() yields: ${foo}`);
-    console.log(`next is ${nxt}`);
-    let body = <LocalizationProvider messages={req.messages()}>
-                 {viewModule.BodyFactory(serverModel)}
-               </LocalizationProvider>;
+    let head = ReactDOMServer.renderToStaticMarkup(viewModule.HeadFactory(serverModel));
+    let body;
     if (page.noBrowserJavascript) {
-      body = ReactDOMServer.renderToStaticMarkup(body);
+      body = ReactDOMServer.renderToStaticMarkup(viewModule.BodyFactory(serverModel));
     } else {
-      body = ReactDOMServer.renderToString(body);
+      body = ReactDOMServer.renderToString(viewModule.BodyFactory(serverModel));
     }
     let doc = `
     <html>
