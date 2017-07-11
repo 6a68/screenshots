@@ -20,7 +20,7 @@ exports.HeadTemplate = class HeadTemplate extends React.Component {
       }
     }
     return (
-    <LocalizationProvider messages={this.props.messages()}>
+    <LocalizationProvider messages={this.props.messages}>
       <head>
         <meta charSet="UTF-8" />
         <title>{this.props.title}</title>
@@ -43,7 +43,7 @@ exports.BodyTemplate = class Body extends React.Component {
 
   render() {
     return (
-    <LocalizationProvider messages={this.props.messages()}>
+    <LocalizationProvider messages={this.props.messages}>
       <div>
         {this.props.children}
       </div>

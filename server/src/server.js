@@ -273,14 +273,7 @@ app.use(function(req, res, next) {
   const languages = accepts(req.header("Accept-Language")).languages;
   l10n.init(languages).then(() => {
     req.getText = l10n.getText;
-
-    req.messages = function* generateMessages() {
-      const msgs = l10n.generateMessages(l10n.userLangs);
-      for (const locale of msgs) {
-        yield locale;
-      }
-    }
-
+    req.messages = l10n.generateMessages(l10n.userLangs);
     next();
   });
 });
