@@ -24,22 +24,13 @@ homePageDownloadFirefoxSubTitle = Free Download
 homePageGetStarted = Get Started
 // Note: do not translate 'Firefox Screenshots' when translating this string
 homePageHowScreenshotsWorks = How Firefox Screenshots Works
-// Note: {$started} is a placeholder for the string homePageStarted, which will be emphasized
-homePageGetStartedEmphasized = Get {$started}
-homePageStarted = Started
+homePageGetStarted = Get Started
 homePageGetStartedDescription = Find the new Screenshots icon on your toolbar. Select it, and the Screenshots menu will appear on top of your browser window.
-// Note: {capture} is a placeholder for the string homePageCapture, which will be emphasized
-homePageCaptureRegion = {capture} a Region
-homePageCapture = Capture
+homePageCaptureRegion = Capture a Region
 homePageCaptureRegionDescription = Click and drag to select the area you want to capture. Or just hover and click — Screenshots will select the area for you. Like what you see? Select Save to access your screenshot online or the down arrow button to download it to your computer.
-// Note: {capture} is a placeholder for the string homePageCapture, which will be emphasized
-homePageCapturePage = {capture} a Page
+homePageCapturePage = Capture a Page
 homePageCapturePageDescription = Use the buttons in the upper right to capture full pages. The Save Visible button will capture the area you can view without scrolling, and the Save Full Page will capture everything on the page.</p>
-// Note: {save} is a placeholder for the string homePageSave, and {share} is a placeholder
-// for the string homePageShare. Both will be emphasized
-homePageSaveShare = {save} and {share}
-homePageSave = Save
-homePageShare = Share
+homePageSaveShare = Save and Share
 homePageSaveShareDescription = When you take a shot, Firefox posts your screenshot to your online Screenshots library and copies the link to your clipboard. We automatically store your screenshot for two weeks, but you can delete shots at any time or change the expiration date to keep them in your library for longer.
 homePageLegalLink = Legal
 homePagePrivacyLink = Privacy 
