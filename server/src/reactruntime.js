@@ -6,12 +6,14 @@ const linker = require("./linker");
 const { MessageContext } = require("fluent");
 const { LocalizationProvider } = require("fluent-react/compat");
 
-function* generateMessages(messages, locales) {
+function generateMessages(messages, locales) {
+  const contexts = [];
   for (const locale of locales) {
     const cx = new MessageContext(locale);
     cx.addMessages(messages[locale]);
-    yield cx;
+    contexts.push(cx);
   }
+  return contexts;
 }
 
 exports.HeadTemplate = class HeadTemplate extends React.Component {
