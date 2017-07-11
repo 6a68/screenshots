@@ -36,32 +36,32 @@ exports.TimeDiff = class TimeDiff extends React.Component {
       } else if (seconds > 0 && seconds < 60) {
         timeDiff = <Localized id="timeDiffOneMinuteAgo"><span>1 minute ago</span></Localized>;
       } else if (seconds < 60 * 60) {
-        timeDiff = <Localized id="timeDiffMinutesAgo" $number={Math.floor(seconds / 60)}><span>{$number} minutes ago</span></Localized>;
+        timeDiff = <Localized id="timeDiffMinutesAgo" $number={Math.floor(seconds / 60)}><span>{number} minutes ago</span></Localized>;
       } else if (seconds > 60 * 60 && seconds < 60 * 60 * 2) {
         timeDiff = <Localized id="timeDiffOneHourAgo"><span>1 hour ago</span></Localized>;
       } else if (seconds < 60 * 60 * 24) {
-        timeDiff = <Localized id="timeDiffHoursAgo" $number={Math.floor(seconds / (60 * 60))}><span>{$number} hours ago</span></Localized>;
+        timeDiff = <Localized id="timeDiffHoursAgo" $number={Math.floor(seconds / (60 * 60))}><span>{number} hours ago</span></Localized>;
       } else if (seconds < 60 * 60 * 48) {
         timeDiff = <Localized id="timeDiffYesterday"><span>yesterday</span></Localized>;
       } else if (seconds > 0) {
         seconds += 60 * 60 * 2; // 2 hours fudge time
-        timeDiff = <Localized id="timeDiffDaysAgo" $number={Math.floor(seconds / (60 * 60 * 24))}><span>{$number} days ago</span></Localized>;
+        timeDiff = <Localized id="timeDiffDaysAgo" $number={Math.floor(seconds / (60 * 60 * 24))}><span>{number} days ago</span></Localized>;
       }
     } else if (seconds > -20) {
       timeDiff = <Localized id="timeDiffFutureSeconds"><span>in a few seconds</span></Localized>;
     } else if (seconds > -60) {
       timeDiff = <Localized id="timeDiffFutureOneMinute"><span>in 1 minute</span></Localized>;
     } else if (seconds > -60 * 60) {
-      timeDiff = <Localized id="timeDiffFutureMinutes" $number={Math.floor(seconds / -60)}><span>in {$number} minutes</span></Localized>;
+      timeDiff = <Localized id="timeDiffFutureMinutes" $number={Math.floor(seconds / -60)}><span>in {number} minutes</span></Localized>;
     } else if (seconds < -60 * 60 && seconds > -60 * 60 * 2) {
       timeDiff = <Localized id="timeDiffFutureOneHour"><span>in 1 hour</span></Localized>;
     } else if (seconds > -60 * 60 * 24) {
-      timeDiff = <Localized id="timeDiffFutureHours" $number={Math.floor(seconds / (-60 * 60))}><span>in {$number} hours</span></Localized>;
+      timeDiff = <Localized id="timeDiffFutureHours" $number={Math.floor(seconds / (-60 * 60))}><span>in {number} hours</span></Localized>;
     } else if (seconds > -60 * 60 * 48) {
       timeDiff = <Localized id="timeDiffFutureTomorrow"><span>tomorrow</span></Localized>;
     } else {
       seconds -= 60 * 60 * 2; // 2 hours fudge time
-      timeDiff = <Localized id="timeDiffFutureDays" $number={Math.floor(seconds / (-60 * 60 * 24))}><span>in {$number} days</span></Localized>;
+      timeDiff = <Localized id="timeDiffFutureDays" $number={Math.floor(seconds / (-60 * 60 * 24))}><span>in {number} days</span></Localized>;
     }
     return timeDiff;
   }
@@ -119,7 +119,7 @@ exports.intervalDescription = function(ms) {
     if (hours === 1) {
       parts.push("1 hour");
     } else {
-      parts.push(`{$hours} hours`);
+      parts.push(`${hours} hours`);
     }
     ms = ms % hour;
   }
