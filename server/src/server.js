@@ -273,8 +273,15 @@ app.use(function(req, res, next) {
   const languages = accepts(req.header("Accept-Language")).languages;
   l10n.init(languages).then(() => {
     req.getText = l10n.getText;
-    req.messages = l10n.generateMessages(l10n.userLangs);
-    next();
+    req.userLocales = l10n.userLangs;
+    l10n.getStrings().then(strings => {
+      req.messages = strings;
+      next();
+    }).catch(err => {
+      mozlog.info("l10n-error", {msg: "Error loading FTL files", description: err});
+      // TODO: should we continue starting the server?
+      next();
+    });
   });
 });
 

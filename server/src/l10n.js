@@ -53,6 +53,30 @@ exports.getText = function(l10nID, args) {
   return null;
 };
 
+exports.getStrings = function(userLocales) {
+  return _getLocales(userLocales).then(locales => {
+    const ftlPromises = [];
+    locales.forEach(locale => {
+      ftlPromises.push(new Promise((resolve, reject) => {
+        const filename = path.join(__dirname, '..', '..', 'locales', locale, 'server.ftl');
+        fs.readFile(filename, 'utf-8', (err, data) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve({locale, data});
+        });
+      }));
+    });
+    return Promise.all(ftlPromises);
+  }).then(ftls => {
+    let strings = {};
+    ftls.forEach(ftl => {
+      strings[ftl.locale] = ftl.data;
+    });
+    return strings;
+  });
+};
+
 function _getLocales(requestedLocales) {
   return _getAvailableLocales().then(availableLocales => {
     const locales = negotiateLanguages(
@@ -79,8 +103,3 @@ function _getAvailableLocales() {
   });
 }
 
-// hacky, but will it work?
-exports.generateMessages = function(userLocales) {
-  // TODO: shouldn't this just be the contexts that match userLocales?
-  return contexts;
-};

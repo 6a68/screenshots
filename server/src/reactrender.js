@@ -22,6 +22,7 @@ exports.render = function(req, res, page) {
       cdn,
       csrfToken,
       abTests: req.abTests,
+      userLocales: req.userLocales,
       messages: req.messages
     }, jsonModel);
     serverModel = Object.assign({
@@ -30,6 +31,7 @@ exports.render = function(req, res, page) {
       staticLink: req.staticLink,
       csrfToken,
       abTests: req.abTests,
+      userLocales: req.userLocales,
       messages: req.messages
     }, serverModel);
     if (req.query.data == "json") {
