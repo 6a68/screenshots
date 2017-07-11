@@ -1,5 +1,6 @@
 const reactruntime = require("../../reactruntime");
 const React = require("react");
+const { Localized } = require("fluent-react");
 
 class Head extends React.Component {
 
