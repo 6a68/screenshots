@@ -503,7 +503,7 @@ class ExpireWidget extends React.Component {
     let day = hour * 24;
     return (
       <span className="keep-for-form">
-        <Localized id="shotPageKeepFor" $bullet="\u2219"><span>{bullet} How long should this shot be retained?</span></Localized>
+        <Localized id="shotPageKeepFor"><span>How long should this shot be retained?</span></Localized>
         <select ref="expireTime">
           <Localized id="shotPageSelectTime"><option value="cancel">Select time</option></Localized>
           <Localized id="shotPageKeepIndefinitely"><option value="0">Indefinitely</option></Localized>
