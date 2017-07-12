@@ -16,7 +16,7 @@ exports.TimeDiff = class TimeDiff extends React.Component {
     } else {
       timeDiff = this.dateString(this.props.date);
     }
-    return <span title={this.dateString(this.props.date)}>{timeDiff}</span>;
+    return <Localized id={timeDiff.l10nID} $number={timeDiff.diff}><span title={this.dateString(this.props.date)}></span></Localized>
   }
 
   componentDidMount() {
@@ -29,72 +29,57 @@ exports.TimeDiff = class TimeDiff extends React.Component {
 
   makeDiffString(d) {
     let timeDiff;
+    let l10nID;
     let seconds = (Date.now() - d) / 1000;
     if (seconds > 0) {
       if (seconds < 20) {
-        timeDiff = <Localized id="timeDiffJustNow"><span>just now</span></Localized>;
+        l10nID = "timeDiffJustNow";
       } else if (seconds > 0 && seconds < 60) {
-        timeDiff = <Localized id="timeDiffOneMinuteAgo"><span>1 minute ago</span></Localized>;
+        l10nID = "timeDiffOneMinuteAgo";
       } else if (seconds < 60 * 60) {
-        timeDiff = <Localized id="timeDiffMinutesAgo" $number={Math.floor(seconds / 60)}><span>{number} minutes ago</span></Localized>;
+        l10nID = 'timeDiffMinutesAgo';
+        timeDiff = Math.floor(seconds / 60);
       } else if (seconds > 60 * 60 && seconds < 60 * 60 * 2) {
-        timeDiff = <Localized id="timeDiffOneHourAgo"><span>1 hour ago</span></Localized>;
+        l10nID = "timeDiffOneHourAgo";
       } else if (seconds < 60 * 60 * 24) {
-        timeDiff = <Localized id="timeDiffHoursAgo" $number={Math.floor(seconds / (60 * 60))}><span>{number} hours ago</span></Localized>;
+        l10nID = "timeDiffHoursAgo";
+        timeDiff = Math.floor(seconds / (60 * 60));
       } else if (seconds < 60 * 60 * 48) {
-        timeDiff = <Localized id="timeDiffYesterday"><span>yesterday</span></Localized>;
+        l10nID = "timeDiffYesterday";
       } else if (seconds > 0) {
+        l10nID = "timeDiffDaysAgo";
         seconds += 60 * 60 * 2; // 2 hours fudge time
-        timeDiff = <Localized id="timeDiffDaysAgo" $number={Math.floor(seconds / (60 * 60 * 24))}><span>{number} days ago</span></Localized>;
+        timeDiff = Math.floor(seconds / (60 * 60 * 24));
       }
     } else if (seconds > -20) {
-      timeDiff = <Localized id="timeDiffFutureSeconds"><span>in a few seconds</span></Localized>;
+      l10nID = "timeDiffFutureSeconds";
     } else if (seconds > -60) {
-      timeDiff = <Localized id="timeDiffFutureOneMinute"><span>in 1 minute</span></Localized>;
+      l10nID = "timeDiffFutureOneMinute";
     } else if (seconds > -60 * 60) {
-      timeDiff = <Localized id="timeDiffFutureMinutes" $number={Math.floor(seconds / -60)}><span>in {number} minutes</span></Localized>;
+      l10nID = "timeDiffFutureMinutes";
+      timeDiff = Math.floor(seconds / -60);
     } else if (seconds < -60 * 60 && seconds > -60 * 60 * 2) {
-      timeDiff = <Localized id="timeDiffFutureOneHour"><span>in 1 hour</span></Localized>;
+      l10nID = "timeDiffFutureOneHour";
     } else if (seconds > -60 * 60 * 24) {
-      timeDiff = <Localized id="timeDiffFutureHours" $number={Math.floor(seconds / (-60 * 60))}><span>in {number} hours</span></Localized>;
+      l10nID = "timeDiffFutureHours";
+      timeDiff = Math.floor(seconds / (-60 * 60));
     } else if (seconds > -60 * 60 * 48) {
-      timeDiff = <Localized id="timeDiffFutureTomorrow"><span>tomorrow</span></Localized>;
+      l10nID = "timeDiffFutureTomorrow";
     } else {
       seconds -= 60 * 60 * 2; // 2 hours fudge time
-      timeDiff = <Localized id="timeDiffFutureDays" $number={Math.floor(seconds / (-60 * 60 * 24))}><span>in {number} days</span></Localized>;
+      l10nID = "timeDiffFutureDays";
+      timeDiff = Math.floor(seconds / (-60 * 60 * 24));
     }
-    return timeDiff;
+    return {diff: timeDiff, l10nID};
   }
 
   dateString(d) {
-    let dYear, dMonth, dDay, dHour;
     if (!(d instanceof Date)) {
       d = new Date(d);
     }
-    if (this.state.useLocalTime) {
-      dYear = d.getFullYear();
-      dMonth = d.getMonth();
-      dDay = d.getDate();
-      dHour = d.getHours();
-    } else {
-      dYear = d.getUTCFullYear();
-      dMonth = d.getUTCMonth();
-      dDay = d.getUTCDate();
-      dHour = d.getUTCHours();
-    }
-    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    let month = months[dMonth];
-    let hour;
-    if (dHour === 0) {
-      hour = "12am";
-    } else if (dHour === 12) {
-      hour = "12pm";
-    } else if (dHour > 12) {
-      hour = (dHour % 12) + "pm";
-    } else {
-      hour = dHour + "am";
-    }
-    return `${month} ${dDay} ${dYear}, ${hour}`;
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric' };
+    // TODO get the user's locale in here
+    return d.toLocaleString('en-US', options); // ie: "Dec 20, 2012, 3 AM"
   }
 };
 
