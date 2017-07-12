@@ -3,7 +3,8 @@ require("core-js");
 const React = require("react");
 const ReactDOM = require("react-dom");
 const linker = require("./linker");
-const { MessageContext } = require("fluent");
+require("fluent-intl-polyfill/compat");
+const { MessageContext } = require("fluent/compat");
 const { LocalizationProvider } = require("fluent-react/compat");
 
 function generateMessages(messages, locales) {
