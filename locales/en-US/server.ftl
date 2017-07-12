@@ -80,10 +80,10 @@ shotPagePrivacyMessage = Anyone with the link can view this shot.
 shotPageCopyImageText
   .label = Copy image text
 shotPageConfirmDeletion = Are you sure you want to delete this shot permanently?
-// Note: {$timediff} is a placeholder for a future time like 'tomorrow' or 'next week'
-shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted in {$timediff}.
-// Note: {$timediff} is a placeholder for a time duration phrase like '30 days'
-shotPageRestoreButton = restore for {$timediff}
+// Note: {$timediff} is a placeholder for a future relative time clause like 'in 3 days' or 'tomorrow'
+shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted {$timediff}.
+// Note: {$timediff} is a placeholder for a time duration phrase like 'for 30 days' or 'for one week'
+shotPageRestoreButton = restore {$timediff}
 shotPageExpiredMessage = This shot has expired.
 // Note: This phrase is followed by an empty line, then the URL of the source page
 shotPageExpiredMessageDetails = Here is the page it was originally created from:
@@ -105,8 +105,7 @@ shotPageDMCAContact = Please email {$dmca} to request further information.
 shotPageDMCAWarning = If your Shots are subject to multiple claims, we may revoke your access to Firefox Screenshots.
 // Note: {$url} is a placeholder for a shot page URL
 shotPageDMCAIncludeLink = Please include the URL of this shot in your email: {$url}
-// Note: The {bullet} placeholder will be replaced with a bullet point entity.
-shotPageKeepFor = {$bullet} How long should this shot be retained?
+shotPageKeepFor = How long should this shot be retained?
 // Note: shotPageSelectTime is a placeholder label for the time selection dropdown.
 shotPageSelectTime = Select time
 shotPageKeepIndefinitely = Indefinitely
@@ -119,9 +118,9 @@ shotPageKeepOneMonth = 1 Month
 shotPageSaveExpiration = save
 shotPageCancelExpiration = cancel
 shotPageDoesNotExpire = does not expire
-// Note: {$timediff} is a relative time, like "1 week"
-shotPageExpiresIn = expires in {$timediff}
-// Note: {$timediff} is a relative past time, like "1 week ago"
+// Note: {$timediff} is a placeholder for a future relative time clause, like "in 1 week" or "tomorrow"
+shotPageExpiresIn = expires {$timediff}
+// Note: {$timediff} is a placeholder for a past relative time clause, like "1 week ago" or "yesterday"
 shotPageExpired = expired {$timediff}
 timeDiffJustNow = just now
 // TODO: should we just have one string with plural rules?
