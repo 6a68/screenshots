@@ -267,16 +267,15 @@ class Body extends React.Component {
     let deleteTime = new Date(expireTime + this.props.retentionTime);
     let restoreWidget;
     const expirationTimeDiff = <TimeDiff date={deleteTime} />;
-    const restoreTimeDiff = new Date(Date.now() + this.props.defaultExpiration).toLocaleString();
+    const restoreDate = new Date(Date.now() + this.props.defaultExpiration).toLocaleString();
     if (this.props.isOwner) {
       restoreWidget = (
         <p>
           <Localized id="shotPageExpirationMessage" $timediff={expirationTimeDiff}>
-            If you do nothing,
-            this shot will be permanently deleted {timediff}.
+            <span></span>
           </Localized>
-          <Localized id="shotPageRestoreButton" $timediff={restoreTimeDiff}>
-            <button className="button primary" onClick={this.onRestore.bind(this)}>restore until {timediff}</button>
+          <Localized id="shotPageRestoreButton" $date={restoreDate}>
+            <button className="button primary" onClick={this.onRestore.bind(this)}></button>
           </Localized>
         </p>
       );
