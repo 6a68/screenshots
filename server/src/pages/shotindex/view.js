@@ -299,7 +299,6 @@ class Card extends React.Component {
     event.preventDefault();
     sendEvent("start-delete", "my-shots", {useBeacon: true});
     let confirmMessage = document.getElementById("shotIndexPageConfirmShotDelete").textContent;
-    confirmMessage = confirmMessage.replace('{shotTitle}', shot.title);
     if (window.confirm(confirmMessage)) {
       sendEvent("delete", "my-shots-popup-confirm", {useBeacon: true});
       controller.deleteShot(shot);

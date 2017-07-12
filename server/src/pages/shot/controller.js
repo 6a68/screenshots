@@ -81,8 +81,6 @@ exports.changeShotExpiration = function(shot, expiration) {
   req.onload = function() {
     if (req.status >= 300) {
       let errorMessage = document.getElementById("shotPageAlertErrorUpdatingExpirationTime").textContent;
-      errorMessage = errorMessage.replace('{status}', req.status);
-      errorMessage = errorMessage.replace('{statusText}', req.statusText);
       window.alert(errorMessage);
     } else {
       if (expiration === 0) {
@@ -110,8 +108,6 @@ exports.deleteShot = function(shot) {
     if (req.status >= 300) {
       // FIXME: a lame way to do an error message
       let errorMessage = document.getElementById("shotPageAlertErrorDeletingShot").textContent;
-      errorMessage = errorMessage.replace('{status}', req.status);
-      errorMessage = errorMessage.replace('{statusText}', req.statusText);
       window.alert(errorMessage);
     } else {
       location.href = model.backend + "/shots";
@@ -184,8 +180,6 @@ exports.setTitle = function(title) {
   req.onload = function() {
     if (req.status >= 300) {
       let errorMessage = document.getElementById("shotPageAlertErrorUpdatingTitle").textContent;
-      errorMessage = errorMessage.replace('{status}', req.status);
-      errorMessage = errorMessage.replace('{statusText}', req.statusText);
       window.alert(errorMessage);
       return;
     }

@@ -56,12 +56,9 @@ notFoundPageDescription = Page not found.
 
 // Shot page
 
-// In the following error messages, {$status} is a placeholder for an HTTP status
-// code, like '500'. {$statusText} is a text description of the status code, like
-// 'Internal server error'.
-shotPageAlertErrorUpdatingExpirationTime = Error saving expiration: {$status} {$statusText}
-shotPageAlertErrorDeletingShot = Error deleting shot: {$status} {$statusText}
-shotPageAlertErrorUpdatingTitle = Error saving title: {$status} {$statusText}
+shotPageAlertErrorUpdatingExpirationTime = Error saving expiration
+shotPageAlertErrorDeletingShot = Error deleting shot
+shotPageAlertErrorUpdatingTitle = Error saving title
 shotPageConfirmDelete = Are you sure you want to delete this shot permanently?
 shotPageShareButton
   .title = Share
@@ -161,16 +158,13 @@ shotIndexPageNoSearchResultsIntro = Hmm
 shotIndexPageNoSearchResults = We canʼt find any shots that match your search.
 shotIndexPageClearSearchButton
   .title = Clear search
-// {$shotTitle} is a placeholder for the title of the screenshot
-shotIndexPageConfirmShotDelete = Delete {$shotTitle}?
+shotIndexPageConfirmShotDelete = Delete this shot?
 
 // Metrics page
 // Note: all metrics strings are optional for translation
 
 // Note: 'Firefox Screenshots' should not be translated
 metricsPageTitle = Firefox Screenshots Metrics
-// Note: {$status} is a placeholder for an HTTP status number, like 403 or 500.
-metricsPageAlertFailure = Failed: {$status}
 metricsPageTotalsQueryTitle = Totals
 metricsPageTotalsQueryDescription = An overview of Screenshots
 metricsPageTotalsQueryDevices = Total devices registered
