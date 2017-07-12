@@ -82,8 +82,9 @@ shotPageCopyImageText
 shotPageConfirmDeletion = Are you sure you want to delete this shot permanently?
 // Note: {$timediff} is a placeholder for a future relative time clause like 'in 3 days' or 'tomorrow'
 shotPageExpirationMessage = If you do nothing, this shot will be permanently deleted {$timediff}.
-// Note: {$timediff} is a placeholder for a time duration phrase like 'for 30 days' or 'for one week'
-shotPageRestoreButton = restore {$timediff}
+// Note: {$date} is a placeholder for a localized future date as returned by Date.toLocaleString.
+// For example, in en-US, {$date} could be "7/12/2017, 1:52:50 PM".
+shotPageRestoreButton = restore until {$date}
 shotPageExpiredMessage = This shot has expired.
 // Note: This phrase is followed by an empty line, then the URL of the source page
 shotPageExpiredMessageDetails = Here is the page it was originally created from:

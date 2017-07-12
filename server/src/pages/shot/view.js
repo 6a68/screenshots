@@ -5,7 +5,7 @@ const { Localized } = require("fluent-react/compat");
 const { Footer } = require("../../footer-view");
 const sendEvent = require("../../browser-send-event.js");
 const { ShareButton } = require("../../share-buttons");
-const { TimeDiff, intervalDescription } = require("./time-diff");
+const { TimeDiff } = require("./time-diff");
 const reactruntime = require("../../reactruntime");
 
 
@@ -267,7 +267,7 @@ class Body extends React.Component {
     let deleteTime = new Date(expireTime + this.props.retentionTime);
     let restoreWidget;
     const expirationTimeDiff = <TimeDiff date={deleteTime} />;
-    const restoreTimeDiff = intervalDescription(this.props.defaultExpiration);
+    const restoreTimeDiff = new Date(Date.now() + this.props.defaultExpiration).toLocaleString();
     if (this.props.isOwner) {
       restoreWidget = (
         <p>
@@ -276,7 +276,7 @@ class Body extends React.Component {
             this shot will be permanently deleted {timediff}.
           </Localized>
           <Localized id="shotPageRestoreButton" $timediff={restoreTimeDiff}>
-            <button className="button primary" onClick={this.onRestore.bind(this)}>restore for {timediff}</button>
+            <button className="button primary" onClick={this.onRestore.bind(this)}>restore until {timediff}</button>
           </Localized>
         </p>
       );
