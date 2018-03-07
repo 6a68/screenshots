@@ -13,6 +13,8 @@ this.main = (function() {
 
   let hasSeenOnboarding;
 
+  // TODO: do we even need onboarding for chrome users?
+  /*
   browser.storage.local.get(["hasSeenOnboarding"]).then((result) => {
     hasSeenOnboarding = !!result.hasSeenOnboarding;
     if (!hasSeenOnboarding) {
@@ -26,6 +28,7 @@ this.main = (function() {
   }).catch((error) => {
     log.error("Error getting hasSeenOnboarding:", error);
   });
+  */
 
   exports.setBackend = function(newBackend) {
     backend = newBackend;
@@ -127,6 +130,7 @@ this.main = (function() {
     return browser.tabs.create({url: getOnboardingUrl()});
   }
 
+  // TODO: wire this up
   exports.onClickedContextMenu = catcher.watchFunction((info, tab) => {
     if (!tab) {
       // Not in a page/tab context, ignore
