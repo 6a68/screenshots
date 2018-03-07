@@ -75,19 +75,19 @@ this.communication = (function() {
 
     // TODO: revisit these provisional decisions
     if (msg.funcName === "isTelemetryEnabled") {
-      sendReply({type: "success", value: true});
+      return Promise.resolve({type: "success", value: true});
     } else if (msg.funcName === "isUploadDisabled") {
-      sendReply({type: "success", value: false});
+      return Promise.resolve({type: "success", value: false});
     } else if (msg.funcName === "isHistoryEnabled") {
-      sendReply({type: "success", value: true});
+      return Promise.resolve({type: "success", value: true});
     } else if (msg.funcName === "incrementCount") {
       const allowedScalars = ["download", "upload", "copy"];
       const scalar = msg.args && msg.args[0] && msg.args[0].scalar;
       if (!allowedScalars.includes(scalar)) {
-        sendReply({type: "error", name: `incrementCount passed an unrecognized scalar ${scalar}`});
+        return Promise.resolve({type: "error", name: `incrementCount passed an unrecognized scalar ${scalar}`});
       } else {
         // TODO: load analytics.js and call sendEvent() here
-        sendReply({type: "success", value: true});
+        return Promise.resolve({type: "success", value: true});
       }
     }
   }
