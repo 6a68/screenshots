@@ -8,6 +8,9 @@
 */
 const startTime = Date.now();
 
+// TODO get this from buildSettings
+const isChrome = true;
+
 this.startBackground = (function() {
   const exports = {startTime};
 
@@ -54,7 +57,9 @@ this.startBackground = (function() {
   });
 
   let photonPageActionPort = null;
-  initPhotonPageAction();
+  if (!isChrome) {
+    initPhotonPageAction();
+  }
 
   let loadedPromise;
 

@@ -2,6 +2,9 @@
 
 "use strict";
 
+// TODO get this from buildSettings
+const isChrome = true;
+
 this.main = (function() {
   const exports = {};
 
@@ -13,11 +16,9 @@ this.main = (function() {
 
   let hasSeenOnboarding;
 
-  // TODO: do we even need onboarding for chrome users?
-  /*
   browser.storage.local.get(["hasSeenOnboarding"]).then((result) => {
     hasSeenOnboarding = !!result.hasSeenOnboarding;
-    if (!hasSeenOnboarding) {
+    if (!hasSeenOnboarding && !isChrome) {
       setIconActive(false, null);
       // Note that the branded name 'Firefox Screenshots' is not localized:
       startBackground.photonPageActionPort.postMessage({
@@ -28,7 +29,6 @@ this.main = (function() {
   }).catch((error) => {
     log.error("Error getting hasSeenOnboarding:", error);
   });
-  */
 
   exports.setBackend = function(newBackend) {
     backend = newBackend;
@@ -55,9 +55,6 @@ this.main = (function() {
   }
 
   function setIconActive(active, tabId) {
-    let isChrome = true; // TODO replace with buildSettings check
-    if (isChrome) { return; }
-
     const path = active ? "icons/icon-highlight-32-v2.svg" : "icons/icon-v2.svg";
     startBackground.photonPageActionPort.postMessage({
       type: "setProperties",
