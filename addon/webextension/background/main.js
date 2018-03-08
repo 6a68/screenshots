@@ -2,9 +2,6 @@
 
 "use strict";
 
-// TODO get this from buildSettings
-const isChrome = true;
-
 this.main = (function() {
   const exports = {};
 
