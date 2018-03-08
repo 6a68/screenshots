@@ -870,7 +870,16 @@
          *        yield a response. False otherwise.
          */
         return function onMessage(message, sender, sendResponse) {
-          let result = listener(message, sender);
+          // TODO: upstream bug. pulling in robwu's fix from
+          // https://github.com/mozilla/webextension-polyfill/pull/22.
+          let didCallSendResponse = false;
+          let result = listener(message, sender, function(result) {
+            didCallSendResponse = true;
+            sendResponse(result);
+          });
+          if (didCallSendResponse || result === true) {
+            return result;
+          }
 
           if (isThenable(result)) {
             result.then(sendResponse, error => {
