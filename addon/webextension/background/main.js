@@ -52,6 +52,7 @@ this.main = (function() {
   }
 
   function setIconActive(active, tabId) {
+    if (isChrome) { return; }
     const path = active ? "icons/icon-highlight-32-v2.svg" : "icons/icon-v2.svg";
     startBackground.photonPageActionPort.postMessage({
       type: "setProperties",
