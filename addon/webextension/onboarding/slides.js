@@ -36,7 +36,9 @@ this.slides = (function() {
         return browser.extension.getURL(filename);
       });
       iframe.addEventListener("load", catcher.watchFunction(() => {
-        doc = iframe.contentDocument;
+        console.log("is iframe.contentDocument defined?", iframe.contentDocument);
+        console.log("is iframe.contentWindow defined?", iframe.contentWindow);
+        doc = iframe.contentDocument || iframe.contentWindow && iframe.contentWindow.document;
         assertIsBlankDocument(doc);
         if (!doc) {
           throw new Error("iframe has no contentDocument. wat?");
