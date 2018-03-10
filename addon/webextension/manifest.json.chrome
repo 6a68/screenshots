@@ -28,6 +28,7 @@
   "web_accessible_resources": [
     "blank.html",
     "icons/cancel.svg",
+    "icons/cloud.svg",
     "icons/download.svg",
     "icons/copy.svg",
     "icons/icon-256.png",
