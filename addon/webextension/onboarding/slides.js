@@ -21,7 +21,8 @@ this.slides = (function() {
       callbacks = addCallbacks;
       // FIXME: a lot of this iframe logic is in ui.js; maybe move to util.js
       iframe = document.createElement("iframe");
-      iframe.src = browser.extension.getURL("blank.html");
+      // TODO: why is this causing breakage in chrome?
+      // iframe.src = browser.extension.getURL("blank.html");
       iframe.id = "firefox-screenshots-onboarding-iframe";
       iframe.style.zIndex = "99999999999";
       iframe.style.border = "none";
@@ -38,8 +39,9 @@ this.slides = (function() {
       iframe.addEventListener("load", catcher.watchFunction(() => {
         console.log("is iframe.contentDocument defined?", iframe.contentDocument);
         console.log("is iframe.contentWindow defined?", iframe.contentWindow);
-        doc = iframe.contentDocument || iframe.contentWindow && iframe.contentWindow.document;
-        assertIsBlankDocument(doc);
+        doc = iframe.contentWindow.document;
+        // it's not a blank document, because I removed blank.html...
+        // assertIsBlankDocument(doc);
         if (!doc) {
           throw new Error("iframe has no contentDocument. wat?");
         }

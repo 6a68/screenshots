@@ -112,7 +112,8 @@ this.ui = (function() { // eslint-disable-line no-unused-vars
 
   function initializeIframe() {
     const el = document.createElement("iframe");
-    el.src = browser.extension.getURL("blank.html");
+    // TODO: figure out this permissions issue
+    // el.src = browser.extension.getURL("blank.html");
     el.style.zIndex = "99999999999";
     el.style.border = "none";
     el.style.top = "0";
@@ -143,7 +144,7 @@ this.ui = (function() { // eslint-disable-line no-unused-vars
           this.updateElementSize();
           this.element.addEventListener("load", watchFunction(() => {
             this.document = this.element.contentDocument;
-            assertIsBlankDocument(this.document);
+            // assertIsBlankDocument(this.document);
             // eslint-disable-next-line no-unsanitized/property
             this.document.documentElement.innerHTML = `
                <head>
@@ -278,7 +279,7 @@ this.ui = (function() { // eslint-disable-line no-unused-vars
           this.element.style.height = "100%";
           this.element.addEventListener("load", watchFunction(() => {
             this.document = this.element.contentDocument;
-            assertIsBlankDocument(this.document)
+            // assertIsBlankDocument(this.document)
             // eslint-disable-next-line no-unsanitized/property
             this.document.documentElement.innerHTML = `
                <head>
