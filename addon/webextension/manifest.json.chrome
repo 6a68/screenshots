@@ -53,7 +53,7 @@
     "notifications",
     "clipboardWrite",
     "contextMenus",
-    "<all_urls>",
+    "\u003Call_urls>",
     "http://localhost:10080/"
   ]
 }
