@@ -260,11 +260,11 @@ this.main = (function() {
     browser.downloads.onChanged.addListener(onChangedCallback)
     catcher.watchPromise(communication.sendToBootstrap("incrementCount", {scalar: "download"}));
     return browser.windows.getLastFocused().then(windowInfo => {
-      return browser.downloads.download({
-        url,
-        incognito: windowInfo.incognito,
-        filename: info.filename
-      }).then((id) => {
+      let downloadParams = { url, filename: info.filename };
+      if (!isChrome) {
+        downloadParams.incognito = windowInfo.incognito;
+      }
+      return browser.downloads.download(downloadParams).then((id) => {
         downloadId = id;
       });
     });
