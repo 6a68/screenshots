@@ -9,11 +9,13 @@ this.assertIsTrusted = function assertIsTrusted(handlerFunction) {
       exc.noPopup = true;
       throw exc;
     }
+    /* Temporarily canceling this check because Chrome doesn't support it.
     if (!event.isTrusted) {
       const exc = new Error(`Received untrusted event (type: ${event.type})`);
       exc.noPopup = true;
       throw exc;
     }
+    */
     return handlerFunction.call(this, event);
   };
 }
