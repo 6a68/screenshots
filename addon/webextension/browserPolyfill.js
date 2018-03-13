@@ -11,7 +11,7 @@
     global.browser = mod.exports;
   }
 })(this, function (module) {
-  /* webextension-polyfill - v0.2.1 - Wed Mar 07 2018 15:36:50 */
+  /* webextension-polyfill - v0.2.1 - Tue Mar 13 2018 15:28:49 */
   /* -*- Mode: indent-tabs-mode: nil; js-indent-level: 2 -*- */
   /* vim: set sts=2 sw=2 et tw=80: */
   /* This Source Code Form is subject to the terms of the Mozilla Public
@@ -326,21 +326,37 @@
             "minArgs": 1,
             "maxArgs": 1
           },
+          "setPopup": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
           "getTitle": {
             "minArgs": 1,
             "maxArgs": 1
           },
+          "setTitle": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
           "hide": {
-            "minArgs": 0,
-            "maxArgs": 0
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
           },
           "setIcon": {
             "minArgs": 1,
             "maxArgs": 1
           },
+          "getIcon": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
           "show": {
-            "minArgs": 0,
-            "maxArgs": 0
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
           }
         },
         "runtime": {
@@ -677,7 +693,30 @@
           }
 
           return new Promise((resolve, reject) => {
-            target[name](...args, makeCallback({ resolve, reject }, metadata));
+            if (metadata.fallbackToNoCallback) {
+              // This API method has currently no callback on Chrome, but it return a promise on Firefox,
+              // and so the polyfill will try to call it with a callback first, and it will fallback
+              // to not passing the callback if the first call fails.
+              try {
+                target[name](...args, makeCallback({ resolve, reject }, metadata));
+              } catch (cbError) {
+                console.warn(`${name} API method doesn't seem to support the callback parameter, ` + "falling back to call it without a callback: ", cbError);
+
+                target[name](...args);
+
+                // Update the API method metadata, so that the next API calls will not try to
+                // use the unsupported callback anymore.
+                metadata.fallbackToNoCallback = false;
+                metadata.noCallback = true;
+
+                resolve();
+              }
+            } else if (metadata.noCallback) {
+              target[name](...args);
+              resolve();
+            } else {
+              target[name](...args, makeCallback({ resolve, reject }, metadata));
+            }
           });
         };
       };
@@ -736,13 +775,12 @@
        */
       const wrapObject = (target, wrappers = {}, metadata = {}) => {
         let cache = Object.create(null);
-
         let handlers = {
-          has(target, prop) {
+          has(proxyTarget, prop) {
             return prop in target || prop in cache;
           },
 
-          get(target, prop, receiver) {
+          get(proxyTarget, prop, receiver) {
             if (prop in cache) {
               return cache[prop];
             }
@@ -796,7 +834,7 @@
             return value;
           },
 
-          set(target, prop, value, receiver) {
+          set(proxyTarget, prop, value, receiver) {
             if (prop in cache) {
               cache[prop] = value;
             } else {
@@ -805,16 +843,27 @@
             return true;
           },
 
-          defineProperty(target, prop, desc) {
+          defineProperty(proxyTarget, prop, desc) {
             return Reflect.defineProperty(cache, prop, desc);
           },
 
-          deleteProperty(target, prop) {
+          deleteProperty(proxyTarget, prop) {
             return Reflect.deleteProperty(cache, prop);
           }
         };
 
-        return new Proxy(target, handlers);
+        // Per contract of the Proxy API, the "get" proxy handler must return the
+        // original value of the target if that value is declared read-only and
+        // non-configurable. For this reason, we create an object with the
+        // prototype set to `target` instead of using `target` directly.
+        // Otherwise we cannot return a custom object for APIs that
+        // are declared read-only and non-configurable, such as `chrome.devtools`.
+        //
+        // The proxy handlers themselves will still use the original `target`
+        // instead of the `proxyTarget`, so that the methods and properties are
+        // dereferenced via the original targets.
+        let proxyTarget = Object.create(target);
+        return new Proxy(proxyTarget, handlers);
       };
 
       /**
@@ -870,10 +919,10 @@
          *        yield a response. False otherwise.
          */
         return function onMessage(message, sender, sendResponse) {
-          // TODO: upstream bug. pulling in robwu's fix from
-          // https://github.com/mozilla/webextension-polyfill/pull/22.
           let didCallSendResponse = false;
-          let result = listener(message, sender, function(result) {
+          let result = listener(message, sender, function (result) {
+            // Note: No need to check for duplicate calls. The browser environment
+            // should take care of reporting errors if necessary.
             didCallSendResponse = true;
             sendResponse(result);
           });
@@ -900,12 +949,7 @@
         }
       };
 
-      // Create a new empty object and copy the properties of the original chrome object
-      // to prevent a Proxy violation exception for the devtools API getter
-      // (which is a read-only non-configurable property on the original target).
-      const targetObject = Object.assign({}, chrome);
-
-      return wrapObject(targetObject, staticWrappers, apiMetadata);
+      return wrapObject(chrome, staticWrappers, apiMetadata);
     };
 
     // The build process adds a UMD wrapper around this file, which makes the
