@@ -234,11 +234,25 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
     }
     const shotPromise = previewDataUrl ? Promise.resolve(previewDataUrl) : screenshotPageAsync(selectedPos, type);
     catcher.watchPromise(shotPromise.then(dataUrl => {
-      const blob = blobConverters.dataUrlToBlob(dataUrl);
-      catcher.watchPromise(callBackground("copyShotToClipboard", blob).then(() => {
-        uicontrol.deactivate();
-        unsetCopyInProgress();
-      }, unsetCopyInProgress));
+      let promise = Promise.resolve(dataUrl);
+      if (!dataUrl) {
+        promise = callBackground(
+          "screenshotPage",
+          selectedPos.asJson(),
+          {
+            scrollX: window.scrollX,
+            scrollY: window.scrollY,
+            innerHeight: window.innerHeight,
+            innerWidth: window.innerWidth
+          });
+      }
+      promise.then((dataUrl) => {
+        const blob = blobConverters.dataUrlToBlob(dataUrl);
+        catcher.watchPromise(callBackground("copyShotToClipboard", blob).then(() => {
+          uicontrol.deactivate();
+          unsetCopyInProgress();
+        }, unsetCopyInProgress));
+      });
     }));
   };
 
