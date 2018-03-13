@@ -247,6 +247,9 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
           });
       }
       promise.then((dataUrl) => {
+        // TODO: maybe get this value from the userAgent string?
+        let isChrome = true;
+
         // Chrome is fine with the dataUrl, but will stringify the blob into nothingness.
         // TODO: find a better way to handle this case. maybe figure out how blobs are
         // messaged around in firefox vs chrome. or is this a bug in the polyfill?
