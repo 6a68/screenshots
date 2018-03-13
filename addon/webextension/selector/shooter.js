@@ -183,6 +183,9 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
     catcher.watchPromise(shotPromise.then(dataUrl => {
       let promise = Promise.resolve(dataUrl);
       if (!dataUrl) {
+        debugger; // oh, so is this how downloading currently works?
+        // we check if !dataUrl, and in that case, get the screenshot from
+        // the background page?
         promise = callBackground(
           "screenshotPage",
           selectedPos.asJson(),
