@@ -247,12 +247,12 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
           });
       }
       promise.then((dataUrl) => {
-        const blob = blobConverters.dataUrlToBlob(dataUrl);
-        // TODO: blob is just an empty object when it arrives on the other side.
-        // why? what do we need to do? stringify it? is it actually just '{}' after
-        // passing through dataUrlToBlob above?
-        debugger;
-        catcher.watchPromise(callBackground("copyShotToClipboard", blob).then(() => {
+        // Chrome is fine with the dataUrl, but will stringify the blob into nothingness.
+        // TODO: find a better way to handle this case. maybe figure out how blobs are
+        // messaged around in firefox vs chrome. or is this a bug in the polyfill?
+        const blob = isChrome ? dataUrl : blobConverters.dataUrlToBlob(dataUrl);
+        const isDataUrl = isChrome;
+        catcher.watchPromise(callBackground("copyShotToClipboard", blob, isDataUrl).then(() => {
           uicontrol.deactivate();
           unsetCopyInProgress();
         }, unsetCopyInProgress));

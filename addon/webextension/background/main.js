@@ -227,9 +227,10 @@ this.main = (function() {
     return dataUrl;
   });
 
-  communication.register("copyShotToClipboard", (sender, blob) => {
-    // TODO: if the blob is just an empty object, then what?
-    debugger;
+  communication.register("copyShotToClipboard", (sender, data, isDataUrl) => {
+    // Chrome + polyfill messaging requires a dataurl; Firefox requires a blob.
+    // TODO: should the polyfill behave this way?
+    let blob = isDataUrl ? blobConverters.dataUrlToBlob(data) : data;
     return blobConverters.blobToArray(blob).then(buffer => {
       return browser.clipboard.setImageData(
         buffer, blob.type.split("/", 2)[1]).then(() => {
