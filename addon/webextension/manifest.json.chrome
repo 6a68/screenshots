@@ -51,6 +51,7 @@
     "downloads",
     "tabs",
     "storage",
+    "clipboardWrite",
     "notifications",
     "contextMenus",
     "\u003Call_urls>",
