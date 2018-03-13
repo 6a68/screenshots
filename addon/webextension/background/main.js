@@ -228,6 +228,8 @@ this.main = (function() {
   });
 
   communication.register("copyShotToClipboard", (sender, blob) => {
+    // TODO: if the blob is just an empty object, then what?
+    debugger;
     return blobConverters.blobToArray(blob).then(buffer => {
       return browser.clipboard.setImageData(
         buffer, blob.type.split("/", 2)[1]).then(() => {

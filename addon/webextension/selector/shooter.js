@@ -248,6 +248,10 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
       }
       promise.then((dataUrl) => {
         const blob = blobConverters.dataUrlToBlob(dataUrl);
+        // TODO: blob is just an empty object when it arrives on the other side.
+        // why? what do we need to do? stringify it? is it actually just '{}' after
+        // passing through dataUrlToBlob above?
+        debugger;
         catcher.watchPromise(callBackground("copyShotToClipboard", blob).then(() => {
           uicontrol.deactivate();
           unsetCopyInProgress();
