@@ -253,12 +253,32 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
         // Chrome is fine with the dataUrl, but will stringify the blob into nothingness.
         // TODO: find a better way to handle this case. maybe figure out how blobs are
         // messaged around in firefox vs chrome. or is this a bug in the polyfill?
-        const blob = isChrome ? dataUrl : blobConverters.dataUrlToBlob(dataUrl);
-        const isDataUrl = isChrome;
-        catcher.watchPromise(callBackground("copyShotToClipboard", blob, isDataUrl).then(() => {
-          uicontrol.deactivate();
-          unsetCopyInProgress();
-        }, unsetCopyInProgress));
+
+        // Even more interesting problem:
+        // in chrome, we just should use clipboard.copy from here, then ask the
+        // background page to notify the user, because chrome.clipboard isn't an API,
+        // but document.execCommand("copy") should be available in every context.
+        //
+        // in firefox, we should pass the blob to the background page, ask it to do
+        // the copying, as well as notify the user.
+        // let's try this and see if it works in chrome.
+        //
+        if (isChrome) {
+          return clipboard.copy(dataUrl).catch((err) => {
+            throw new Error("Copying to clipboard failed: ", err);
+          }).then((copied) => {
+            return catcher.watchPromise(callBackground("copyShotToClipboardChrome"));
+          });
+        } else {
+          // this isChrome stuff, and third 'isDataUrl' argument, probably aren't
+          // necessary if we do, indeed, do the copying over here.
+          const blob = isChrome ? dataUrl : blobConverters.dataUrlToBlob(dataUrl);
+          const isDataUrl = isChrome;
+          catcher.watchPromise(callBackground("copyShotToClipboard", blob, isDataUrl).then(() => {
+            uicontrol.deactivate();
+            unsetCopyInProgress();
+          }, unsetCopyInProgress));
+        }
       });
     }));
   };

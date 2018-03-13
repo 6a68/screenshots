@@ -8,7 +8,9 @@ this.clipboard = (function() {
   exports.copy = function(text) {
     return new Promise((resolve, reject) => {
       const element = document.createElement("iframe");
-      element.src = browser.extension.getURL("blank.html");
+      // TODO: le sigh, another spot where we gotta avoid setting the url
+      // element.src = browser.extension.getURL("blank.html");
+
       // We can't actually hide the iframe while copying, but we can make
       // it close to invisible:
       element.style.opacity = "0";
@@ -17,7 +19,8 @@ this.clipboard = (function() {
       element.addEventListener("load", catcher.watchFunction(() => {
         try {
           const doc = element.contentDocument;
-          assertIsBlankDocument(doc);
+          // TODO: this too. dodging the URL check.
+          // assertIsBlankDocument(doc);
           const el = doc.createElement("textarea");
           doc.body.appendChild(el);
           el.value = text;
@@ -34,12 +37,17 @@ this.clipboard = (function() {
             exc.noPopup = true;
             catcher.unhandled(exc);
           }
+          if (!doc.queryCommandSupported("copy")) {
+            catcher.unhandled(new Error("Clipboard copy not supported"));
+          }
           const copied = doc.execCommand("copy");
+          el.remove();
           if (!copied) {
             catcher.unhandled(new Error("Clipboard copy failed"));
+            reject("Clipboard copy failed");
+          } else {
+            resolve(copied);
           }
-          el.remove();
-          resolve(copied);
         } finally {
           element.remove();
         }

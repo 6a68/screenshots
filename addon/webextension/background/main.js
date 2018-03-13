@@ -227,10 +227,24 @@ this.main = (function() {
     return dataUrl;
   });
 
+  communication.register("copyShotToClipboardChrome", () => {
+    // just notify the user that the copying is done. it happened on the content side.
+    return browser.notifications.create({
+      type: "basic",
+      iconUrl: "../icons/copy.png",
+      title: browser.i18n.getMessage("notificationImageCopiedTitle"),
+      message: browser.i18n.getMessage("notificationImageCopiedDetails", pasteSymbol)
+    });
+  });
+
   communication.register("copyShotToClipboard", (sender, data, isDataUrl) => {
     // Chrome + polyfill messaging requires a dataurl; Firefox requires a blob.
     // TODO: should the polyfill behave this way?
+    // TODO: note that chrome has to do regular execCommand to copy to clipboard,
+    // while Firefox does its own API thing. So, this isDataUrl change may not
+    // be necessary at all.
     let blob = isDataUrl ? blobConverters.dataUrlToBlob(data) : data;
+
     return blobConverters.blobToArray(blob).then(buffer => {
       return browser.clipboard.setImageData(
         buffer, blob.type.split("/", 2)[1]).then(() => {
