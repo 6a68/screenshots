@@ -120,62 +120,86 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
     if (buildSettings.captureText) {
       captureText = util.captureEnclosedText(selectedPos);
     }
+    // TODO: note, screenshotPage just bails if drawWindow isn't supported (i.e., bails if chrome)
+    // should we just handle the chrome fallback there? instead of spreading it around each function?
     const dataUrl = url || screenshotPage(selectedPos, captureType);
-    let type = blobConverters.getTypeFromDataUrl(dataUrl);
-    type = type ? type.split("/", 2)[1] : null;
-    if (dataUrl) {
-      imageBlob = buildSettings.uploadBinary ? blobConverters.dataUrlToBlob(dataUrl) : null;
-      shotObject.delAllClips();
-      shotObject.addClip({
-        createdDate: Date.now(),
-        image: {
-          url: buildSettings.uploadBinary ? "" : dataUrl,
-          type,
-          captureType,
-          text: captureText,
-          location: selectedPos,
-          dimensions: {
-            x: selectedPos.right - selectedPos.left,
-            y: selectedPos.bottom - selectedPos.top
-          }
-        }
-      });
+    let prom = Promise.resolve(dataUrl);
+    // TODO: is this really the right way to handle this case?
+    // we are 1. going to background page to get shot
+    // 2. serializing and sending shot back
+    // 3. turning dataUrl into a blob
+    // 4. sending to background again inside takeShot
+    //  
+    // would it make more sense to just take and send the shot at once?
+    if (!dataUrl) {
+      prom = callBackground(
+        "screenshotPage",
+        // TODO: why isn't selectedPos.asJson defined here?
+        selectedPos,
+        {
+          scrollX: window.scrollX,
+          scrollY: window.scrollY,
+          innerHeight: window.innerHeight,
+          innerWidth: window.innerWidth
+        });
     }
-    catcher.watchPromise(callBackground("takeShot", {
-      captureType,
-      captureText,
-      scroll: {
-        scrollX: window.scrollX,
-        scrollY: window.scrollY,
-        innerHeight: window.innerHeight,
-        innerWidth: window.innerWidth
-      },
-      selectedPos,
-      shotId: shotObject.id,
-      shot: shotObject.asJson(),
-      imageBlob
-    }).then((url) => {
-      return clipboard.copy(url).then((copied) => {
-        return callBackground("openShot", { url, copied });
-      });
-    }, (error) => {
-      if ("popupMessage" in error && (error.popupMessage === "REQUEST_ERROR" || error.popupMessage === "CONNECTION_ERROR")) {
-        // The error has been signaled to the user, but unlike other errors (or
-        // success) we should not abort the selection
-        deactivateAfterFinish = false;
-        // We need to unhide the UI since screenshotPage() hides it.
-        ui.iframe.unhide();
-        return;
+    prom.then((dataUrl) => {
+      let type = blobConverters.getTypeFromDataUrl(dataUrl);
+      type = type ? type.split("/", 2)[1] : null;
+      if (dataUrl) {
+        imageBlob = buildSettings.uploadBinary ? blobConverters.dataUrlToBlob(dataUrl) : null;
+        shotObject.delAllClips();
+        shotObject.addClip({
+          createdDate: Date.now(),
+          image: {
+            url: buildSettings.uploadBinary ? "" : dataUrl,
+            type,
+            captureType,
+            text: captureText,
+            location: selectedPos,
+            dimensions: {
+              x: selectedPos.right - selectedPos.left,
+              y: selectedPos.bottom - selectedPos.top
+            }
+          }
+        });
       }
-      if (error.name !== "BackgroundError") {
-        // BackgroundError errors are reported in the Background page
-        throw error;
-      }
-    }).then(() => {
-      if (deactivateAfterFinish) {
-        uicontrol.deactivate();
-      }
-    }));
+      catcher.watchPromise(callBackground("takeShot", {
+        captureType,
+        captureText,
+        scroll: {
+          scrollX: window.scrollX,
+          scrollY: window.scrollY,
+          innerHeight: window.innerHeight,
+          innerWidth: window.innerWidth
+        },
+        selectedPos,
+        shotId: shotObject.id,
+        shot: shotObject.asJson(),
+        imageBlob
+      }).then((url) => {
+        return clipboard.copy(url).then((copied) => {
+          return callBackground("openShot", { url, copied });
+        });
+      }, (error) => {
+        if ("popupMessage" in error && (error.popupMessage === "REQUEST_ERROR" || error.popupMessage === "CONNECTION_ERROR")) {
+          // The error has been signaled to the user, but unlike other errors (or
+          // success) we should not abort the selection
+          deactivateAfterFinish = false;
+          // We need to unhide the UI since screenshotPage() hides it.
+          ui.iframe.unhide();
+          return;
+        }
+        if (error.name !== "BackgroundError") {
+          // BackgroundError errors are reported in the Background page
+          throw error;
+        }
+      }).then(() => {
+        if (deactivateAfterFinish) {
+          uicontrol.deactivate();
+        }
+      }));
+    });
   };
 
   exports.downloadShot = function(selectedPos, previewDataUrl, type) {
@@ -235,6 +259,8 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
     const shotPromise = previewDataUrl ? Promise.resolve(previewDataUrl) : screenshotPageAsync(selectedPos, type);
     catcher.watchPromise(shotPromise.then(dataUrl => {
       let promise = Promise.resolve(dataUrl);
+      // dataUrl is falsy in chrome, where we fall back to `captureVisibleTab`,
+      // available in the background page
       if (!dataUrl) {
         promise = callBackground(
           "screenshotPage",
@@ -250,19 +276,12 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
         // TODO: maybe get this value from the userAgent string?
         let isChrome = true;
 
-        // Chrome is fine with the dataUrl, but will stringify the blob into nothingness.
-        // TODO: find a better way to handle this case. maybe figure out how blobs are
-        // messaged around in firefox vs chrome. or is this a bug in the polyfill?
-
-        // Even more interesting problem:
-        // in chrome, we just should use clipboard.copy from here, then ask the
+        // in chrome, we just use clipboard.copy from here, then ask the
         // background page to notify the user, because chrome.clipboard isn't an API,
-        // but document.execCommand("copy") should be available in every context.
+        // but document.execCommand("copy") is available in every context.
         //
-        // in firefox, we should pass the blob to the background page, ask it to do
+        // in firefox, we pass the blob to the background page, ask it to do
         // the copying, as well as notify the user.
-        // let's try this and see if it works in chrome.
-        //
         if (isChrome) {
           return clipboard.copy(dataUrl).catch((err) => {
             throw new Error("Copying to clipboard failed: ", err);

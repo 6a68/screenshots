@@ -152,7 +152,8 @@ this.uicontrol = (function() {
       sendEvent("cancel-shot", "overlay-cancel-button");
       exports.deactivate();
     }, save: () => {
-      sendEvent("save-shot", "overlay-save-button");
+      // TODO: why is this breaking?
+      // sendEvent("save-shot", "overlay-save-button");
       shooter.takeShot("selection", selectedPos);
     }, download: () => {
       sendEvent("download-shot", "overlay-download-button");
