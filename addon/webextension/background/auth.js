@@ -82,6 +82,7 @@ this.auth = (function() {
       const req = new XMLHttpRequest();
       req.open("POST", loginUrl);
       req.onload = catcher.watchFunction(() => {
+        // TODO: why am I gettin a 403 on chrome without registering?
         if (req.status === 404) {
           if (noRegister) {
             resolve(false);
@@ -153,7 +154,7 @@ this.auth = (function() {
   exports.authHeaders = function() {
     let initPromise = Promise.resolve();
     if (!initialized) {
-      initPromise = login();
+      initPromise = exports.isRegistered() ? login() : register();
     }
     return initPromise.then(() => {
       if (authHeader) {
