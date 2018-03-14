@@ -288,10 +288,12 @@ this.main = (function() {
     hasSeenOnboarding = true;
     catcher.watchPromise(browser.storage.local.set({hasSeenOnboarding}));
     setIconActive(false, null);
-    startBackground.photonPageActionPort.postMessage({
-      type: "setProperties",
-      title: browser.i18n.getMessage("contextMenuLabel")
-    });
+    if (!isChrome) {
+      startBackground.photonPageActionPort.postMessage({
+        type: "setProperties",
+        title: browser.i18n.getMessage("contextMenuLabel")
+      });
+    }
   });
 
   communication.register("abortStartShot", () => {
