@@ -270,11 +270,8 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
             return catcher.watchPromise(callBackground("copyShotToClipboardChrome"));
           });
         } else {
-          // this isChrome stuff, and third 'isDataUrl' argument, probably aren't
-          // necessary if we do, indeed, do the copying over here.
-          const blob = isChrome ? dataUrl : blobConverters.dataUrlToBlob(dataUrl);
-          const isDataUrl = isChrome;
-          catcher.watchPromise(callBackground("copyShotToClipboard", blob, isDataUrl).then(() => {
+          const blob = blobConverters.dataUrlToBlob(dataUrl);
+          catcher.watchPromise(callBackground("copyShotToClipboard", blob).then(() => {
             uicontrol.deactivate();
             unsetCopyInProgress();
           }, unsetCopyInProgress));

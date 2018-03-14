@@ -237,14 +237,7 @@ this.main = (function() {
     });
   });
 
-  communication.register("copyShotToClipboard", (sender, data, isDataUrl) => {
-    // Chrome + polyfill messaging requires a dataurl; Firefox requires a blob.
-    // TODO: should the polyfill behave this way?
-    // TODO: note that chrome has to do regular execCommand to copy to clipboard,
-    // while Firefox does its own API thing. So, this isDataUrl change may not
-    // be necessary at all.
-    let blob = isDataUrl ? blobConverters.dataUrlToBlob(data) : data;
-
+  communication.register("copyShotToClipboard", (sender, blob) => {
     return blobConverters.blobToArray(blob).then(buffer => {
       return browser.clipboard.setImageData(
         buffer, blob.type.split("/", 2)[1]).then(() => {
@@ -256,7 +249,7 @@ this.main = (function() {
             message: browser.i18n.getMessage("notificationImageCopiedDetails", pasteSymbol)
           });
         });
-    })
+    });
   });
 
   communication.register("downloadShot", (sender, info) => {
