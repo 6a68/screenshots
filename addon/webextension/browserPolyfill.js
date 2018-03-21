@@ -11,7 +11,7 @@
     global.browser = mod.exports;
   }
 })(this, function (module) {
-  /* webextension-polyfill - v0.2.1 - Tue Mar 13 2018 15:28:49 */
+  /* webextension-polyfill - v0.2.1 - Tue Mar 20 2018 17:48:20 */
   /* -*- Mode: indent-tabs-mode: nil; js-indent-level: 2 -*- */
   /* vim: set sts=2 sw=2 et tw=80: */
   /* This Source Code Form is subject to the terms of the Mozilla Public
@@ -920,26 +920,39 @@
          */
         return function onMessage(message, sender, sendResponse) {
           let didCallSendResponse = false;
-          let result = listener(message, sender, function (result) {
-            // Note: No need to check for duplicate calls. The browser environment
-            // should take care of reporting errors if necessary.
-            didCallSendResponse = true;
-            sendResponse(result);
+
+          let wrappedSendResponse;
+          let sendResponsePromise = new Promise(resolve => {
+            wrappedSendResponse = function (response) {
+              didCallSendResponse = true;
+              resolve(response);
+            };
           });
-          if (didCallSendResponse || result === true) {
-            return result;
+
+          let result = listener(message, sender, wrappedSendResponse);
+
+          const isResultThenable = result !== true && isThenable(result);
+
+          // If the listener didn't returned true or a Promise, or called
+          // wrappedSendResponse synchronously, we can exit earlier
+          // because there will be no response sent from this listener.
+          if (result !== true && !isResultThenable && !didCallSendResponse) {
+            return false;
           }
 
-          if (isThenable(result)) {
+          // If the listener returned a Promise, send the resolved value as a
+          // result, otherwise wait the promise related to the wrappedSendResponse
+          // callback to resolve and send it as a response.
+          if (isResultThenable) {
             result.then(sendResponse, error => {
               console.error(error);
-              sendResponse(error);
             });
-
-            return true;
-          } else if (result !== undefined) {
-            sendResponse(result);
+          } else {
+            sendResponsePromise.then(sendResponse);
           }
+
+          // Let Chrome know that the listener is replying.
+          return true;
         };
       });
 
