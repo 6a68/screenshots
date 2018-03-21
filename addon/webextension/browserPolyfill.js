@@ -11,7 +11,7 @@
     global.browser = mod.exports;
   }
 })(this, function (module) {
-  /* webextension-polyfill - v0.2.1 - Tue Mar 20 2018 17:48:20 */
+  /* webextension-polyfill - v0.2.1 - Wed Mar 21 2018 15:26:08 */
   /* -*- Mode: indent-tabs-mode: nil; js-indent-level: 2 -*- */
   /* vim: set sts=2 sw=2 et tw=80: */
   /* This Source Code Form is subject to the terms of the Mozilla Public
@@ -946,9 +946,13 @@
           if (isResultThenable) {
             result.then(sendResponse, error => {
               console.error(error);
-            });
+              sendResponse(error);
+            }).catch(err => console.error);
           } else {
-            sendResponsePromise.then(sendResponse);
+            sendResponsePromise.then(sendResponse, error => {
+              console.error(error);
+              sendResponse(error);
+            }).catch(err => console.error);
           }
 
           // Let Chrome know that the listener is replying.
