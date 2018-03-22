@@ -401,9 +401,30 @@ this.uicontrol = (function() {
 
   stateHandlers.previewing = {
     start() {
-      dataUrl = shooter.screenshotPage(selectedPos, captureType);
-      ui.iframe.usePreview();
-      ui.Preview.display(dataUrl, captureType === "fullPageTruncated");
+      let isChrome = true; // TODO: don't hard-code isChrome ^_^
+      let shotPromise;
+      if (!isChrome) {
+        shotPromise = Promise.resolve(shooter.screenshotPage(selectedPos, captureType));
+      } else {
+        // TODO: find a nicer way to momentarily hide the selection overlay
+        // while we take a shot of the visible area
+        ui.iframe.document().documentElement.hidden = true;
+
+        shotPromise = callBackground("screenshotPage", selectedPos.asJson(), {
+          scrollX: window.scrollX,
+          scrollY: window.scrollY,
+          innerHeight: window.innerHeight,
+          innerWidth: window.innerWidth
+        }).then((dataUrl) => {
+          // TODO: if this doesn't work, maybe set the timeout to re-show the iframe? :-P
+          ui.iframe.document().documentElement.hidden = false;
+          return dataUrl;
+        });
+      }
+      shotPromise.then((dataUrl) => {
+        ui.iframe.usePreview();
+        ui.Preview.display(dataUrl, captureType === "fullPageTruncated");
+      });
     }
   };
 
