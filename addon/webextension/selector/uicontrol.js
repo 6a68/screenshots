@@ -406,28 +406,25 @@ this.uicontrol = (function() {
       if (!isChrome) {
         shotPromise = Promise.resolve(shooter.screenshotPage(selectedPos, captureType));
       } else {
-        // TODO: find a nicer way to momentarily hide the selection overlay
-        // while we take a shot of the visible area
-        ui.iframe.document().documentElement.hidden = true;
-
-        // TODO: sometimes the iframe is not hidden in time, like on giphy.
-        // maybe we need to check the document's height to force a DOM update?
-        if (ui.iframe.document().documentElement.offsetHeight !== 0) {
-          console.error('hmm, the offsetHeight is non-zero, so saving visible will likely fail');
-        } else {
-          console.log('the offsetHeight is correctly zero. save visible should work.');
-        }
-
-        shotPromise = callBackground("screenshotPage", selectedPos.asJson(), {
-          scrollX: window.scrollX,
-          scrollY: window.scrollY,
-          innerHeight: window.innerHeight,
-          innerWidth: window.innerWidth
-        }).then((dataUrl) => {
-          // TODO: if this doesn't work, maybe set the timeout to re-show the iframe? :-P
-          ui.iframe.document().documentElement.hidden = false;
-          return dataUrl;
-        });
+          // TODO: sometimes the iframe is not hidden in time, like on giphy.
+          // maybe if we use a promise to implicitly setTimeout, we can ensure
+          // the iframe is hidden before the shot is taken?
+        shotPromise = Promise.resolve().then(() => {
+            // TODO: find a nicer way to momentarily hide the selection overlay
+            // while we take a shot of the visible area
+            ui.iframe.document().documentElement.hidden = true;
+          }).then(() => {
+            return callBackground("screenshotPage", selectedPos.asJson(), {
+              scrollX: window.scrollX,
+              scrollY: window.scrollY,
+              innerHeight: window.innerHeight,
+              innerWidth: window.innerWidth
+            });
+          }).then((dataUrl) => {
+              // TODO: if this doesn't work, maybe set the timeout to re-show the iframe? :-P
+              ui.iframe.document().documentElement.hidden = false;
+              return dataUrl;
+          });
       }
       shotPromise.then((dataUrl) => {
         ui.iframe.usePreview();
