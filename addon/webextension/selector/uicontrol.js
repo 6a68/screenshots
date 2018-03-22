@@ -412,13 +412,7 @@ this.uicontrol = (function() {
         shotPromise = Promise.resolve().then(() => {
             // TODO: find a nicer way to momentarily hide the selection overlay
             // while we take a shot of the visible area
-
-            // could this work? I suspect the iframe is rendered async, so this
-            // old-skool attempt to synchronize via the event loop will not work
-            return new Promise((resolve, reject) => {
-              ui.iframe.document().documentElement.hidden = true;
-              setTimeout(() => { resolve() });
-            });
+            ui.iframe.document().documentElement.hidden = true;
           }).then(() => {
             return callBackground("screenshotPage", selectedPos.asJson(), {
               scrollX: window.scrollX,
