@@ -408,14 +408,14 @@ this.uicontrol = (function() {
       } else {
         // TODO: find a nicer way to momentarily hide the selection overlay
         // while we take a shot of the visible area
-        ui.iframe.document().documentElement.setAttribute('hidden', true);
+        ui.iframe.document().documentElement.hidden = true;
 
         // TODO: sometimes the iframe is not hidden in time, like on giphy.
         // maybe we need to check the document's height to force a DOM update?
-        if (!ui.iframe.document().documentElement.getAttribute('hidden')) {
-          console.error('hmm, the hidden attribute is falsy, so saving visible will likely fail');
+        if (ui.iframe.document().documentElement.offsetHeight !== 0) {
+          console.error('hmm, the offsetHeight is non-zero, so saving visible will likely fail');
         } else {
-          console.log('the hidden attribute is correctly true. save visible should work.');
+          console.log('the offsetHeight is correctly zero. save visible should work.');
         }
 
         shotPromise = callBackground("screenshotPage", selectedPos.asJson(), {
