@@ -410,9 +410,7 @@ this.uicontrol = (function() {
           // maybe if we use a promise to implicitly setTimeout, we can ensure
           // the iframe is hidden before the shot is taken?
         shotPromise = Promise.resolve().then(() => {
-            // TODO: find a nicer way to momentarily hide the selection overlay
-            // while we take a shot of the visible area
-            ui.iframe.document().documentElement.hidden = true;
+            ui.iframe.document().documentElement.style.visibility = "hidden";
           }).then(() => {
             return callBackground("screenshotPage", selectedPos.asJson(), {
               scrollX: window.scrollX,
@@ -421,8 +419,7 @@ this.uicontrol = (function() {
               innerWidth: window.innerWidth
             });
           }).then((dataUrl) => {
-              // TODO: if this doesn't work, maybe set the timeout to re-show the iframe? :-P
-              ui.iframe.document().documentElement.hidden = false;
+              ui.iframe.document().documentElement.style.visibility = "visible";
               return dataUrl;
           });
       }
