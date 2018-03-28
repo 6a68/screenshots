@@ -411,6 +411,21 @@ this.uicontrol = (function() {
           // the iframe is hidden before the shot is taken?
         shotPromise = Promise.resolve().then(() => {
             ui.iframe.document().documentElement.style.visibility = "hidden";
+            return new Promise((resolve, reject) => {
+              let count = 1;
+              let fn = () => {
+                count++;
+                if (ui.iframe.document().documentElement.style.visibility === "hidden") {
+                  console.log("The iframe was really hidden on iteration number ", count);
+                  resolve();
+                } else if (count > 100) {
+                  reject('waited 100 turns, but iframe is still not hidden');
+                } else {
+                  setTimeout(fn, 50);
+                }
+              };
+              fn();
+            });
           }).then(() => {
             return callBackground("screenshotPage", selectedPos.asJson(), {
               scrollX: window.scrollX,
