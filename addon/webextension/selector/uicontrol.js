@@ -410,21 +410,18 @@ this.uicontrol = (function() {
           // maybe if we use a promise to implicitly setTimeout, we can ensure
           // the iframe is hidden before the shot is taken?
         shotPromise = Promise.resolve().then(() => {
-          ui.iframe.document().documentElement.style.visibility = "hidden";
-          // force a reflow to ensure the overlay isn't displayed in the screenshot
-          // based on https://gist.github.com/paulirish/5d52fb081b3570c81e3a
-          ui.iframe.document().documentElement.getClientRects();
-        }).then(() => {
-          return callBackground("screenshotPage", selectedPos.asJson(), {
-            scrollX: window.scrollX,
-            scrollY: window.scrollY,
-            innerHeight: window.innerHeight,
-            innerWidth: window.innerWidth
+            ui.iframe.document().documentElement.style.visibility = "hidden";
+          }).then(() => {
+            return callBackground("screenshotPage", selectedPos.asJson(), {
+              scrollX: window.scrollX,
+              scrollY: window.scrollY,
+              innerHeight: window.innerHeight,
+              innerWidth: window.innerWidth
+            });
+          }).then((dataUrl) => {
+              ui.iframe.document().documentElement.style.visibility = "visible";
+              return dataUrl;
           });
-        }).then((dataUrl) => {
-            ui.iframe.document().documentElement.style.visibility = "visible";
-            return dataUrl;
-        });
       }
       shotPromise.then((dataUrl) => {
         ui.iframe.usePreview();
