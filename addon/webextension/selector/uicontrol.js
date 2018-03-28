@@ -411,6 +411,11 @@ this.uicontrol = (function() {
           // the iframe is hidden before the shot is taken?
         shotPromise = Promise.resolve().then(() => {
             ui.iframe.document().documentElement.style.visibility = "hidden";
+            return new Promise((resolve, reject) => {
+              requestAnimationFrame(() => {
+                resolve();
+              });
+            });
           }).then(() => {
             return callBackground("screenshotPage", selectedPos.asJson(), {
               scrollX: window.scrollX,
