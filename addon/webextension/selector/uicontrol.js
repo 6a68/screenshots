@@ -6,6 +6,8 @@
 this.uicontrol = (function() {
   const exports = {};
 
+  const isChrome = buildSettings.targetBrowser === "chrome";
+
   /** ********************************************************
    * selection
    */
@@ -401,7 +403,6 @@ this.uicontrol = (function() {
 
   stateHandlers.previewing = {
     start() {
-      let isChrome = true; // TODO: don't hard-code isChrome ^_^
       let shotPromise;
       if (!isChrome) {
         shotPromise = Promise.resolve(shooter.screenshotPage(selectedPos, captureType));

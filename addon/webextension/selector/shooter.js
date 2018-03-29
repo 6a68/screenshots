@@ -6,7 +6,7 @@
 this.shooter = (function() { // eslint-disable-line no-unused-vars
   const exports = {};
   const { AbstractShot } = shot;
-
+  const isChrome = buildSettings.targetBrowser === "chrome";
   const RANDOM_STRING_LENGTH = 16;
   let backend;
   let shotObject;
@@ -273,9 +273,6 @@ this.shooter = (function() { // eslint-disable-line no-unused-vars
           });
       }
       promise.then((dataUrl) => {
-        // TODO: maybe get this value from the userAgent string?
-        let isChrome = true;
-
         // in chrome, we just use clipboard.copy from here, then ask the
         // background page to notify the user, because chrome.clipboard isn't an API,
         // but document.execCommand("copy") is available in every context.

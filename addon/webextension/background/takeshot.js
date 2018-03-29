@@ -63,7 +63,6 @@ this.takeshot = (function() {
       sendEvent("internal", "open-shot-tab");
       return uploadShot(shot, imageBlob, thumbnailBlob);
     }).then(() => {
-      let isChrome = true; // TODO: don't hard-code isChrome :-)
       let opts = {url: shot.viewUrl};
       // loadReplace isn't supported in Chrome...
       if (!isChrome) {

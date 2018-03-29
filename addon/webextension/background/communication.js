@@ -52,8 +52,6 @@ this.communication = (function() {
       supported, so hard-coded responses will be returned from the
       sendMessageStub function in this file. */
   exports.sendToBootstrap = function(funcName, ...args) {
-    // TODO: use buildSettings for this
-    let isChrome = true;
     let fn = isChrome ? sendMessageStub : browser.runtime.sendMessage;
     return fn({funcName, args}).then((result) => {
       if (result.type === "success") {
