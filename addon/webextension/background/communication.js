@@ -1,4 +1,4 @@
-/* globals catcher, log */
+/* globals catcher, log, isChrome */
 
 "use strict";
 

@@ -1,4 +1,4 @@
-/* globals catcher, assertIsBlankDocument */
+/* globals isChrome, catcher, assertIsBlankDocument */
 
 "use strict";
 
@@ -9,7 +9,9 @@ this.clipboard = (function() {
     return new Promise((resolve, reject) => {
       const element = document.createElement("iframe");
       // TODO: le sigh, another spot where we gotta avoid setting the url
-      // element.src = browser.extension.getURL("blank.html");
+      if (!isChrome) {
+        element.src = browser.extension.getURL("blank.html");
+      }
 
       // We can't actually hide the iframe while copying, but we can make
       // it close to invisible:
@@ -19,8 +21,7 @@ this.clipboard = (function() {
       element.addEventListener("load", catcher.watchFunction(() => {
         try {
           const doc = element.contentDocument;
-          // TODO: this too. dodging the URL check.
-          // assertIsBlankDocument(doc);
+          assertIsBlankDocument(doc);
           const el = doc.createElement("textarea");
           doc.body.appendChild(el);
           el.value = text;
