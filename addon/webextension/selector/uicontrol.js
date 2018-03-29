@@ -3,10 +3,11 @@
 
 "use strict";
 
+this.isChrome = buildSettings.targetBrowser === "chrome";
+
 this.uicontrol = (function() {
   const exports = {};
 
-  const isChrome = buildSettings.targetBrowser === "chrome";
 
   /** ********************************************************
    * selection
@@ -404,7 +405,7 @@ this.uicontrol = (function() {
   stateHandlers.previewing = {
     start() {
       let shotPromise;
-      if (!isChrome) {
+      if (!this.isChrome) {
         shotPromise = Promise.resolve(shooter.screenshotPage(selectedPos, captureType));
       } else {
           // TODO: sometimes the iframe is not hidden in time, like on giphy.
