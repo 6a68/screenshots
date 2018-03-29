@@ -128,7 +128,6 @@ this.main = (function() {
     return browser.tabs.create({url: getOnboardingUrl()});
   }
 
-  // TODO: wire this up
   exports.onClickedContextMenu = catcher.watchFunction((info, tab) => {
     if (!tab) {
       // Not in a page/tab context, ignore
