@@ -15,6 +15,7 @@
   "background": {
     "scripts": [
       "build/buildSettings.js",
+      "background/wrapper.js",
       "background/startBackground.js"
     ]
   },
