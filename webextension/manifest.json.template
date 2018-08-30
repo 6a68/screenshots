@@ -30,6 +30,9 @@
       ]
     }
   ],
+  "icons": {
+    "32": "icons/icon-v2.svg"
+  },
   "page_action": {
     "browser_style": true,
     "default_icon" : {
@@ -37,9 +40,6 @@
     },
     "default_title": "__MSG_contextMenuLabel__",
     "show_matches": ["<all_urls>"]
-  },
-  "icons": {
-    "32": "icons/icon-v2.svg"
   },
   "web_accessible_resources": [
     "blank.html",

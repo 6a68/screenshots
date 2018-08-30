@@ -6,28 +6,11 @@
    and loads the rest of the background page in response to those events, forwarding
    the events to main.onClicked, main.onClickedContextMenu, or communication.onMessage
 */
+
 const startTime = Date.now();
 
 this.startBackground = (function() {
   const exports = {startTime};
-
-  const backgroundScripts = [
-    "log.js",
-    "makeUuid.js",
-    "catcher.js",
-    "blobConverters.js",
-    "background/selectorLoader.js",
-    "background/communication.js",
-    "background/auth.js",
-    "background/senderror.js",
-    "build/raven.js",
-    "build/shot.js",
-    "build/thumbnailGenerator.js",
-    "background/analytics.js",
-    "background/deviceInfo.js",
-    "background/takeshot.js",
-    "background/main.js"
-  ];
 
   browser.pageAction.onClicked.addListener(tab => {
     loadIfNecessary().then(() => {
@@ -52,6 +35,8 @@ this.startBackground = (function() {
     });
   });
 
+  browser.experiments.screenshots.initLibraryButton();
+
   browser.runtime.onMessage.addListener((req, sender, sendResponse) => {
     loadIfNecessary().then(() => {
       return communication.onMessage(req, sender, sendResponse);
@@ -60,6 +45,24 @@ this.startBackground = (function() {
     });
     return true;
   });
+
+  const backgroundScripts = [
+    "log.js",
+    "makeUuid.js",
+    "catcher.js",
+    "blobConverters.js",
+    "background/selectorLoader.js",
+    "background/communication.js",
+    "background/auth.js",
+    "background/senderror.js",
+    "build/raven.js",
+    "build/shot.js",
+    "build/thumbnailGenerator.js",
+    "background/analytics.js",
+    "background/deviceInfo.js",
+    "background/takeshot.js",
+    "background/main.js"
+  ];
 
   let loadedPromise;
 
