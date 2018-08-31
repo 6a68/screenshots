@@ -39,14 +39,14 @@ const LibraryButton = {
 
   init(webExtension) {
     this._initialized = true;
-    const permissionPages = [...webExtension.extension.permissions].filter(p => (/^https?:\/\//i).test(p));
+    const permissionPages = [...webExtension.permissions].filter(p => (/^https?:\/\//i).test(p));
     if (permissionPages.length > 1) {
       Cu.reportError(new Error("Should not have more than 1 permission page, but got: " + JSON.stringify(permissionPages)));
     }
     this.PAGE_TO_OPEN = permissionPages.length === 1 ? permissionPages[0].replace(/\*$/, "") : "https://screenshots.firefox.com/";
     this.PAGE_TO_OPEN += "shots";
-    this.ICON_URL = webExtension.extension.getURL("icons/icon-v2.svg");
-    this.LABEL = webExtension.extension.localizeMessage("libraryLabel");
+    this.ICON_URL = webExtension.getURL("icons/icon-v2.svg");
+    this.LABEL = webExtension.localizeMessage("libraryLabel");
     CustomizableUI.addListener(this);
     for (const win of CustomizableUI.windows) {
       this.onWindowOpened(win);
@@ -131,17 +131,17 @@ this.screenshots = class extends ExtensionAPI {
               return;
             }
             disableObservers.splice(disableObservers.indexOf(cb), 1);
-          }
+          },
           // Note: calling the pref 'disabled' was a design mistake. let's start to fix it now.
           isEnabled() {
             return !Services.prefs.getBoolPref("extensions.screenshots.disabled", false);
           },
           initLibraryButton() {
             return LibraryButton.init(extension);
-          }
+          },
           uninitLibraryButton() {
             return LibraryButton.uninit();
-          }
+          },
         },
       },
     };

@@ -15,8 +15,8 @@
   "background": {
     "scripts": [
       "build/buildSettings.js",
-      "background/initUI.js",
-      "background/startBackground.js"
+      "background/startBackground.js",
+      "background/initUI.js"
     ]
   },
   "content_scripts": [

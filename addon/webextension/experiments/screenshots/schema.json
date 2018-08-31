@@ -23,6 +23,53 @@
         "description": "Returns the value of the 'extensions.screenshots.upload-disabled' preference",
         "parameters": [],
         "async": true
+      },
+      {
+        "name": "addLifecycleListener",
+        "type": "function",
+        "description": "adds a callback that is called when the 'extensions.screenshots.upload-disabled' pref is changed",
+        "parameters": [
+          {
+            "name": "cb",
+            "type": "function",
+            "description": "The callback function"
+          }
+        ],
+        "async": true
+      },
+      {
+        "name": "removeLifecycleListener",
+        "type": "function",
+        "description": "possibly unnecessary TODO function that removes a pref-listener callback",
+        "parameters": [
+          {
+            "name": "cb",
+            "type": "function",
+            "description": "The callback function"
+          }
+        ],
+        "async": true
+      },
+      {
+        "name": "isEnabled",
+        "type": "function",
+        "description": "Returns the inverse of the value of the 'extensions.screenshots.disabled' preference",
+        "parameters": [],
+        "async": true
+      },
+      {
+        "name": "initLibraryButton",
+        "type": "function",
+        "description": "Initializes the Photon-based Library menu item for Screenshots",
+        "parameters": [],
+        "async": true
+      },
+      {
+        "name": "uninitLibraryButton",
+        "type": "function",
+        "description": "Removes the Photon-based Library menu item for Screenshots",
+        "parameters": [],
+        "async": true
       }
     ]
   }

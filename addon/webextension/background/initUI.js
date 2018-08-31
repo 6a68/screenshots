@@ -11,7 +11,7 @@
 
 // TODO is this a good name?
 this.initUI = (function() {
-  const initialized = false;
+  let initialized = false;
   // TODO: how are we going to deal with startup / shutdown asynchrony? should initialized be a promise?
   function startup() {
     if (initialized) {
