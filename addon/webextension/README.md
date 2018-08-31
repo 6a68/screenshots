@@ -20,11 +20,10 @@ Note that shared files are located directly in this directory.  These files shou
 
 ## Communication:
 
-To support communication, `background/communication.js` handles incoming messages, and `selector/callBackground.js` handles sending messages.
-
 The basic flow:
 
-1. A minimal file is loaded initially, `background/startBackground.js` which listens for clicks.
+1. A minimal file is loaded initially, `background/initUI.js`, which checks the about:config pref `extensions.screenshots.disabled` is `false`, and listens for changes to that pref. If the value of the `disabled` pref is `false`, then `background/startBackground.js` is called. The Photon-based Library button is also loaded if Screenshots is enabled.
+1. The context menu item and page action item are loaded by `background/startBackground.js`, which then listens for clicks.
 1. In response to a click, other files are loaded (these are listed in `startBackground.js`) and `main.onClicked()` called.
 2. The background page loads the content worker with `background/selectorLoader.js`
 3. `selector/shooter.js` handles most communication logic from the selector side
@@ -47,5 +46,3 @@ The basic flow:
 20. We open a new tab with `/creating?...` immediately, before the save is completed.
 21. Once the shot has been uploaded successfully we take that created tab and navigate to the shot page.
 22. The link is copied to the clipboard and a notification is popped up telling the user their shot was created.
-
-Note that you can also communicate with the `bootstrap.js` part of the addon using `communication.sendToBootstrap()`.  This might return `communication.NO_BOOTSTRAP` when the bootstrap wrapper is not in place.

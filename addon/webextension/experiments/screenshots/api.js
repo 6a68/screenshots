@@ -118,6 +118,8 @@ this.screenshots = class extends ExtensionAPI {
             return Services.prefs.getBoolPref("extensions.screenshots.upload-disabled", false);
           },
           // TODO: fix the name, this is terrible
+          // TODO: instead of manually expexting the listener to be removed ,maybe detect shutdown
+          // and remove the listener/clear the 'disableObservers' list?
           addLifecycleListener(cb) {
             if (disableObservers.includes(cb)) {
               return;
