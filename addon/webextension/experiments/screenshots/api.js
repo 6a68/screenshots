@@ -12,7 +12,7 @@ ChromeUtils.defineModuleGetter(this, "Services",
 // maybe the name should be something related to lifecycle observers?
 // since this pref will presumably become a managed storage thing, but
 // will continue to have the same meaning?
-const disableObservers = []; // TODO: should this be a Set or WeakSet?
+let disableObserver = null;
 const prefObserver = {
   register() {
     Services.prefs.addObserver("extensions.screenshots.", this, false); // eslint-disable-line mozilla/no-useless-parameters
@@ -30,7 +30,7 @@ const prefObserver = {
       Services.console.logStringMessage('>>>>> Screenshots API observed a pref change for screenshots.disabled, new value is ' + newValue + ' <<<<<');
       // if the value has been changed to 'true', then we're disabled. notify observers.
       if (newValue === true) {
-        disableObservers.forEach(fn => fn.call(null, Services.prefs.getBoolPref("extensions.screenshots.disabled", false)));
+        disableObserver && disableObserver(newValue);
       } else {
         // TODO: what do we need to do if the pref is 'false'? call startup() ? 
       }
@@ -127,19 +127,17 @@ this.screenshots = class extends ExtensionAPI {
           },
           // TODO: fix the name, this is terrible
           // TODO: instead of manually expexting the listener to be removed ,maybe detect shutdown
-          // and remove the listener/clear the 'disableObservers' list?
-          // TODO: we only ever intend to have one listener. so why all this code for managing a list of them?
+          // and remove the listener?
           addLifecycleListener(cb) {
-            if (disableObservers.includes(cb)) {
-              return;
+            if (disableObserver) {
+              // TODO: is this relaly an error if it happens? Should we refuse to overwrite it and bail instead? Does it even matter?
+              Services.console.logStringMessage('Screenshots API addLifecycleListener called, but pref observer was found. Overwriting pref observer callback');
             }
-            disableObservers.push(cb);
+            disableObserver = cb;
           },
-          removeLifecycleListener(cb) {
-            if (!disableObservers.includes(cb)) {
-              return;
-            }
-            disableObservers.splice(disableObservers.indexOf(cb), 1);
+          removeLifecycleListener() {
+            Services.console.logStringMessage('>>>>> Screenshots API removeLifecycleListener called <<<<<');
+            disableObserver = null;
           },
           // Note: calling the pref 'disabled' was a design mistake. let's start to fix it now.
           isEnabled() {

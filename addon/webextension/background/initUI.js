@@ -34,7 +34,7 @@ this.initUI = (function() {
     browser.experiments.screenshots.uninitLibraryButton();
   }
 
-  function onPrefChanged(value) {
+  browser.experiments.screenshots.setLifecycleListener(function onPrefChanged(value) {
     console.log('>>>>> Screenshots initUI onPrefChanged called, value is ' + value + ' <<<<<');
     // The pref is 'disabled'. if it's true, then disable. else, enable.
     if (value === true) {
@@ -42,8 +42,7 @@ this.initUI = (function() {
     } else {
       startup();
     }
-  }
-  browser.experiments.screenshots.addLifecycleListener(onPrefChanged);
+  });
 
   // TODO: how do we respond to startup/shutdown events passed to the webextension?
   if (browser.experiments.screenshots.isEnabled()) {

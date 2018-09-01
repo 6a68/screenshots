@@ -25,9 +25,9 @@
         "async": true
       },
       {
-        "name": "addLifecycleListener",
+        "name": "setLifecycleListener",
         "type": "function",
-        "description": "adds a callback that is called when the 'extensions.screenshots.upload-disabled' pref is changed",
+        "description": "registers one callback that is called when the 'extensions.screenshots.upload-disabled' pref is changed. If called twice, overwrites.",
         "parameters": [
           {
             "name": "cb",
@@ -40,14 +40,8 @@
       {
         "name": "removeLifecycleListener",
         "type": "function",
-        "description": "possibly unnecessary TODO function that removes a pref-listener callback",
-        "parameters": [
-          {
-            "name": "cb",
-            "type": "function",
-            "description": "The callback function"
-          }
-        ],
+        "description": "possibly unnecessary TODO function that removes the pref-listener callback",
+        "parameters": [],
         "async": true
       },
       {
