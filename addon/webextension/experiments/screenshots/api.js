@@ -16,18 +16,26 @@ const disableObservers = []; // TODO: should this be a Set or WeakSet?
 const prefObserver = {
   register() {
     Services.prefs.addObserver("extensions.screenshots.", this, false); // eslint-disable-line mozilla/no-useless-parameters
+    Services.console.logStringMessage('>>>>> Screenshots API registered observer for screenshots.disabled <<<<<');
   },
   unregister() {
     Services.prefs.removeObserver("extensions.screenshots.", this, false); // eslint-disable-line mozilla/no-useless-parameters
+    Services.console.logStringMessage('>>>>> Screenshots API unregistered observer for screenshots.disabled <<<<<');
   },
   observe(aSubject, aTopic, aData) {
     // aSubject is the nsIPrefBranch we're observing (after appropriate QI)
     // aData is the name of the pref that's been changed (relative to aSubject)
     if (aData === "extensions.screenshots.disabled") {
-      // call each registered callback with the value of the pref and assume 'this', if needed, was already bound
-      disableObservers.forEach(fn => fn.call(null, Services.prefs.getBoolPref("extensions.screenshots.disabled", false)));
-
+      const newValue = Services.prefs.getBoolPref("extensions.screenshots.disabled", false);
+      Services.console.logStringMessage('>>>>> Screenshots API observed a pref change for screenshots.disabled, new value is ' + newValue + ' <<<<<');
+      // if the value has been changed to 'true', then we're disabled. notify observers.
+      if (newValue === true) {
+        disableObservers.forEach(fn => fn.call(null, Services.prefs.getBoolPref("extensions.screenshots.disabled", false)));
+      } else {
+        // TODO: what do we need to do if the pref is 'false'? call startup() ? 
+      }
       // eslint-disable-next-line promise/catch-or-return
+      // TODO: do we need to synchronize startup and shutdown anymore? I don't think so?
       // appStartupPromise = appStartupPromise.then(handleStartup);
     }
   }
@@ -120,6 +128,7 @@ this.screenshots = class extends ExtensionAPI {
           // TODO: fix the name, this is terrible
           // TODO: instead of manually expexting the listener to be removed ,maybe detect shutdown
           // and remove the listener/clear the 'disableObservers' list?
+          // TODO: we only ever intend to have one listener. so why all this code for managing a list of them?
           addLifecycleListener(cb) {
             if (disableObservers.includes(cb)) {
               return;

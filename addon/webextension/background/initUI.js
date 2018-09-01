@@ -2,6 +2,8 @@
 
 "use strict";
 
+console.log('>>>>> Screenshots initUI.js <<<<<');
+
 /* This file handles the first wave of initialization:
 
    - check if the 'extensions.screenshots.disabled' pref is 'true'; if so, don't start the webextension
@@ -14,6 +16,7 @@ this.initUI = (function() {
   let initialized = false;
   // TODO: how are we going to deal with startup / shutdown asynchrony? should initialized be a promise?
   function startup() {
+    console.log('>>>>> Screenshots initUI startup called <<<<<');
     if (initialized) {
       return;
     }
@@ -22,6 +25,7 @@ this.initUI = (function() {
     browser.experiments.screenshots.initLibraryButton();
   }
   function shutdown() {
+    console.log('>>>>> Screenshots initUI shutdown called <<<<<');
     if (!initialized) {
       return;
     }
@@ -31,6 +35,7 @@ this.initUI = (function() {
   }
 
   function onPrefChanged(value) {
+    console.log('>>>>> Screenshots initUI onPrefChanged called, value is ' + value + ' <<<<<');
     // The pref is 'disabled'. if it's true, then disable. else, enable.
     if (value === true) {
       shutdown();
