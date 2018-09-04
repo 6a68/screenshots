@@ -21,8 +21,12 @@ this.initUI = (function() {
       return;
     }
     initialized = true;
+    console.log('>>>>> Screenshots initUI about to call startBackground.init <<<<<');
     startBackground.init();
+    console.log('>>>>> Screenshots initUI called startBackground.init <<<<<');
+    console.log('>>>>> Screenshots initUI about to call initLibraryButton <<<<<');
     browser.experiments.screenshots.initLibraryButton();
+    console.log('>>>>> Screenshots initUI called initLibraryButton <<<<<');
   }
   function shutdown() {
     console.log('>>>>> Screenshots initUI shutdown called <<<<<');
