@@ -33,7 +33,6 @@ this.startBackground = (function() {
 
   // TODO: do we handle deactivating the pageAction and removing the contextMenu if the pref is flipped?
   function init() {
-    return;
     browser.pageAction.onClicked.addListener(tab => {
       loadIfNecessary().then(() => {
         main.onClicked(tab);
