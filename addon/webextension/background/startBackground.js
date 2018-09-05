@@ -31,30 +31,38 @@ this.startBackground = (function() {
     "background/main.js"
   ];
 
-  // TODO: do we handle deactivating the pageAction and removing the contextMenu if the pref is flipped?
+  const contextMenuItem = {
+    id: "create-screenshot",
+    title: browser.i18n.getMessage("contextMenuLabel"),
+    contexts: ["page"],
+    documentUrlPatterns: ["<all_urls>"]
+  };
+
+  let onContextMenuClick;
+  let onPageActionClick;
+
   function init() {
-    browser.pageAction.onClicked.addListener(tab => {
+    // TODO: init pageAction imperatively, not via manifest
+
+    onPageActionClick = tab => {
       loadIfNecessary().then(() => {
         main.onClicked(tab);
       }).catch(error => {
         console.error("Error loading Screenshots:", error);
       });
-    });
+    };
+    browser.pageAction.onClicked.addListener(onPageActionClick);
 
-    browser.contextMenus.create({
-      id: "create-screenshot",
-      title: browser.i18n.getMessage("contextMenuLabel"),
-      contexts: ["page"],
-      documentUrlPatterns: ["<all_urls>"]
-    });
+    browser.contextMenus.create(contextMenuItem);
 
-    browser.contextMenus.onClicked.addListener((info, tab) => {
+    onContextMenuClick = (info, tab) => {
       loadIfNecessary().then(() => {
         main.onClickedContextMenu(info, tab);
       }).catch((error) => {
         console.error("Error loading Screenshots:", error);
       });
-    });
+    };
+    browser.contextMenus.onClicked.addListener(onContextMenuClick);
 
     // TODO: do we even need this if bootstrap is gone?
     browser.runtime.onMessage.addListener((req, sender, sendResponse) => {
@@ -94,6 +102,13 @@ this.startBackground = (function() {
     }
   };
 
-  const exports = {startTime, init};
+  function uninit() {
+    browser.contextMenus.remove("create-screenshot");
+    browser.contextMenus.onClicked.removeListener(onContextMenuClick);
+    // TODO: remove pageAction imperatively, not via manifest
+    browser.pageAction.onClicked.removeListener(onPageActionClick);
+  }
+
+  const exports = {startTime, init, uninit};
   return exports;
 })();

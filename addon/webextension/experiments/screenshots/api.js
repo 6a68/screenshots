@@ -1,4 +1,4 @@
-/* globals browser, AppConstants, ExtensionAPI */
+/* globals browser, AppConstants, CustomizableUI, ExtensionCommon, Services, ExtensionAPI */
 
 "use strict";
 
@@ -6,6 +6,8 @@ ChromeUtils.defineModuleGetter(this, "AppConstants",
                                "resource://gre/modules/AppConstants.jsm");
 ChromeUtils.defineModuleGetter(this, "CustomizableUI",
                                "resource:///modules/CustomizableUI.jsm");
+ChromeUtils.defineModuleGetter(this, "ExtensionCommon",
+                               "resource://gre/modules/ExtensionCommon.jsm");
 ChromeUtils.defineModuleGetter(this, "Services",
                                "resource://gre/modules/Services.jsm");
 
@@ -120,7 +122,7 @@ this.screenshots = class extends ExtensionAPI {
           isUploadDisabled() {
             return Services.prefs.getBoolPref("extensions.screenshots.upload-disabled", false);
           },
-          onPrefChanged: new EventManager({
+          onPrefChanged: new ExtensionCommon.EventManager({
             context,
             name: "screenshots.onEnabled",
             register: fire => {

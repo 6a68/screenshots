@@ -36,6 +36,8 @@ this.startUI = (function() {
     // TODO: do we need to undo the context menu etc. from the startBackground.init call?
     initialized = false;
     browser.experiments.screenshots.uninitLibraryButton();
+    // TODO: so we'll remove everything on shutdown, i.e., when the pref is flipped.
+    startBackground.uninit();
   }
 
   browser.experiments.screenshots.onPrefChanged.addListener(isEnabled => {
