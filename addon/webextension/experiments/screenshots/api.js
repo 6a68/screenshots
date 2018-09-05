@@ -9,11 +9,10 @@ ChromeUtils.defineModuleGetter(this, "CustomizableUI",
 ChromeUtils.defineModuleGetter(this, "Services",
                                "resource://gre/modules/Services.jsm");
 
-// maybe the name should be something related to lifecycle observers?
-// since this pref will presumably become a managed storage thing, but
-// will continue to have the same meaning?
-let disableObserver = null;
-const prefObserver = {
+let prefChangeListeners = new Set();
+
+// TODO: how do we correctly tie this to shutdown? Do we set up a shutdown listener to unregister?
+const _prefObserver = {
   register() {
     Services.prefs.addObserver("extensions.screenshots.", this, false); // eslint-disable-line mozilla/no-useless-parameters
     Services.console.logStringMessage('>>>>> Screenshots API registered observer for screenshots.disabled <<<<<');
@@ -25,21 +24,16 @@ const prefObserver = {
   observe(aSubject, aTopic, aData) {
     // aSubject is the nsIPrefBranch we're observing (after appropriate QI)
     // aData is the name of the pref that's been changed (relative to aSubject)
-    if (aData === "extensions.screenshots.disabled") {
-      const newValue = Services.prefs.getBoolPref("extensions.screenshots.disabled", false);
-      Services.console.logStringMessage('>>>>> Screenshots API observed a pref change for screenshots.disabled, new value is ' + newValue + ' <<<<<');
-      // if the value has been changed to 'true', then we're disabled. notify observers.
-      if (newValue === true) {
-        disableObserver && disableObserver(newValue);
-      } else {
-        // TODO: what do we need to do if the pref is 'false'? call startup() ? 
-      }
-      // eslint-disable-next-line promise/catch-or-return
-      // TODO: do we need to synchronize startup and shutdown anymore? I don't think so?
-      // appStartupPromise = appStartupPromise.then(handleStartup);
+    if (aData !== "extensions.screenshots.disabled") {
+      return;
     }
+    const newValue = Services.prefs.getBoolPref("extensions.screenshots.disabled", false);
+    Services.console.logStringMessage('>>>>> Screenshots API observed a pref change for screenshots.disabled, new value is ' + newValue + ' <<<<<');
+    // if the value has been changed to 'true', then we're disabled. notify observers.
+    prefChangeListeners.forEach(listener => listener(newValue));
   }
 }
+_prefObserver.register(); // TODO: how to unregister on shutdown?
 
 // TODO: should the Library button be moved to a separate file?
 const LibraryButton = {
@@ -97,6 +91,7 @@ const LibraryButton = {
 };
 
 this.screenshots = class extends ExtensionAPI {
+  // TODO should we init the pref observer in the constructor?
   getAPI(context) {
     let {extension} = context;
     return {
@@ -125,20 +120,20 @@ this.screenshots = class extends ExtensionAPI {
           isUploadDisabled() {
             return Services.prefs.getBoolPref("extensions.screenshots.upload-disabled", false);
           },
-          // TODO: fix the name, this is terrible
-          // TODO: instead of manually expexting the listener to be removed ,maybe detect shutdown
-          // and remove the listener?
-          addLifecycleListener(cb) {
-            if (disableObserver) {
-              // TODO: is this relaly an error if it happens? Should we refuse to overwrite it and bail instead? Does it even matter?
-              Services.console.logStringMessage('Screenshots API addLifecycleListener called, but pref observer was found. Overwriting pref observer callback');
-            }
-            disableObserver = cb;
-          },
-          removeLifecycleListener() {
-            Services.console.logStringMessage('>>>>> Screenshots API removeLifecycleListener called <<<<<');
-            disableObserver = null;
-          },
+          onPrefChanged: new EventManager({
+            context,
+            name: "screenshots.onEnabled",
+            register: fire => {
+              let value = Services.prefs.getBoolPref("extensions.screenshots.upload-disabled", false);
+              let observer = () => {
+                fire.async(value);
+              };
+              prefChangeListeners.add(observer);
+              return () => {
+                prefChangeListeners.delete(observer);
+              };
+            },
+          }).api(),
           // Note: calling the pref 'disabled' was a design mistake. let's start to fix it now.
           isEnabled() {
             return !Services.prefs.getBoolPref("extensions.screenshots.disabled", false);

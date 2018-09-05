@@ -2,6 +2,20 @@
   {
     "namespace": "experiments.screenshots",
     "description": "Firefox Screenshots internal API",
+    "events": [
+      {
+        "name": "onPrefChanged",
+        "type": "function",
+        "description": "Event fired when Screenshots is either enabled or disabled via the 'extensions.screenshots.disabled' pref",
+        "parameters": [
+          {
+            "name": "isEnabled",
+            "description": "Boolean pref value passed to callback",
+            "type": "boolean"
+          }
+        ]
+      }
+    ],
     "functions": [
       {
         "name": "getUpdateChannel",

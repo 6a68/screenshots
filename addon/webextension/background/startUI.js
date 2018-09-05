@@ -12,7 +12,7 @@ console.log('>>>>> Screenshots initUI.js <<<<<');
 */
 
 // TODO is this a good name?
-this.initUI = (function() {
+this.startUI = (function() {
   let initialized = false;
   // TODO: how are we going to deal with startup / shutdown asynchrony? should initialized be a promise?
   function startup() {
@@ -38,13 +38,12 @@ this.initUI = (function() {
     browser.experiments.screenshots.uninitLibraryButton();
   }
 
-  browser.experiments.screenshots.setLifecycleListener(function onPrefChanged(value) {
-    console.log('>>>>> Screenshots initUI onPrefChanged called, value is ' + value + ' <<<<<');
-    // The pref is 'disabled'. if it's true, then disable. else, enable.
-    if (value === true) {
-      shutdown();
-    } else {
+  browser.experiments.screenshots.onPrefChanged.addListener(isEnabled => {
+    console.log('>>>>> Screenshots initUI onPrefChanged called, isEnabled is ' + isEnabled + ' <<<<<');
+    if (isEnabled === true) {
       startup();
+    } else {
+      shutdown();
     }
   });
 
