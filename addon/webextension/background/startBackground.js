@@ -38,12 +38,24 @@ this.startBackground = (function() {
     documentUrlPatterns: ["<all_urls>"]
   };
 
+  const pageActionItem = {
+    id: "create-screenshots-page-action",
+    //title: browser.i18n.getMessage("contextMenuLabel"),
+    title: "yay screenshots",
+    contexts: ["page_action"],
+    icons: {
+      "32": "icons/icon-v2.svg"
+    },
+    documentUrlPatterns: ["<all_urls>"]
+  };
+
   let onContextMenuClick;
   let onPageActionClick;
 
   function init() {
     // TODO: init pageAction imperatively, not via manifest
 
+    browser.menus.create(pageActionItem);
     onPageActionClick = tab => {
       loadIfNecessary().then(() => {
         main.onClicked(tab);
@@ -54,7 +66,6 @@ this.startBackground = (function() {
     browser.pageAction.onClicked.addListener(onPageActionClick);
 
     browser.contextMenus.create(contextMenuItem);
-
     onContextMenuClick = (info, tab) => {
       loadIfNecessary().then(() => {
         main.onClickedContextMenu(info, tab);
@@ -103,10 +114,11 @@ this.startBackground = (function() {
   };
 
   function uninit() {
-    browser.contextMenus.remove("create-screenshot");
     browser.contextMenus.onClicked.removeListener(onContextMenuClick);
+    browser.contextMenus.remove("create-screenshot");
     // TODO: remove pageAction imperatively, not via manifest
     browser.pageAction.onClicked.removeListener(onPageActionClick);
+    browser.menus.remove("create-screenshot-page-action");
   }
 
   const exports = {startTime, init, uninit};
