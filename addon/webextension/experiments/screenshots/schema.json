@@ -2,20 +2,6 @@
   {
     "namespace": "experiments.screenshots",
     "description": "Firefox Screenshots internal API",
-    "events": [
-      {
-        "name": "onPrefChanged",
-        "type": "function",
-        "description": "Event fired when Screenshots is either enabled or disabled via the 'extensions.screenshots.disabled' pref",
-        "parameters": [
-          {
-            "name": "isEnabled",
-            "description": "Boolean pref value passed to callback",
-            "type": "boolean"
-          }
-        ]
-      }
-    ],
     "functions": [
       {
         "name": "getUpdateChannel",
@@ -35,33 +21,6 @@
         "name": "isUploadDisabled",
         "type": "function",
         "description": "Returns the value of the 'extensions.screenshots.upload-disabled' preference",
-        "parameters": [],
-        "async": true
-      },
-      {
-        "name": "setLifecycleListener",
-        "type": "function",
-        "description": "registers one callback that is called when the 'extensions.screenshots.upload-disabled' pref is changed. If called twice, overwrites.",
-        "parameters": [
-          {
-            "name": "cb",
-            "type": "function",
-            "description": "The callback function"
-          }
-        ],
-        "async": true
-      },
-      {
-        "name": "removeLifecycleListener",
-        "type": "function",
-        "description": "possibly unnecessary TODO function that removes the pref-listener callback",
-        "parameters": [],
-        "async": true
-      },
-      {
-        "name": "isEnabled",
-        "type": "function",
-        "description": "Returns the inverse of the value of the 'extensions.screenshots.disabled' preference",
         "parameters": [],
         "async": true
       },

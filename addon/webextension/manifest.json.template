@@ -15,8 +15,7 @@
   "background": {
     "scripts": [
       "build/buildSettings.js",
-      "background/startBackground.js",
-      "background/startUI.js"
+      "background/startBackground.js"
     ]
   },
   "content_scripts": [
@@ -33,6 +32,14 @@
   ],
   "icons": {
     "32": "icons/icon-v2.svg"
+  },
+  "page_action": {
+    "browser_style": true,
+    "default_icon" : {
+      "32": "icons/icon-v2.svg"
+    },
+    "default_title": "__MSG_contextMenuLabel__",
+    "show_matches": ["<all_urls>"]
   },
   "web_accessible_resources": [
     "blank.html",
@@ -62,7 +69,6 @@
     "notifications",
     "clipboardWrite",
     "contextMenus",
-    "menus",
     "mozillaAddons",
     "telemetry",
     "<all_urls>",
