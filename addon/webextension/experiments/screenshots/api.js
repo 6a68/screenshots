@@ -99,10 +99,16 @@ this.screenshots = class extends ExtensionAPI {
             return Services.prefs.getBoolPref("extensions.screenshots.upload-disabled", false);
           },
           initLibraryButton() {
+            context.callOnClose({
+              close: () => {
+                try {
+                  LibraryButton.uninit();
+                } catch (ex) {
+                  Services.console.logStringMessage("Firefox Screenshots LibraryButton shutdown error: ", ex);
+                }
+              },
+            });
             return LibraryButton.init(extension);
-          },
-          uninitLibraryButton() {
-            return LibraryButton.uninit();
           },
         },
       },
