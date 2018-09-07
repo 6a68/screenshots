@@ -15,6 +15,14 @@ const startTime = Date.now();
 this.startBackground = (function() {
   const exports = {startTime};
 
+  browser.pageAction.onClicked.addListener(tab => {
+    loadIfNecessary().then(() => {
+      main.onClicked(tab);
+    }).catch(error => {
+      console.error("Error loading Screenshots:", error);
+    });
+  });
+
   browser.contextMenus.create({
     id: "create-screenshot",
     title: browser.i18n.getMessage("contextMenuLabel"),
