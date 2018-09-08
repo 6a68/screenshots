@@ -2,8 +2,6 @@
 
 "use strict";
 
-// TODO: I think we should delete this whole file
-
 this.communication = (function() {
   const exports = {};
 
