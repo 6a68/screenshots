@@ -40,6 +40,15 @@ this.startBackground = (function() {
 
   browser.experiments.screenshots.initLibraryButton();
 
+  browser.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    loadIfNecessary().then(() => {
+      return communication.onMessage(req, sender, sendResponse);
+    }).catch((error) => {
+      console.error("Error loading Screenshots:", error);
+    });
+    return true;
+  });
+
   const backgroundScripts = [
     "log.js",
     "makeUuid.js",
