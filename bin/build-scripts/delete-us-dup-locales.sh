@@ -2,8 +2,8 @@
 
 set -e
 
-locales=addon/webextension/_locales
-us_locale=addon/webextension/_locales/en_US/messages.json
+locales=webextension/_locales
+us_locale=webextension/_locales/en_US/messages.json
 us_locale_content="$(cat $us_locale)"
 
 for other_locale in $locales/*/messages.json ; do

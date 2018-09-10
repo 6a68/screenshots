@@ -13,7 +13,6 @@ ChromeUtils.defineModuleGetter(this, "PageActions",
 ChromeUtils.defineModuleGetter(this, "Services",
                                "resource://gre/modules/Services.jsm");
 
-// TODO: should the Library button be moved to a separate file?
 const LibraryButton = {
   ITEM_ID: "appMenu-library-screenshots",
 
@@ -69,7 +68,6 @@ const LibraryButton = {
 };
 
 this.screenshots = class extends ExtensionAPI {
-  // TODO should we init the pref observer in the constructor?
   getAPI(context) {
     let {extension} = context;
     return {
