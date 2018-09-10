@@ -117,8 +117,7 @@ def exportFilesToMC(repoDir, mcRepoLoc):
             filePath = os.path.join(root, file)
             if file == "messages.json" and os.path.getsize(filePath) == 2:
                 print("Skipping empty locale file: %s" % filePath)
-            # TODO: if we are correctly not importing en_CA here, because it's
-            # identical to en_US, then we don't need delete-us-dup-locales.sh
+            # TODO: ensure en_CA is correctly deleted here
             elif file == "messages.json" and 'en_US' not in root and filecmp.cmp(enUSFile, filePath):
                 print("Skipping same as en-US locale file: %s" % filePath)
             elif file not in FILES_TO_SKIP_COPY:
