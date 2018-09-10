@@ -7,9 +7,6 @@
    the events to main.onClicked, main.onClickedContextMenu, or communication.onMessage
 */
 
-// TODO: do we init the Library Button from here, too?
-// TODO: should we have a wrapper that calls this if the pref is enabled?
-
 const startTime = Date.now();
 
 this.startBackground = (function() {
