@@ -14,10 +14,14 @@ gSignIn = Conectarse
 
 ## Header
 
-signInButton =
-    .aria-label = Conectarse
-settingsButton =
-    .aria-label = Ajustes
+buttonSettings =
+    .title = Ajustes
+buttonSignIn =
+    .title = Conectarse
+screenshotsLogo =
+    .title = Inicio de Screenshots
+bannerMessage = Conéctate o registrate para acceder a tus capturas en todos tus dispositivos y guardar tus favoritas para siempre.
+bannerUpsell = { gScreenshotsDescription } <a>Obtener Firefox ahora</a>
 
 ## Footer
 
@@ -25,6 +29,8 @@ settingsButton =
 footerLinkMozilla = Mozilla
 footerLinkTerms = Términos
 footerLinkPrivacy = Aviso de privacidad
+footerReportShot = Reportar captura
+    .title = Reportar esta captura por abuso, spam u otro problema
 footerLinkFaqs = Preguntas frecuentes
 footerLinkDMCA = Reportar infracción de PI
 footerLinkDiscourse = Enviar comentario
@@ -96,6 +102,8 @@ shotPageConfirmDelete = ¿Estás seguro de que quieres eliminar esta captura per
 shotPageShareButton =
     .title = Compartir
 shotPageCopy = Copiar
+shotPageCopyButton =
+    .title = Copiar imagen al portapapeles
 shotPageCopied = Copiada
 shotPageShareFacebook =
     .title = Compartir en Facebook
@@ -120,17 +128,24 @@ shotPageExpiredMessage = Esta captura ha expirado.
 shotPageExpiredMessageDetails = Esta es la página de la que fue originalmente creada:
 shotPageDeleteButton =
     .title = Borrar esta captura
-shotPageAbuseButton =
-    .title = Denunciar esta captura por abuso, spam u otro problema
 shotPageDownloadShot =
     .title = Descargar
 shotPageEditButton =
     .title = Editar esta imagen
 shotPagefavoriteButton =
     .title = Marcar esta captura como favorita
+shotPageBackToHomeButton =
+    .title = Página de inicio
+shotPageAllShotsButton =
+    .title = Todas las capturas
+shotPageAllShots = Todas las capturas
 shotPageDownload = Descargar
+# Note: Draw text is used on shot page as a verb (action)
+shotPageDraw = Dibujar
+# Note: Favorite text is used on shot page as a verb (action)
+shotPageFavorite = Favorito
+shotPageDelete = Eliminar
 shotPageScreenshotsDescription = Capturas de pantallas sin complicaciones. Toma, guarda y comparte capturas sin salir de Firefox.
-shotPageUpsellFirefox = Obtén Firefox ahora
 shotPageDMCAMessage = Esta captura ya no eá disponible debido a un reclamo de propiedad intelectual de un tercero.
 # Note: { $dmca } is a placeholder for a link to send email (a 'mailto' link)
 shotPageDMCAContact = Por favor, envía un correo a { $dmca } para solicitar más información.
@@ -259,6 +274,13 @@ textToolCancelButton = Cancelar
 textToolInputPlaceholder =
     .placeholder = Hola
 
+## The following are the title and message for an error displayed as a Firefox
+## notification. It is triggered by an action in the shot page and the strings
+## are passed from the shot page to the addon.
+
+copyImageErrorTitle = Algo se fue a las pailas
+copyImageErrorMessage = No se pudo copiar tu captura al portapapeles.
+
 ## Settings Page
 
 settingsDisconnectButton = Desconectarse
@@ -285,13 +307,13 @@ shotIndexPageSearchResultsTitle = Mis capturas: buscar por { $searchTerm }
 shotIndexPageErrorRendering = Error al renderizar la página: { $error }
 shotIndexPageSearchPlaceholder =
     .placeholder = Buscar mis capturas
-shotIndexPageSearchButton =
-    .title = Buscar
 shotIndexPageNoShotsMessage = No hay capturas guardadas.
 shotIndexPageNoShotsInvitation = Vamos, crea alguna.
 shotIndexPageLookingForShots = Buscando por tus capturas...
 shotIndexPageNoSearchResultsIntro = Hmm
 shotIndexPageNoSearchResults = No pudimos encontrar capturas que coincidan con tu búsqueda.
+shotIndexPageMyShotsButton =
+    .title = Mis capturas
 shotIndexPageClearSearchButton =
     .title = Limpiar búsqueda
 shotIndexPageConfirmShotDelete = ¿Eliminar esta captura?
@@ -299,17 +321,17 @@ shotIndexPagePreviousPage =
     .title = Página anterior
 shotIndexPageNextPage =
     .title = Página siguiente
-# This symbol is used in the lower right corner of the card for a shot on the
-# My Shots page to indicate that the shot does not expire. It should be a
-# single character (or simply nothing if no such symbol is available for a
-# language/culture).
-shotIndexNoExpirationSymbol = ∞
-    .title = Esta captura no expira
-# This is the tooltip for a "heart" symbol in the lower right corner of the
+# This is tooltip for a "blank heart" symbol used in the upper top corner of the card for a shot on the
+# My Shots page to indicate that the shot does expire.
+shotIndexNonFavoriteIcon =
+    .title = Esta no es una captura favorita y expirará
+# This is the tooltip for a "heart" symbol in the upper top corner of the
 # card for a shot on the My Shots page. It indicate that the shot was marked as
 # a favorite by the owner.
 shotIndexFavoriteIcon =
     .title = Esta es una captura favorita y no expira
+shotIndexSyncedShot =
+    .title = Captura tomada en otro dispositivo
 
 ## Delete Confirmation Dialog
 

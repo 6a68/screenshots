@@ -20,6 +20,8 @@ buttonSignIn =
     .title = Giriş yap
 screenshotsLogo =
     .title = Screenshots ana sayfası
+bannerMessage = Görüntülerinize tüm cihazlarınızdan ulaşmak ve favorilerinizi kalıcı olarak saklamak için giriş yapın veya kaydolun.
+bannerUpsell = { gScreenshotsDescription } <a>Firefox’u indir</a>
 
 ## Footer
 
@@ -100,6 +102,8 @@ shotPageConfirmDelete = Bu görüntüyü kalıcı olarak silmek istediğinizden 
 shotPageShareButton =
     .title = Paylaş
 shotPageCopy = Kopyala
+shotPageCopyButton =
+    .title = Resmi panoya kopyala
 shotPageCopied = Kopyalandı
 shotPageShareFacebook =
     .title = Facebook'ta paylaş
@@ -142,7 +146,6 @@ shotPageDraw = Çiz
 shotPageFavorite = Favorilere ekle
 shotPageDelete = Sil
 shotPageScreenshotsDescription = Ekran görüntüsü almayı basitleştirdik. Firefox’tan çıkmadan ekran görüntüleri alabilir, kaydedebilir ve paylaşabilirsiniz.
-shotPageUpsellFirefox = Firefox’u hemen indir
 shotPageDMCAMessage = Üçüncü bir şahsın telif hakkı iddiası nedeniyle bu görüntü artık kullanılamaz.
 # Note: { $dmca } is a placeholder for a link to send email (a 'mailto' link)
 shotPageDMCAContact = Daha fazla bilgi almak isterseniz { $dmca } adresine e-posta gönderebilirsiniz.
@@ -248,6 +251,13 @@ textToolCancelButton = İptal
 textToolInputPlaceholder =
     .placeholder = Merhaba
 
+## The following are the title and message for an error displayed as a Firefox
+## notification. It is triggered by an action in the shot page and the strings
+## are passed from the shot page to the addon.
+
+copyImageErrorTitle = Bir hata oluştu
+copyImageErrorMessage = Görüntü panoya kopyalanamadı.
+
 ## Settings Page
 
 settingsDisconnectButton = Bağlantıyı kes
@@ -274,8 +284,6 @@ shotIndexPageSearchResultsTitle = Ekran görüntülerim: { $searchTerm } aramas�
 shotIndexPageErrorRendering = Sayfa oluşturma hatası: { $error }
 shotIndexPageSearchPlaceholder =
     .placeholder = Görüntülerimde ara
-shotIndexPageSearchButton =
-    .title = Ara
 shotIndexPageNoShotsMessage = Kayıtlı görüntünüz yok.
 shotIndexPageNoShotsInvitation = Hadi, bir şeyler kaydedin.
 shotIndexPageLookingForShots = Görüntüleriniz aranıyor…
@@ -290,17 +298,17 @@ shotIndexPagePreviousPage =
     .title = Önceki sayfa
 shotIndexPageNextPage =
     .title = Sonraki sayfa
-# This symbol is used in the lower right corner of the card for a shot on the
-# My Shots page to indicate that the shot does not expire. It should be a
-# single character (or simply nothing if no such symbol is available for a
-# language/culture).
-shotIndexNoExpirationSymbol = ∞
-    .title = Bu görüntü zaman aşımına uğramaz
-# This is the tooltip for a "heart" symbol in the lower right corner of the
+# This is tooltip for a "blank heart" symbol used in the upper top corner of the card for a shot on the
+# My Shots page to indicate that the shot does expire.
+shotIndexNonFavoriteIcon =
+    .title = Bu görüntü favorilerinizde olmadığı için silinecektir
+# This is the tooltip for a "heart" symbol in the upper top corner of the
 # card for a shot on the My Shots page. It indicate that the shot was marked as
 # a favorite by the owner.
 shotIndexFavoriteIcon =
     .title = Bu görüntü favorilerinizde olduğu için zaman aşımına uğramayacak
+shotIndexSyncedShot =
+    .title = Görüntü başka bir cihazdan alınmış
 
 ## Delete Confirmation Dialog
 
